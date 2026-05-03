@@ -232,6 +232,147 @@ body::before {
 @keyframes pb { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.05)} }
 
 /* ═══════════════════════════════════════════════
+   PETIKAN CARD — PREMIUM FINTECH STYLE
+═══════════════════════════════════════════════ */
+.petikan-card {
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg, #0a1628 0%, #0d1f3c 50%, #091322 100%);
+  border:1px solid rgba(244,201,93,0.18);
+  border-radius:var(--r-lg);
+  padding:18px 18px 14px;
+  margin-bottom:10px;
+  animation:fadeUp 0.4s var(--ease) both;
+  animation-delay:.22s;
+}
+.petikan-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(244,201,93,.35), transparent);
+}
+.petikan-card::after {
+  content:'';
+  position:absolute; top:-40px; right:-40px;
+  width:120px; height:120px;
+  background:radial-gradient(circle, rgba(244,201,93,.06) 0%, transparent 70%);
+  pointer-events:none;
+}
+.petikan-deco {
+  font-family:var(--font-serif);
+  font-size:3.5rem; line-height:1;
+  color:rgba(244,201,93,0.15);
+  position:absolute; top:6px; left:14px;
+  pointer-events:none;
+  font-style:italic;
+}
+.petikan-text {
+  font-family:var(--font-serif);
+  font-size:.95rem; font-style:italic;
+  color:var(--t1); line-height:1.65;
+  padding-left:10px;
+  border-left:2px solid rgba(244,201,93,.4);
+  margin-bottom:12px; position:relative; z-index:1;
+}
+.petikan-text strong {
+  color:var(--gold); font-style:normal; font-weight:600;
+}
+.petikan-footer {
+  display:flex; align-items:center; justify-content:space-between;
+  position:relative; z-index:1;
+}
+.petikan-source {
+  font-size:.6rem; color:var(--t3);
+  letter-spacing:.08em; text-transform:uppercase;
+}
+.petikan-btn {
+  display:inline-flex; align-items:center; gap:5px;
+  background:rgba(244,201,93,.1); border:1px solid rgba(244,201,93,.25);
+  border-radius:99px; padding:5px 12px;
+  color:var(--gold); font-family:var(--font);
+  font-size:.67rem; font-weight:600;
+  cursor:pointer; text-decoration:none;
+  transition:all .2s var(--ease);
+  letter-spacing:.04em;
+}
+.petikan-btn:hover {
+  background:rgba(244,201,93,.18);
+  border-color:rgba(244,201,93,.45);
+  box-shadow:0 0 14px rgba(244,201,93,.12);
+}
+.petikan-btn svg {
+  width:11px; height:11px; stroke:currentColor;
+  fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;
+}
+
+/* ═══════════════════════════════════════════════
+   KAHFI REMINDER POPUP — PREMIUM
+═══════════════════════════════════════════════ */
+.kahfi-reminder {
+  position:fixed; bottom:calc(80px + var(--safe-b)); left:50%;
+  transform:translateX(-50%) translateY(120px);
+  width:calc(100% - 28px); max-width:452px;
+  background:linear-gradient(135deg, #0d1e3a 0%, #111827 100%);
+  border:1px solid rgba(0,214,143,.3);
+  border-radius:var(--r-lg);
+  padding:16px 18px;
+  z-index:150; opacity:0; pointer-events:none;
+  transition:all .45s var(--ease);
+  box-shadow:0 12px 48px rgba(0,0,0,.7), 0 0 0 1px rgba(0,214,143,.08);
+}
+.kahfi-reminder::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(0,214,143,.4), transparent);
+}
+.kahfi-reminder.show {
+  transform:translateX(-50%) translateY(0);
+  opacity:1; pointer-events:all;
+}
+.kahfi-rem-inner { display:flex; align-items:center; gap:14px; }
+.kahfi-rem-icon {
+  width:44px; height:44px; border-radius:12px; flex-shrink:0;
+  background:linear-gradient(135deg, rgba(0,214,143,.15), rgba(0,214,143,.05));
+  border:1px solid rgba(0,214,143,.25);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem;
+}
+.kahfi-rem-content { flex:1; min-width:0; }
+.kahfi-rem-title {
+  font-size:.82rem; font-weight:700; color:var(--t1);
+  margin-bottom:2px; letter-spacing:.01em;
+}
+.kahfi-rem-sub {
+  font-size:.68rem; color:var(--t2); line-height:1.4;
+}
+.kahfi-rem-actions { display:flex; align-items:center; gap:8px; margin-top:12px; }
+.kahfi-rem-close {
+  background:none; border:none; color:var(--t3);
+  font-size:.75rem; cursor:pointer; padding:4px 8px;
+  font-family:var(--font); transition:color .2s;
+}
+.kahfi-rem-close:hover { color:var(--t1); }
+.kahfi-rem-btn {
+  flex:1; background:linear-gradient(135deg,#00d68f,#00a86b);
+  border:none; border-radius:var(--r-sm);
+  color:#061210; font-family:var(--font);
+  font-size:.78rem; font-weight:700;
+  padding:9px 14px; cursor:pointer;
+  transition:all .2s var(--ease);
+  display:flex; align-items:center; justify-content:center; gap:5px;
+}
+.kahfi-rem-btn:hover { box-shadow:var(--green-glow); }
+.kahfi-rem-btn svg {
+  width:13px; height:13px; stroke:currentColor;
+  fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round;
+}
+/* Countdown chip */
+.kahfi-rem-chip {
+  background:rgba(0,214,143,.1); border:1px solid rgba(0,214,143,.2);
+  border-radius:99px; padding:2px 9px;
+  font-size:.6rem; font-family:var(--font-mono);
+  color:var(--green); margin-left:auto; white-space:nowrap;
+}
+
+/* ═══════════════════════════════════════════════
    TAB 2: AL-QURAN — ENHANCED
 ═══════════════════════════════════════════════ */
 
@@ -550,7 +691,7 @@ body::before {
 .sess-lbl { font-size:.58rem; color:var(--t3); text-transform:uppercase; letter-spacing:.06em; }
 
 /* ═══════════════════════════════════════════════
-   TAB 4: SURAH LAZIM (TERSIMPAN)
+   TAB 4: AL-KAHFI (was Lazim)
 ═══════════════════════════════════════════════ */
 .lazim-card {
   background:linear-gradient(160deg,#f5f0e8 0%,#ede8dc 100%);
@@ -623,6 +764,71 @@ body::before {
 .lazim-surah-item-name { font-size:.88rem; font-weight:600; color:var(--t1); }
 .lazim-surah-item-sub { font-size:.65rem; color:var(--t3); margin-top:2px; }
 .lazim-surah-item-arabic { font-family:var(--font-quran); font-size:1.1rem; color:var(--gold); direction:rtl; }
+
+/* ═══════════════════════════════════════════════
+   MAKLUM BALAS CARD — PREMIUM FINTECH
+═══════════════════════════════════════════════ */
+.maklumbalas-card {
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg, #0e1a2e 0%, #111827 100%);
+  border:1px solid rgba(74,158,255,.2);
+  border-radius:var(--r-lg);
+  padding:18px 18px 16px;
+  margin-bottom:10px;
+  animation:fadeUp 0.4s var(--ease) both;
+  animation-delay:.06s;
+  cursor:pointer;
+  transition:all .25s var(--ease);
+  text-decoration:none;
+  display:block;
+}
+.maklumbalas-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(74,158,255,.35), transparent);
+}
+.maklumbalas-card::after {
+  content:'';
+  position:absolute; bottom:-30px; right:-30px;
+  width:100px; height:100px;
+  background:radial-gradient(circle, rgba(74,158,255,.07) 0%, transparent 70%);
+  pointer-events:none;
+}
+.maklumbalas-card:hover {
+  border-color:rgba(74,158,255,.4);
+  box-shadow:0 8px 32px rgba(74,158,255,.1);
+  transform:translateY(-1px);
+}
+.maklumbalas-inner { display:flex; align-items:center; gap:14px; }
+.maklumbalas-icon {
+  width:42px; height:42px; border-radius:12px; flex-shrink:0;
+  background:linear-gradient(135deg, rgba(74,158,255,.15), rgba(74,158,255,.06));
+  border:1px solid rgba(74,158,255,.2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem;
+}
+.maklumbalas-content { flex:1; min-width:0; }
+.maklumbalas-title {
+  font-size:.82rem; font-weight:700; color:var(--t1);
+  margin-bottom:2px;
+}
+.maklumbalas-sub {
+  font-size:.66rem; color:var(--t2); line-height:1.4;
+}
+.maklumbalas-arrow {
+  width:28px; height:28px; border-radius:8px; flex-shrink:0;
+  background:rgba(74,158,255,.1); border:1px solid rgba(74,158,255,.2);
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s;
+}
+.maklumbalas-card:hover .maklumbalas-arrow {
+  background:rgba(74,158,255,.2);
+  transform:translateX(2px);
+}
+.maklumbalas-arrow svg {
+  width:13px; height:13px; stroke:var(--blue);
+  fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;
+}
 
 /* ═══════════════════════════════════════════════
    BUTTONS
@@ -710,6 +916,35 @@ body::before {
   transition:transform .32s var(--ease), opacity .32s;
 }
 #toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+/* ═══════════════════════════════════════════════
+   DESKTOP RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (min-width:600px) {
+  #app {
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    box-shadow:0 0 60px rgba(0,0,0,.5);
+  }
+  .kahfi-reminder {
+    max-width:452px;
+  }
+}
+
+@media (min-width:900px) {
+  body { background:#04070f; }
+  body::before {
+    background-image:
+      radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 65%, rgba(255,255,255,.2) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 90% 55%, rgba(255,255,255,.25) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 85%, rgba(255,255,255,.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 40%, rgba(255,255,255,.18) 0%, transparent 100%),
+      radial-gradient(1px 1px at 10% 75%, rgba(255,255,255,.12) 0%, transparent 100%),
+      radial-gradient(1px 1px at 95% 30%, rgba(255,255,255,.1) 0%, transparent 100%);
+  }
+}
 </style>
 </head>
 <body>
@@ -749,6 +984,21 @@ body::before {
         <div class="stat"><span class="stat-v">604</span><span class="stat-l">Jumlah</span></div>
         <div class="stat-div"></div>
         <div class="stat"><span class="stat-v" id="s-rem">604</span><span class="stat-l">Berbaki</span></div>
+      </div>
+    </div>
+
+    <!-- Petikan Card -->
+    <div class="petikan-card">
+      <div class="petikan-deco">"</div>
+      <div class="petikan-text">
+        Jangan tunggu waktu <strong>PERCUMA</strong>, tapi <strong>PERCUMAKAN</strong> waktu untuk baca al-Quran
+      </div>
+      <div class="petikan-footer">
+        <span class="petikan-source">Nota Wanhasbullah</span>
+        <a class="petikan-btn" href="https://nota-wanhasbullah.blogspot.com/2026/05/slot-vvip-untuk-al-quran-bukan-sekadar.html" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Baca Artikel
+        </a>
       </div>
     </div>
 
@@ -921,9 +1171,23 @@ body::before {
     <div class="page-bot"></div>
   </div>
 
-  <!-- TAB 4: SURAH LAZIM -->
+  <!-- TAB 4: AL-KAHFI -->
   <div class="page" id="pg-lazim">
     <div class="page-top"></div>
+
+    <!-- Maklum Balas Card -->
+    <a class="maklumbalas-card" href="https://nota-wanhasbullah.blogspot.com/p/maklum-balas-quran-tracker.html" target="_blank" rel="noopener">
+      <div class="maklumbalas-inner">
+        <div class="maklumbalas-icon">💬</div>
+        <div class="maklumbalas-content">
+          <div class="maklumbalas-title">Maklum Balas</div>
+          <div class="maklumbalas-sub">Kongsi cadangan, ulasan & pengalaman anda kepada kami</div>
+        </div>
+        <div class="maklumbalas-arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+    </a>
 
     <!-- Selector -->
     <div class="lazim-sel-row">
@@ -983,9 +1247,9 @@ body::before {
       <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
       Log
     </button>
-    <button class="tab-btn" data-tab="lazim">
+    <button class="tab-btn" data-tab="kahfi">
       <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      Lazim
+      Al-Kahfi
     </button>
   </nav>
 
@@ -1060,6 +1324,25 @@ body::before {
     <div class="modal-actions" style="margin-top:14px">
       <button class="btn-ghost" id="bm-cancel">Tutup</button>
     </div>
+  </div>
+</div>
+
+<!-- KAHFI REMINDER POPUP -->
+<div class="kahfi-reminder" id="kahfi-reminder">
+  <div class="kahfi-rem-inner">
+    <div class="kahfi-rem-icon">📖</div>
+    <div class="kahfi-rem-content">
+      <div class="kahfi-rem-title">Jom Baca Al-Kahfi! 🌙</div>
+      <div class="kahfi-rem-sub">Malam Jumaat — masa terbaik untuk baca Surah Al-Kahfi</div>
+    </div>
+    <span class="kahfi-rem-chip" id="kahfi-rem-chip">Jumaat</span>
+  </div>
+  <div class="kahfi-rem-actions">
+    <button class="kahfi-rem-close" id="kahfi-rem-dismiss">Nanti dulu</button>
+    <button class="kahfi-rem-btn" id="kahfi-rem-go">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      Baca Sekarang
+    </button>
   </div>
 </div>
 
@@ -1259,7 +1542,8 @@ const DEFAULT_STATE = {
   currentQuranPage: 1,
   lastSession: { pages: null, time: null, date: null },
   bookmarks: [],
-  recentPages: []
+  recentPages: [],
+  kahfiReminderDismissedDate: null
 };
 
 function loadState() {
@@ -1277,6 +1561,7 @@ function saveState() {
 let state = loadState();
 if (!state.bookmarks)   state.bookmarks   = [];
 if (!state.recentPages) state.recentPages = [];
+if (!state.kahfiReminderDismissedDate) state.kahfiReminderDismissedDate = null;
 
 const PAGE_CACHE = {};
 
@@ -1355,13 +1640,18 @@ const el = {
   bmList:       $('bm-list'),
   bmCancel:     $('bm-cancel'),
   toast:        $('toast'),
-  // Lazim
+  // Lazim/Kahfi
   lzArabicText: $('lz-arabic-text'),
   lzTitle:      $('lz-title'),
   lzBadge:      $('lz-badge'),
   lzSectionLbl: $('lz-section-lbl'),
   lzSurahLbl:   $('lz-surah-lbl'),
   lzAyahLbl:    $('lz-ayah-lbl'),
+  // Kahfi reminder
+  kahfiReminder:   $('kahfi-reminder'),
+  kahfiRemDismiss: $('kahfi-rem-dismiss'),
+  kahfiRemGo:      $('kahfi-rem-go'),
+  kahfiRemChip:    $('kahfi-rem-chip'),
 };
 
 /* ── HELPERS ───────────────────────────────────────────────── */
@@ -1399,7 +1689,7 @@ function getJuzEndPage(juzNum) {
 function getJuzPagesRemaining(page) {
   const juzNum = getJuzForPage(page);
   const endPage = getJuzEndPage(juzNum);
-  return endPage - page; // pages remaining after current
+  return endPage - page;
 }
 
 let toastTimer;
@@ -1412,6 +1702,56 @@ function toast(msg) {
 
 const openModal  = m => m.classList.add('open');
 const closeModal = m => m.classList.remove('open');
+
+/* ═══════════════════════════════════════════════════════════
+   KAHFI REMINDER — Khamis 8pm hingga Jumaat 7pm
+═══════════════════════════════════════════════════════════ */
+function isKahfiReminderTime() {
+  const now  = new Date();
+  const day  = now.getDay();  // 0=Ahad, 4=Khamis, 5=Jumaat
+  const hr   = now.getHours();
+  const min  = now.getMinutes();
+  const totalMins = hr * 60 + min;
+
+  // Khamis (4) jam 20:00 (8pm) ke atas = 1200 minit
+  const isKhamisEvening = (day === 4 && totalMins >= 20 * 60);
+  // Jumaat (5) hingga jam 19:00 (7pm) = 1140 minit
+  const isJumaat = (day === 5 && totalMins < 19 * 60);
+
+  return isKhamisEvening || isJumaat;
+}
+
+function checkKahfiReminder() {
+  if (!isKahfiReminderTime()) return;
+  // Jangan tunjuk lagi jika sudah dismiss hari ini
+  const dismissedDate = state.kahfiReminderDismissedDate;
+  if (dismissedDate === todayStr()) return;
+
+  // Tunjuk selepas 1.5 saat supaya app load dulu
+  setTimeout(() => {
+    if (el.kahfiReminder) {
+      el.kahfiReminder.classList.add('show');
+    }
+  }, 1500);
+}
+
+function dismissKahfiReminder() {
+  state.kahfiReminderDismissedDate = todayStr();
+  saveState();
+  el.kahfiReminder.classList.remove('show');
+}
+
+function goToKahfi() {
+  dismissKahfiReminder();
+  switchTab('kahfi');
+}
+
+// Guna setInterval untuk semak setiap minit
+let reminderInterval;
+function startReminderCheck() {
+  checkKahfiReminder();
+  reminderInterval = setInterval(checkKahfiReminder, 60000);
+}
 
 /* ── RENDER DASHBOARD ──────────────────────────────────────── */
 function renderDash() {
@@ -1486,12 +1826,11 @@ function renderJuzStrip(page) {
   const juzNum = getJuzForPage(page);
   const ji     = juzNum - 1;
   const endPg  = getJuzEndPage(juzNum);
-  const remaining = endPg - page; // pages remaining after current in this juz
+  const remaining = endPg - page;
 
   el.qJuzBadge.textContent  = 'Juz ' + juzNum;
   el.qJuzArabic.textContent = JUZ_ARABIC[ji];
   el.qJuzCdNum.textContent  = remaining > 0 ? remaining : '✓';
-  // Update label text based on whether done
   const cdLbl = document.querySelector('.quran-juz-cd-lbl');
   if (cdLbl) {
     cdLbl.textContent = remaining > 0 ? 'muka berbaki' : 'Juzuk selesai!';
@@ -1752,7 +2091,7 @@ function renderAyahs(page, verses, newSurahs) {
   el.quranBody.innerHTML = html;
 }
 
-/* ── LAZIM TAB ─────────────────────────────────────────────── */
+/* ── LAZIM / AL-KAHFI TAB ──────────────────────────────────── */
 let currentLazim = 'kahfi-awal';
 
 function showLazim(type) {
@@ -1845,7 +2184,7 @@ function saveTarget() {
 }
 
 function resetAll() {
-  state = { ...DEFAULT_STATE, lastDate: todayStr(), bookmarks: [], recentPages: [] };
+  state = { ...DEFAULT_STATE, lastDate: todayStr(), bookmarks: [], recentPages: [], kahfiReminderDismissedDate: null };
   saveState();
   renderDash();
   renderTargetBar();
@@ -1867,7 +2206,7 @@ const TABS = {
   dash:  { btn: null, page: $('pg-dash')  },
   quran: { btn: null, page: $('pg-quran') },
   log:   { btn: null, page: $('pg-log')   },
-  lazim: { btn: null, page: $('pg-lazim') }
+  kahfi: { btn: null, page: $('pg-lazim') }
 };
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1975,6 +2314,10 @@ el.btnBmAdd.addEventListener('click', () => {
 });
 el.bmCancel.addEventListener('click', () => closeModal(el.modalBm));
 
+// Kahfi reminder buttons
+el.kahfiRemDismiss.addEventListener('click', dismissKahfiReminder);
+el.kahfiRemGo.addEventListener('click', goToKahfi);
+
 /* ── BOOT ──────────────────────────────────────────────────── */
 function init() {
   checkDailyReset();
@@ -1982,6 +2325,7 @@ function init() {
   renderTargetBar();
   renderQuranPage(state.currentQuranPage);
   showLazim('kahfi-awal');
+  startReminderCheck();
   console.log('%c☽ Quran Tracker v3', 'color:#00d68f;font-size:13px;font-weight:bold');
 }
 
