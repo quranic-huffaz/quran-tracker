@@ -195,16 +195,6 @@ body::before {
 .stat-l { display:block; font-size:0.6rem; color:var(--t3); text-transform:uppercase; letter-spacing:.06em; margin-top:3px; }
 .stat-div { width:1px; height:28px; background:var(--border); }
 
-/* Motive banner */
-.motive {
-  background:var(--gold-dim); border:1px solid rgba(244,201,93,.18);
-  border-radius:var(--r-md); padding:11px 14px;
-  display:flex; align-items:center; gap:10px; margin-bottom:10px;
-  animation:fadeUp .4s var(--ease) .06s both;
-}
-.motive-icon { color:var(--gold); font-size:.85rem; flex-shrink:0; }
-.motive span { font-family:var(--font-serif); font-style:italic; font-size:.8rem; color:var(--gold); line-height:1.45; }
-
 /* Target card */
 .target-hd { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px; }
 .target-num { font-family:var(--font-mono); font-size:1.45rem; color:var(--t1); margin-top:2px; }
@@ -231,8 +221,22 @@ body::before {
 @keyframes pb { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.05)} }
 
 /* ═══════════════════════════════════════════════
-   TAB 2: AL-QURAN
+   TAB 2: AL-QURAN — ENHANCED
 ═══════════════════════════════════════════════ */
+
+/* ── Selector row (Juz / Surah) ── */
+.q-selector-row { display:flex; gap:7px; margin-bottom:10px; }
+.q-sel-btn {
+  flex:1; background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:var(--r-sm); color:var(--t2); font-family:var(--font);
+  font-size:.78rem; font-weight:600; padding:9px 8px;
+  cursor:pointer; transition:all .2s; display:flex; align-items:center;
+  justify-content:center; gap:5px;
+}
+.q-sel-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.q-sel-btn:hover { border-color:var(--green); color:var(--green); background:var(--green-dim); }
+
+/* ── Jump row ── */
 .q-jump-row { display:flex; gap:8px; margin-bottom:10px; }
 .q-jump-inp {
   flex:1; background:var(--bg-card2); border:1px solid var(--border);
@@ -251,6 +255,7 @@ body::before {
 }
 .btn-jump:hover { background:rgba(0,214,143,.2); }
 
+/* ── Navigation bar ── */
 .q-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
 .q-nav-info { text-align:center; }
 .q-nav-pg { font-family:var(--font-mono); font-size:1rem; font-weight:500; color:var(--t1); }
@@ -264,34 +269,129 @@ body::before {
 .nav-btn:hover:not(:disabled) { border-color:var(--green); color:var(--green); background:var(--green-dim); }
 .nav-btn:disabled { opacity:.25; cursor:default; }
 
-/* Quran display card */
-.quran-card {
-  background:linear-gradient(160deg,#0b1a0f 0%,#080d1a 100%);
-  border:1px solid rgba(0,214,143,.12);
-  border-radius:var(--r-lg); padding:20px; margin-bottom:10px;
-  min-height:280px;
+/* ── Target countdown banner ── */
+.q-target-bar {
+  background:linear-gradient(90deg, rgba(0,214,143,.08), rgba(74,158,255,.08));
+  border:1px solid rgba(0,214,143,.18);
+  border-radius:var(--r-md); padding:10px 14px;
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:10px;
 }
+.q-target-bar-left { display:flex; align-items:center; gap:8px; }
+.q-target-bar-icon { font-size:.9rem; }
+.q-target-bar-label { font-size:.72rem; color:var(--t2); line-height:1.3; }
+.q-target-bar-label strong { color:var(--t1); font-weight:600; }
+.q-target-countdown {
+  font-family:var(--font-mono); font-size:1.1rem; font-weight:500;
+  color:var(--green); text-shadow:var(--green-glow);
+}
+.q-target-countdown.done { color:var(--gold); }
+
+/* ── Bookmarks bar ── */
+.q-bm-row { display:flex; gap:7px; margin-bottom:10px; }
+.q-bm-btn {
+  flex:1; background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:var(--r-sm); color:var(--t2); font-family:var(--font);
+  font-size:.75rem; font-weight:600; padding:8px 6px;
+  cursor:pointer; transition:all .2s; display:flex; align-items:center;
+  justify-content:center; gap:5px; white-space:nowrap;
+}
+.q-bm-btn svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+.q-bm-btn:hover { border-color:var(--gold); color:var(--gold); background:var(--gold-dim); }
+.q-bm-btn.has-bm { border-color:rgba(244,201,93,.3); color:var(--gold); background:var(--gold-dim); }
+
+/* ── Quran display card — mushaf style ── */
+.quran-card {
+  background:linear-gradient(160deg, #0b1309 0%, #060c08 100%);
+  border:1px solid rgba(0,214,143,.14);
+  border-radius:var(--r-lg); padding:0; margin-bottom:10px;
+  overflow:hidden;
+  box-shadow: 0 0 40px rgba(0,214,143,.05), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Mushaf header */
 .quran-card-hd {
   display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border);
+  padding:12px 18px 11px;
+  border-bottom:1px solid rgba(0,214,143,.1);
+  background: rgba(0,0,0,.2);
 }
-.surah-name-lbl { font-family:var(--font-serif); font-size:.95rem; color:var(--gold); }
-.surah-meta-lbl { font-family:var(--font-mono); font-size:.65rem; color:var(--t3); }
+.surah-name-lbl { font-family:var(--font-serif); font-size:.9rem; color:var(--gold); }
+.surah-meta-lbl { font-family:var(--font-mono); font-size:.6rem; color:var(--t3); }
+
+/* Mushaf page area */
+.mushaf-body {
+  padding:18px 16px 22px;
+  position:relative;
+}
+
+/* Decorative corner borders like Quran pages */
+.mushaf-body::before,
+.mushaf-body::after {
+  content:'';
+  position:absolute;
+  width:24px; height:24px;
+  border-color:rgba(244,201,93,.2);
+  border-style:solid;
+}
+.mushaf-body::before {
+  top:8px; right:8px;
+  border-width:1px 1px 0 0;
+}
+.mushaf-body::after {
+  bottom:8px; left:8px;
+  border-width:0 0 1px 1px;
+}
 
 /* Surah header (when new surah starts on this page) */
 .surah-header {
-  background:var(--gold-dim); border:1px solid rgba(244,201,93,.18);
-  border-radius:var(--r-md); padding:12px 14px; text-align:center; margin-bottom:14px;
+  background:linear-gradient(90deg, transparent, rgba(244,201,93,.06), transparent);
+  border-top:1px solid rgba(244,201,93,.15);
+  border-bottom:1px solid rgba(244,201,93,.15);
+  padding:14px 16px; text-align:center; margin-bottom:16px; margin:0 -16px 16px;
 }
-.surah-header-arabic { font-family:var(--font-quran); font-size:1.5rem; color:var(--gold); direction:rtl; margin-bottom:3px; }
-.surah-header-info { font-size:.65rem; color:var(--t3); letter-spacing:.06em; text-transform:uppercase; }
+.surah-header-arabic { font-family:var(--font-quran); font-size:1.4rem; color:var(--gold); direction:rtl; margin-bottom:3px; }
+.surah-header-info { font-size:.62rem; color:var(--t3); letter-spacing:.06em; text-transform:uppercase; }
 
 /* Basmalah */
-.basmalah { font-family:var(--font-quran); font-size:1.35rem; color:var(--gold); text-align:center; direction:rtl; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+.basmalah {
+  font-family:var(--font-quran); font-size:1.4rem; color:rgba(244,201,93,.85);
+  text-align:center; direction:rtl; margin-bottom:18px; padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  letter-spacing:.02em;
+}
 
-/* Arabic text block */
-.arabic-block { font-family:var(--font-quran); font-size:1.5rem; line-height:2.2; text-align:right; direction:rtl; color:var(--t1); word-break:break-word; }
-.ayah-num { display:inline-flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:.6rem; color:var(--green); background:var(--green-dim); border-radius:99px; padding:1px 6px; margin:0 3px; vertical-align:middle; direction:ltr; }
+/* Arabic text block — mushaf style */
+.arabic-block {
+  font-family:var(--font-quran);
+  font-size:1.62rem;
+  line-height:2.55;
+  text-align:justify;
+  direction:rtl;
+  color:rgba(240,244,255,.93);
+  word-break:break-word;
+  letter-spacing:.01em;
+}
+/* Page number footer */
+.mushaf-footer {
+  display:flex; align-items:center; justify-content:center;
+  padding:10px 18px 12px;
+  border-top:1px solid rgba(0,214,143,.08);
+  background:rgba(0,0,0,.15);
+}
+.mushaf-pg-num {
+  font-family:var(--font-mono); font-size:.7rem; color:var(--t3);
+  border:1px solid var(--border); border-radius:99px; padding:2px 12px;
+}
+
+/* Ayah number ornament */
+.ayah-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:.55rem; color:var(--gold);
+  background:rgba(244,201,93,.1); border:1px solid rgba(244,201,93,.2);
+  border-radius:99px; padding:1px 6px; margin:0 3px; vertical-align:middle;
+  direction:ltr; line-height:1.6;
+}
 
 /* Loading spinner */
 .spinner-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:40px 0; }
@@ -317,6 +417,54 @@ body::before {
 }
 .mark-btn:hover { background:var(--green-dim); border-color:rgba(0,214,143,.4); }
 .mark-btn.marked { background:var(--green); color:#061210; border-color:var(--green); }
+
+/* ── Bookmark list in sheet ── */
+.bm-list { display:flex; flex-direction:column; gap:8px; max-height:70vh; overflow-y:auto; }
+.bm-list::-webkit-scrollbar { width:0; }
+.bm-item {
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:var(--r-md); padding:11px 14px; cursor:pointer;
+  transition:all .2s;
+}
+.bm-item:hover { border-color:var(--gold); background:var(--gold-dim); }
+.bm-item-left { display:flex; flex-direction:column; gap:2px; }
+.bm-item-pg { font-family:var(--font-mono); font-size:.85rem; font-weight:500; color:var(--t1); }
+.bm-item-name { font-size:.68rem; color:var(--t3); }
+.bm-item-right { display:flex; align-items:center; gap:8px; }
+.bm-item-tag { font-size:.58rem; background:var(--gold-dim); border:1px solid rgba(244,201,93,.2); color:var(--gold); border-radius:99px; padding:2px 8px; }
+.bm-item-del {
+  width:26px; height:26px; background:var(--red-dim); border:1px solid rgba(248,113,113,.2);
+  border-radius:6px; color:var(--red); font-size:.75rem; display:flex;
+  align-items:center; justify-content:center; cursor:pointer; transition:all .2s;
+  flex-shrink:0;
+}
+.bm-item-del:hover { background:rgba(248,113,113,.25); }
+.bm-empty { text-align:center; padding:20px; font-size:.8rem; color:var(--t3); }
+.bm-section-lbl { font-size:.6rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--t3); margin-bottom:6px; margin-top:10px; }
+.bm-section-lbl:first-child { margin-top:0; }
+
+/* ── Selector sheets (Juz/Surah list) ── */
+.sel-search-inp {
+  width:100%; background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:var(--r-md); color:var(--t1); font-family:var(--font);
+  font-size:.9rem; padding:11px 14px; outline:none;
+  transition:border-color .2s; margin-bottom:12px;
+}
+.sel-search-inp:focus { border-color:var(--green); }
+.sel-list { max-height:60vh; overflow-y:auto; display:flex; flex-direction:column; gap:5px; }
+.sel-list::-webkit-scrollbar { width:0; }
+.sel-item {
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:var(--r-md); padding:11px 14px; cursor:pointer;
+  transition:all .2s;
+}
+.sel-item:hover { border-color:var(--green); background:var(--green-dim); }
+.sel-item-left { display:flex; flex-direction:column; gap:2px; }
+.sel-item-name { font-size:.85rem; font-weight:600; color:var(--t1); }
+.sel-item-sub { font-size:.64rem; color:var(--t3); }
+.sel-item-right { font-family:var(--font-mono); font-size:.72rem; color:var(--t2); background:var(--bg-card); border:1px solid var(--border); border-radius:6px; padding:3px 8px; }
 
 /* ═══════════════════════════════════════════════
    TAB 3: LOG
@@ -380,7 +528,7 @@ body::before {
 .btn-danger-full:hover { background:rgba(248,113,113,.2); }
 
 /* ═══════════════════════════════════════════════
-   MODALS
+   MODALS / SHEETS
 ═══════════════════════════════════════════════ */
 .modal-bg {
   position:fixed; inset:0;
@@ -413,6 +561,12 @@ body::before {
 .modal-inp::-webkit-outer-spin-button { -webkit-appearance:none; }
 .modal-inp:focus { border-color:var(--green); }
 .modal-actions { display:flex; gap:8px; }
+
+/* Sheet — tall version for lists */
+.sheet { max-height:88vh; display:flex; flex-direction:column; }
+.sheet-hd { flex-shrink:0; padding-bottom:16px; }
+.sheet-body { flex:1; overflow:hidden; display:flex; flex-direction:column; }
+.modal-bg.open .sheet { transform:translateY(0); }
 
 /* ═══════════════════════════════════════════════
    TOAST
@@ -470,12 +624,6 @@ body::before {
       </div>
     </div>
 
-    <!-- Motive -->
-    <div class="motive">
-      <span class="motive-icon">✦</span>
-      <span id="motive-txt">Setiap muka surat adalah langkah menghampiri Allah.</span>
-    </div>
-
     <!-- Target Card -->
     <div class="card">
       <div class="target-hd">
@@ -511,10 +659,49 @@ body::before {
   <div class="page" id="pg-quran">
     <div class="page-top"></div>
 
+    <!-- Juz / Surah selectors -->
+    <div class="q-selector-row">
+      <button class="q-sel-btn" id="btn-sel-juz">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h8M4 18h8"/></svg>
+        Pilih Juzuk
+      </button>
+      <button class="q-sel-btn" id="btn-sel-surah">
+        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Pilih Surah
+      </button>
+    </div>
+
     <!-- Jump to page -->
     <div class="q-jump-row">
       <input type="number" class="q-jump-inp" id="jump-inp" placeholder="No. Muka (1–604)" min="1" max="604"/>
       <button class="btn-jump" id="btn-jump">Pergi</button>
+    </div>
+
+    <!-- Target countdown -->
+    <div class="q-target-bar" id="q-target-bar">
+      <div class="q-target-bar-left">
+        <span class="q-target-bar-icon">🎯</span>
+        <div class="q-target-bar-label">
+          Sasaran: <strong id="qtb-goal">10</strong> muka/hari &nbsp;·&nbsp; Dibaca hari ini: <strong id="qtb-done">0</strong>
+        </div>
+      </div>
+      <div class="q-target-countdown" id="qtb-countdown">10 lagi</div>
+    </div>
+
+    <!-- Bookmarks bar -->
+    <div class="q-bm-row">
+      <button class="q-bm-btn" id="btn-recent">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Terkini
+      </button>
+      <button class="q-bm-btn" id="btn-bookmark-view">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        Penanda
+      </button>
+      <button class="q-bm-btn" id="btn-bookmark-add">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/><line x1="12" y1="7" x2="12" y2="13"/><line x1="9" y1="10" x2="15" y2="10"/></svg>
+        Tandai
+      </button>
     </div>
 
     <!-- Navigation -->
@@ -527,14 +714,17 @@ body::before {
       <button class="nav-btn" id="btn-next">▶</button>
     </div>
 
-    <!-- Quran Display -->
+    <!-- Quran Display — mushaf style -->
     <div class="quran-card">
       <div class="quran-card-hd">
         <span class="surah-name-lbl" id="q-surah-name">Al-Fatihah</span>
         <span class="surah-meta-lbl" id="q-surah-meta">Surah 1 · 7 Ayat</span>
       </div>
-      <div id="quran-body">
+      <div class="mushaf-body" id="quran-body">
         <!-- content injected by JS -->
+      </div>
+      <div class="mushaf-footer">
+        <div class="mushaf-pg-num" id="mushaf-pg-num">١</div>
       </div>
     </div>
 
@@ -634,20 +824,66 @@ body::before {
   </div>
 </div>
 
+<!-- SHEET: Juz Selector -->
+<div class="modal-bg" id="modal-juz">
+  <div class="modal sheet">
+    <div class="sheet-hd">
+      <div class="modal-title">Pilih Juzuk</div>
+      <input type="text" class="sel-search-inp" id="juz-search" placeholder="Cari juzuk..."/>
+    </div>
+    <div class="sheet-body">
+      <div class="sel-list" id="juz-list"></div>
+    </div>
+    <div class="modal-actions" style="margin-top:14px">
+      <button class="btn-ghost" id="juz-cancel">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: Surah Selector -->
+<div class="modal-bg" id="modal-surah">
+  <div class="modal sheet">
+    <div class="sheet-hd">
+      <div class="modal-title">Pilih Surah</div>
+      <input type="text" class="sel-search-inp" id="surah-search" placeholder="Cari surah..."/>
+    </div>
+    <div class="sheet-body">
+      <div class="sel-list" id="surah-list"></div>
+    </div>
+    <div class="modal-actions" style="margin-top:14px">
+      <button class="btn-ghost" id="surah-cancel">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEET: Bookmarks -->
+<div class="modal-bg" id="modal-bookmarks">
+  <div class="modal sheet">
+    <div class="sheet-hd">
+      <div class="modal-title">Penanda & Terkini</div>
+    </div>
+    <div class="sheet-body">
+      <div class="bm-list" id="bm-list"></div>
+    </div>
+    <div class="modal-actions" style="margin-top:14px">
+      <button class="btn-ghost" id="bm-cancel">Tutup</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div id="toast"></div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   QURAN TRACKER v3 — script.js
-   Features: API Quran.com v4, offline cache, 3-tab UI
-═══════════════════════════════════════════════════════════════ */
 'use strict';
 
 /* ── CONSTANTS ────────────────────────────────────────────── */
 const TOTAL   = 604;
 const API_URL = page =>
   `https://api.qurancdn.com/api/qdc/verses/by_page/${page}?words=false&translations=false&fields=text_uthmani&per_page=50`;
+
+/* Arabic-Indic numerals */
+const toArabicNum = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 
 /* Juz start pages (index 0 = Juz 1) */
 const JUZ_START = [
@@ -656,7 +892,6 @@ const JUZ_START = [
   401,421,441,461,481,501,521,541,561,581
 ];
 
-/* Juz names */
 const JUZ_NAMES = [
   "Al-Fatihah & Al-Baqarah","Sayaqool","Tilkal Rusul","Lan Tanaloo","Wal Muhsanaat",
   "La Yuhibbullah","Wa Idha Sami'oo","Wa Law Annana","Qalal Mala'u","Wa A'lamoo",
@@ -666,7 +901,6 @@ const JUZ_NAMES = [
   "Ha Meem","Qala Fa Ma Khatbukum","Qad Sami'Allah","Tabarakallazi","Amma Yatasa'aloon"
 ];
 
-/* 114 Surahs: name, startPage, totalAyah, type */
 const SURAHS = [
   {n:"Al-Fatihah",p:1,a:7,t:"Makkiyyah"},{n:"Al-Baqarah",p:2,a:286,t:"Madaniyyah"},
   {n:"Ali 'Imran",p:50,a:200,t:"Madaniyyah"},{n:"An-Nisa'",p:77,a:176,t:"Madaniyyah"},
@@ -727,22 +961,7 @@ const SURAHS = [
   {n:"Al-Falaq",p:604,a:5,t:"Makkiyyah"},{n:"An-Nas",p:604,a:6,t:"Makkiyyah"}
 ];
 
-/* Surahs without Basmalah */
-const NO_BASMALAH = new Set([9]); // At-Tawbah (index 9 = surah 9)
-
-/* Motivational quotes (Malay) */
-const MOTIVES = [
-  "Setiap muka surat adalah langkah menghampiri Allah.",
-  "Al-Quran adalah penawar bagi segala yang ada di dalam hati.",
-  "Istiqamah adalah rahsianya — walaupun satu muka surat pun dihargai.",
-  "Sebaik-baik kalian adalah yang mempelajari Al-Quran dan mengajarnya.",
-  "Hati yang terikat dengan Al-Quran adalah hati yang tenang.",
-  "Teruskan. Allah melihat setiap muka surat yang kamu baca.",
-  "Bacalah dan naiklah — darjatmu meningkat dengan setiap ayat.",
-  "Usaha hari ini adalah berkat esok hari.",
-  "Jadikan Al-Quran teman setia setiap hari.",
-  "Dengan nama Allah, mulailah setiap muka surat."
-];
+const NO_BASMALAH = new Set([9]);
 
 /* ── STATE ────────────────────────────────────────────────── */
 const DEFAULT_STATE = {
@@ -751,7 +970,9 @@ const DEFAULT_STATE = {
   todayPages: 0,
   lastDate: null,
   currentQuranPage: 1,
-  lastSession: { pages: null, time: null, date: null }
+  lastSession: { pages: null, time: null, date: null },
+  bookmarks: [],       // [{page, surah, addedAt}]
+  recentPages: []      // last 10 visited pages
 };
 
 function loadState() {
@@ -767,8 +988,9 @@ function saveState() {
 }
 
 let state = loadState();
+if (!state.bookmarks)   state.bookmarks   = [];
+if (!state.recentPages) state.recentPages = [];
 
-/* In-memory cache: page number → API response array */
 const PAGE_CACHE = {};
 
 /* ── DOM REFS ──────────────────────────────────────────────── */
@@ -780,7 +1002,6 @@ const el = {
   ringTxt:    $('ring-txt'),
   sRead:      $('s-read'),
   sRem:       $('s-rem'),
-  motiveTxt:  $('motive-txt'),
   tDone:      $('t-done'),
   tGoal:      $('t-goal'),
   progFill:   $('prog-fill'),
@@ -791,27 +1012,36 @@ const el = {
   juzGrid:    $('juz-grid'),
   btnEditTgt: $('btn-edit-tgt'),
   // Quran tab
-  jumpInp:    $('jump-inp'),
-  btnJump:    $('btn-jump'),
-  btnPrev:    $('btn-prev'),
-  btnNext:    $('btn-next'),
-  qPg:        $('q-pg'),
-  qSurahNav:  $('q-surah-nav'),
-  qSurahName: $('q-surah-name'),
-  qSurahMeta: $('q-surah-meta'),
-  quranBody:  $('quran-body'),
-  markBtn:    $('mark-btn'),
-  markIcon:   $('mark-icon'),
-  markTxt:    $('mark-txt'),
+  jumpInp:      $('jump-inp'),
+  btnJump:      $('btn-jump'),
+  btnPrev:      $('btn-prev'),
+  btnNext:      $('btn-next'),
+  qPg:          $('q-pg'),
+  qSurahNav:    $('q-surah-nav'),
+  qSurahName:   $('q-surah-name'),
+  qSurahMeta:   $('q-surah-meta'),
+  quranBody:    $('quran-body'),
+  mushafPgNum:  $('mushaf-pg-num'),
+  markBtn:      $('mark-btn'),
+  markIcon:     $('mark-icon'),
+  markTxt:      $('mark-txt'),
+  qtbGoal:      $('qtb-goal'),
+  qtbDone:      $('qtb-done'),
+  qtbCountdown: $('qtb-countdown'),
+  btnSelJuz:    $('btn-sel-juz'),
+  btnSelSurah:  $('btn-sel-surah'),
+  btnRecent:    $('btn-recent'),
+  btnBmView:    $('btn-bookmark-view'),
+  btnBmAdd:     $('btn-bookmark-add'),
   // Log tab
-  pgInp:      $('pg-inp'),
-  btnMinus:   $('btn-minus'),
-  btnPlus:    $('btn-plus'),
-  btnAdd:     $('btn-add'),
-  sPg:        $('s-pg'),
-  sTime:      $('s-time'),
-  sDate:      $('s-date'),
-  btnReset:   $('btn-reset'),
+  pgInp:        $('pg-inp'),
+  btnMinus:     $('btn-minus'),
+  btnPlus:      $('btn-plus'),
+  btnAdd:       $('btn-add'),
+  sPg:          $('s-pg'),
+  sTime:        $('s-time'),
+  sDate:        $('s-date'),
+  btnReset:     $('btn-reset'),
   // Modals
   modalTgt:     $('modal-tgt'),
   tgtInp:       $('tgt-inp'),
@@ -820,6 +1050,18 @@ const el = {
   modalReset:   $('modal-reset'),
   resetCancel:  $('reset-cancel'),
   resetConfirm: $('reset-confirm'),
+  // Sheets
+  modalJuz:     $('modal-juz'),
+  juzSearch:    $('juz-search'),
+  juzList:      $('juz-list'),
+  juzCancel:    $('juz-cancel'),
+  modalSurah:   $('modal-surah'),
+  surahSearch:  $('surah-search'),
+  surahList:    $('surah-list'),
+  surahCancel:  $('surah-cancel'),
+  modalBm:      $('modal-bookmarks'),
+  bmList:       $('bm-list'),
+  bmCancel:     $('bm-cancel'),
   toast:        $('toast')
 };
 
@@ -829,7 +1071,6 @@ const todayStr = ()        => new Date().toISOString().slice(0,10);
 const timeStr  = ()        => new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
 const fmtDate  = iso       => iso ? new Date(iso).toLocaleDateString('ms-MY',{day:'numeric',month:'short'}) : '—';
 
-/** Get primary surah object for a given page (1-indexed surah num) */
 function getSurahForPage(page) {
   let idx = 0;
   for (let i = SURAHS.length - 1; i >= 0; i--) {
@@ -838,14 +1079,12 @@ function getSurahForPage(page) {
   return { num: idx + 1, ...SURAHS[idx] };
 }
 
-/** Get all surahs whose first page === page */
 function getSurahsStartingOnPage(page) {
   return SURAHS
     .map((s, i) => ({ num: i+1, ...s }))
     .filter(s => s.p === page);
 }
 
-/** Get Juz number for a given page */
 function getJuzForPage(page) {
   for (let i = JUZ_START.length - 1; i >= 0; i--) {
     if (page >= JUZ_START[i]) return i + 1;
@@ -853,7 +1092,6 @@ function getJuzForPage(page) {
   return 1;
 }
 
-/** Toast notification */
 let toastTimer;
 function toast(msg) {
   el.toast.textContent = msg;
@@ -862,9 +1100,8 @@ function toast(msg) {
   toastTimer = setTimeout(() => el.toast.classList.remove('show'), 2800);
 }
 
-/** Modal helpers */
-const openModal  = m => { m.classList.add('open'); };
-const closeModal = m => { m.classList.remove('open'); };
+const openModal  = m => m.classList.add('open');
+const closeModal = m => m.classList.remove('open');
 
 /* ── RENDER DASHBOARD ──────────────────────────────────────── */
 function renderDash() {
@@ -872,29 +1109,20 @@ function renderDash() {
   const remaining = clamp(TOTAL - pagesRead, 0, TOTAL);
   const pct       = Math.min(Math.round((pagesRead / TOTAL) * 100), 100);
 
-  // Progress ring
   const CIRC = 314.16;
   el.ringArc.style.strokeDashoffset = CIRC - (pct / 100) * CIRC;
   el.ringTxt.textContent            = pagesRead;
-
-  // Percent + stats
   el.pct.textContent  = pct + '%';
   el.pct.classList.toggle('done', pct === 100);
   el.sRead.textContent = pagesRead;
   el.sRem.textContent  = remaining;
 
-  // Daily target
   const dPct = Math.min(Math.round((todayPages / dailyTarget) * 100), 100);
   el.tDone.textContent        = todayPages;
   el.tGoal.textContent        = dailyTarget;
   el.progFill.style.width     = dPct + '%';
   el.tMeta.textContent        = dPct + '% sasaran hari ini';
 
-  // Motivational quote — cycle by progress
-  const mi = Math.floor((pct / 100) * (MOTIVES.length - 1));
-  el.motiveTxt.textContent = MOTIVES[mi] || MOTIVES[0];
-
-  // Juz info
   const curPage = clamp(pagesRead + 1, 1, TOTAL);
   const curJuz  = getJuzForPage(curPage);
   const ji      = curJuz - 1;
@@ -904,10 +1132,8 @@ function renderDash() {
   el.juzName.textContent  = JUZ_NAMES[ji];
   el.juzPg.textContent    = 'Muka ' + jStart + ' – ' + jEnd;
 
-  // Juz dots
   renderJuzGrid(curJuz, pagesRead);
 
-  // Session
   el.sPg.textContent   = lastSession.pages !== null ? lastSession.pages + ' mk' : '—';
   el.sTime.textContent = lastSession.time  || '—';
   el.sDate.textContent = fmtDate(lastSession.date);
@@ -929,22 +1155,185 @@ function renderJuzGrid(curJuz, pagesRead) {
   }
 }
 
+/* ── TARGET COUNTDOWN ──────────────────────────────────────── */
+function renderTargetBar() {
+  const { dailyTarget, todayPages } = state;
+  const remaining = Math.max(dailyTarget - todayPages, 0);
+  el.qtbGoal.textContent = dailyTarget;
+  el.qtbDone.textContent = todayPages;
+  if (remaining === 0) {
+    el.qtbCountdown.textContent = '✓ Selesai!';
+    el.qtbCountdown.classList.add('done');
+  } else {
+    el.qtbCountdown.textContent = remaining + ' lagi';
+    el.qtbCountdown.classList.remove('done');
+  }
+}
+
+/* ── RECENT PAGES ──────────────────────────────────────────── */
+function addToRecent(page) {
+  const surah = getSurahForPage(page);
+  state.recentPages = state.recentPages.filter(r => r.page !== page);
+  state.recentPages.unshift({ page, surah: surah.n, visitedAt: new Date().toISOString() });
+  if (state.recentPages.length > 10) state.recentPages = state.recentPages.slice(0, 10);
+  saveState();
+}
+
+/* ── BOOKMARKS ─────────────────────────────────────────────── */
+function isBookmarked(page) {
+  return state.bookmarks.some(b => b.page === page);
+}
+
+function toggleBookmark(page) {
+  if (isBookmarked(page)) {
+    state.bookmarks = state.bookmarks.filter(b => b.page !== page);
+    saveState();
+    updateBookmarkBtn(page);
+    toast(`Penanda muka ${page} dibuang.`);
+  } else {
+    const surah = getSurahForPage(page);
+    state.bookmarks.unshift({ page, surah: surah.n, addedAt: new Date().toISOString() });
+    saveState();
+    updateBookmarkBtn(page);
+    toast(`🔖 Muka ${page} ditanda.`);
+  }
+}
+
+function updateBookmarkBtn(page) {
+  el.btnBmAdd.classList.toggle('has-bm', isBookmarked(page));
+}
+
+/* ── BOOKMARK SHEET ────────────────────────────────────────── */
+function renderBookmarkSheet() {
+  let html = '';
+  const { bookmarks, recentPages } = state;
+
+  if (recentPages.length > 0) {
+    html += `<div class="bm-section-lbl">📖 Muka Terkini</div>`;
+    recentPages.forEach(r => {
+      html += `
+        <div class="bm-item" data-page="${r.page}" data-type="recent">
+          <div class="bm-item-left">
+            <div class="bm-item-pg">Muka ${r.page}</div>
+            <div class="bm-item-name">${r.surah}</div>
+          </div>
+          <div class="bm-item-right">
+            <span class="bm-item-tag">Terkini</span>
+          </div>
+        </div>`;
+    });
+  }
+
+  if (bookmarks.length > 0) {
+    html += `<div class="bm-section-lbl" style="margin-top:${recentPages.length>0?'14px':'0'}">🔖 Penanda Saya</div>`;
+    bookmarks.forEach(b => {
+      html += `
+        <div class="bm-item" data-page="${b.page}" data-type="bookmark">
+          <div class="bm-item-left">
+            <div class="bm-item-pg">Muka ${b.page}</div>
+            <div class="bm-item-name">${b.surah}</div>
+          </div>
+          <div class="bm-item-right">
+            <span class="bm-item-tag">Penanda</span>
+            <div class="bm-item-del" data-bm-del="${b.page}">✕</div>
+          </div>
+        </div>`;
+    });
+  }
+
+  if (!recentPages.length && !bookmarks.length) {
+    html = `<div class="bm-empty">Tiada penanda atau muka terkini lagi.</div>`;
+  }
+
+  el.bmList.innerHTML = html;
+
+  // Events
+  el.bmList.querySelectorAll('.bm-item').forEach(item => {
+    item.addEventListener('click', e => {
+      if (e.target.closest('[data-bm-del]')) return;
+      const pg = parseInt(item.dataset.page, 10);
+      closeModal(el.modalBm);
+      setTimeout(() => renderQuranPage(pg), 200);
+    });
+  });
+  el.bmList.querySelectorAll('[data-bm-del]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const pg = parseInt(btn.dataset.bmDel, 10);
+      state.bookmarks = state.bookmarks.filter(b => b.page !== pg);
+      saveState();
+      updateBookmarkBtn(state.currentQuranPage);
+      renderBookmarkSheet();
+    });
+  });
+}
+
+/* ── JUZ SHEET ─────────────────────────────────────────────── */
+function renderJuzSheet(filter) {
+  el.juzList.innerHTML = '';
+  const f = (filter || '').toLowerCase();
+  JUZ_NAMES.forEach((name, i) => {
+    const juzNum = i + 1;
+    const startPg = JUZ_START[i];
+    const endPg = i < 29 ? JUZ_START[i+1] - 1 : TOTAL;
+    if (f && !name.toLowerCase().includes(f) && !String(juzNum).includes(f)) return;
+    const div = document.createElement('div');
+    div.className = 'sel-item';
+    div.innerHTML = `
+      <div class="sel-item-left">
+        <div class="sel-item-name">Juzuk ${juzNum}</div>
+        <div class="sel-item-sub">${name}</div>
+      </div>
+      <div class="sel-item-right">Muka ${startPg}</div>`;
+    div.addEventListener('click', () => {
+      closeModal(el.modalJuz);
+      setTimeout(() => renderQuranPage(startPg), 200);
+    });
+    el.juzList.appendChild(div);
+  });
+}
+
+/* ── SURAH SHEET ───────────────────────────────────────────── */
+function renderSurahSheet(filter) {
+  el.surahList.innerHTML = '';
+  const f = (filter || '').toLowerCase();
+  SURAHS.forEach((s, i) => {
+    const num = i + 1;
+    if (f && !s.n.toLowerCase().includes(f) && !String(num).includes(f)) return;
+    const div = document.createElement('div');
+    div.className = 'sel-item';
+    div.innerHTML = `
+      <div class="sel-item-left">
+        <div class="sel-item-name">${num}. ${s.n}</div>
+        <div class="sel-item-sub">${s.a} Ayat · ${s.t}</div>
+      </div>
+      <div class="sel-item-right">Muka ${s.p}</div>`;
+    div.addEventListener('click', () => {
+      closeModal(el.modalSurah);
+      setTimeout(() => renderQuranPage(s.p), 200);
+    });
+    el.surahList.appendChild(div);
+  });
+}
+
 /* ── RENDER QURAN PAGE ─────────────────────────────────────── */
 async function renderQuranPage(page) {
   page = clamp(page, 1, TOTAL);
   state.currentQuranPage = page;
   saveState();
+  addToRecent(page);
 
-  const surah = getSurahForPage(page);
+  const surah    = getSurahForPage(page);
   const newSurahs = getSurahsStartingOnPage(page);
 
-  // Update nav UI
+  // Nav UI
   el.qPg.textContent        = page;
   el.qSurahNav.textContent  = surah.n;
   el.qSurahName.textContent = surah.n;
   el.qSurahMeta.textContent = `Surah ${surah.num} · ${surah.a} Ayat · ${surah.t}`;
   el.btnPrev.disabled = page <= 1;
   el.btnNext.disabled = page >= TOTAL;
+  el.mushafPgNum.textContent = toArabicNum(page);
 
   // Mark button state
   const isRead = page <= state.pagesRead;
@@ -952,29 +1341,31 @@ async function renderQuranPage(page) {
   el.markIcon.textContent = isRead ? '✓' : '○';
   el.markTxt.textContent  = isRead ? 'Sudah Dibaca ✓' : 'Tandakan Muka Ini Sudah Dibaca';
 
-  // Check cache first
+  // Bookmark button
+  updateBookmarkBtn(page);
+
+  // Target countdown update
+  renderTargetBar();
+
   if (PAGE_CACHE[page]) {
     renderAyahs(page, PAGE_CACHE[page], newSurahs);
     return;
   }
 
-  // Show loading spinner
   el.quranBody.innerHTML = `
     <div class="spinner-wrap">
       <div class="spinner"></div>
       <div class="spinner-lbl">Memuatkan ayat...</div>
     </div>`;
 
-  // Fetch from API
   try {
     const res  = await fetch(API_URL(page));
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const verses = data.verses || [];
-    PAGE_CACHE[page] = verses; // cache it
+    PAGE_CACHE[page] = verses;
     renderAyahs(page, verses, newSurahs);
   } catch (err) {
-    // Error state with retry
     el.quranBody.innerHTML = `
       <div class="error-wrap">
         <div class="error-icon">⚠️</div>
@@ -988,30 +1379,25 @@ async function renderQuranPage(page) {
   }
 }
 
-/** Render fetched ayahs into the quran body */
 function renderAyahs(page, verses, newSurahs) {
   let html = '';
   const BASMALAH_TEXT = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
 
-  // Surah headers for surahs starting on this page
   newSurahs.forEach(s => {
     html += `
       <div class="surah-header">
         <div class="surah-header-arabic">${s.n}</div>
         <div class="surah-header-info">Surah ${s.num} &nbsp;·&nbsp; ${s.a} Ayat &nbsp;·&nbsp; ${s.t}</div>
       </div>`;
-    // Add basmalah unless At-Tawbah (surah 9) or Al-Fatihah (included in verse 1)
     if (!NO_BASMALAH.has(s.num) && s.num !== 1) {
       html += `<div class="basmalah">${BASMALAH_TEXT}</div>`;
     }
   });
 
-  // Special case: page 1 — show basmalah before verse 1
   if (page === 1) {
     html += `<div class="basmalah">${BASMALAH_TEXT}</div>`;
   }
 
-  // Arabic text block
   if (verses.length > 0) {
     html += `<div class="arabic-block">`;
     verses.forEach(v => {
@@ -1019,7 +1405,7 @@ function renderAyahs(page, verses, newSurahs) {
       const ref = v.verse_key || '';
       const ayahNum = ref.split(':')[1] || '';
       if (txt) {
-        html += `${txt} <span class="ayah-num">${ayahNum}</span> `;
+        html += `${txt} <span class="ayah-num">${toArabicNum(ayahNum)}</span> `;
       }
     });
     html += `</div>`;
@@ -1035,8 +1421,6 @@ function renderAyahs(page, verses, newSurahs) {
 }
 
 /* ── ACTIONS ───────────────────────────────────────────────── */
-
-/** Add pages to reading total */
 function addPages() {
   const v = parseInt(el.pgInp.value, 10);
   if (isNaN(v) || v < 1) { toast('Masukkan sekurang-kurangnya 1 muka.'); return; }
@@ -1050,7 +1434,8 @@ function addPages() {
   saveState();
 
   renderDash();
-  // Refresh mark button state on quran tab
+  renderTargetBar();
+
   const p = state.currentQuranPage;
   const isRead = p <= state.pagesRead;
   el.markBtn.classList.toggle('marked', isRead);
@@ -1066,7 +1451,6 @@ function addPages() {
   if (navigator.vibrate) navigator.vibrate(40);
 }
 
-/** Mark current quran page as read */
 function markCurrentPage() {
   const p = state.currentQuranPage;
   if (p <= state.pagesRead) {
@@ -1081,6 +1465,7 @@ function markCurrentPage() {
   saveState();
 
   renderDash();
+  renderTargetBar();
   el.markBtn.classList.add('marked');
   el.markIcon.textContent = '✓';
   el.markTxt.textContent  = 'Sudah Dibaca ✓';
@@ -1088,28 +1473,27 @@ function markCurrentPage() {
   if (navigator.vibrate) navigator.vibrate(40);
 }
 
-/** Save new daily target */
 function saveTarget() {
   const v = parseInt(el.tgtInp.value, 10);
   if (isNaN(v) || v < 1 || v > TOTAL) { toast('Masukkan sasaran yang sah (1–604).'); return; }
   state.dailyTarget = v;
   saveState();
   renderDash();
+  renderTargetBar();
   closeModal(el.modalTgt);
   toast(`Sasaran ditetapkan: ${v} muka sehari.`);
 }
 
-/** Reset all data */
 function resetAll() {
-  state = { ...DEFAULT_STATE, lastDate: todayStr() };
+  state = { ...DEFAULT_STATE, lastDate: todayStr(), bookmarks: [], recentPages: [] };
   saveState();
   renderDash();
+  renderTargetBar();
   renderQuranPage(1);
   closeModal(el.modalReset);
   toast('Diset semula. Bismillah, mulakan semula! 🤲');
 }
 
-/** Daily reset check */
 function checkDailyReset() {
   if (state.lastDate !== todayStr()) {
     state.todayPages = 0;
@@ -1169,8 +1553,8 @@ el.tgtCancel.addEventListener('click', () => closeModal(el.modalTgt));
 el.tgtSave.addEventListener('click', saveTarget);
 el.tgtInp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); saveTarget(); } });
 
-// Close modals on backdrop click
-[el.modalTgt, el.modalReset].forEach(m => {
+// Close modals on backdrop
+[el.modalTgt, el.modalReset, el.modalJuz, el.modalSurah, el.modalBm].forEach(m => {
   m.addEventListener('click', e => { if (e.target === m) closeModal(m); });
 });
 
@@ -1198,10 +1582,43 @@ el.jumpInp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.prevent
 // Mark page as read
 el.markBtn.addEventListener('click', markCurrentPage);
 
+// Juz selector
+el.btnSelJuz.addEventListener('click', () => {
+  renderJuzSheet('');
+  el.juzSearch.value = '';
+  openModal(el.modalJuz);
+});
+el.juzSearch.addEventListener('input', () => renderJuzSheet(el.juzSearch.value));
+el.juzCancel.addEventListener('click', () => closeModal(el.modalJuz));
+
+// Surah selector
+el.btnSelSurah.addEventListener('click', () => {
+  renderSurahSheet('');
+  el.surahSearch.value = '';
+  openModal(el.modalSurah);
+});
+el.surahSearch.addEventListener('input', () => renderSurahSheet(el.surahSearch.value));
+el.surahCancel.addEventListener('click', () => closeModal(el.modalSurah));
+
+// Bookmarks
+el.btnBmView.addEventListener('click', () => {
+  renderBookmarkSheet();
+  openModal(el.modalBm);
+});
+el.btnRecent.addEventListener('click', () => {
+  renderBookmarkSheet();
+  openModal(el.modalBm);
+});
+el.btnBmAdd.addEventListener('click', () => {
+  toggleBookmark(state.currentQuranPage);
+});
+el.bmCancel.addEventListener('click', () => closeModal(el.modalBm));
+
 /* ── BOOT ──────────────────────────────────────────────────── */
 function init() {
   checkDailyReset();
   renderDash();
+  renderTargetBar();
   renderQuranPage(state.currentQuranPage);
   console.log('%c☽ Quran Tracker v3', 'color:#00d68f;font-size:13px;font-weight:bold');
 }
