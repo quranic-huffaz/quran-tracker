@@ -8,528 +8,213 @@
   <title>Quran Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&family=Amiri+Quran&display=swap" rel="stylesheet" />
 
   <style>
-/* ═══════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    QURAN TRACKER — STYLE
    Dark fintech · Navy × Emerald × Gold
-   ═══════════════════════════════════════════════════════════ */
-
+   ══════════════════════════════════════════════ */
 :root {
-  --bg:           #080d1a;
-  --bg-2:         #0f1628;
-  --bg-card:      #111827;
-  --bg-card-2:    #16202f;
-  --border:       rgba(255,255,255,0.07);
-  --border-hi:    rgba(255,255,255,0.13);
-  --green:        #00d68f;
-  --green-dim:    rgba(0,214,143,0.12);
-  --green-glow:   0 0 20px rgba(0,214,143,0.25);
-  --gold:         #f4c95d;
-  --gold-dim:     rgba(244,201,93,0.12);
-  --blue-hi:      #4a9eff;
-  --blue-dim:     rgba(74,158,255,0.12);
-  --text-1:       #f0f4ff;
-  --text-2:       #8899bb;
-  --text-3:       #4a5a7a;
-  --radius-sm:    10px;
-  --radius-md:    16px;
-  --radius-lg:    22px;
-  --radius-xl:    30px;
-  --font-body:    'Outfit', sans-serif;
-  --font-serif:   'DM Serif Display', serif;
-  --font-mono:    'DM Mono', monospace;
-  --safe-bottom:  env(safe-area-inset-bottom, 0px);
-  --safe-top:     env(safe-area-inset-top, 0px);
-  --transition:   0.25s cubic-bezier(0.22,1,0.36,1);
+  --bg:          #080d1a;
+  --bg-card:     #111827;
+  --bg-card-2:   #16202f;
+  --border:      rgba(255,255,255,0.07);
+  --border-hi:   rgba(255,255,255,0.13);
+  --green:       #00d68f;
+  --green-dim:   rgba(0,214,143,0.12);
+  --green-glow:  0 0 20px rgba(0,214,143,0.25);
+  --gold:        #f4c95d;
+  --gold-dim:    rgba(244,201,93,0.12);
+  --blue-hi:     #4a9eff;
+  --blue-dim:    rgba(74,158,255,0.12);
+  --text-1:      #f0f4ff;
+  --text-2:      #8899bb;
+  --text-3:      #4a5a7a;
+  --r-sm:        10px;
+  --r-md:        16px;
+  --r-lg:        22px;
+  --r-xl:        30px;
+  --font:        'Outfit', sans-serif;
+  --font-serif:  'DM Serif Display', serif;
+  --font-mono:   'DM Mono', monospace;
+  --font-quran:  'Amiri Quran', serif;
+  --safe-b:      env(safe-area-inset-bottom, 0px);
+  --safe-t:      env(safe-area-inset-top, 0px);
+  --ease:        0.25s cubic-bezier(0.22,1,0.36,1);
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+body{font-family:var(--font);background:var(--bg);color:var(--text-1);height:100%;overflow:hidden;-webkit-font-smoothing:antialiased;user-select:none}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.35) 0%,transparent 100%),radial-gradient(1px 1px at 75% 15%,rgba(255,255,255,.25) 0%,transparent 100%),radial-gradient(1px 1px at 55% 70%,rgba(255,255,255,.2) 0%,transparent 100%),radial-gradient(1.5px 1.5px at 88% 60%,rgba(255,255,255,.2) 0%,transparent 100%);pointer-events:none;z-index:0}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* SHELL */
+.app{position:relative;z-index:1;display:flex;flex-direction:column;height:100dvh;max-width:480px;margin:0 auto}
 
-html {
-  height: 100%;
-  -webkit-tap-highlight-color: transparent;
-  overscroll-behavior: none;
-}
+/* TABS */
+.tabs{display:flex;background:rgba(8,13,26,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0;position:relative;z-index:10}
+.tab{flex:1;padding:calc(var(--safe-t) + 14px) 0 14px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;border:none;background:transparent;color:var(--text-3);font-family:var(--font);font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:color var(--ease);border-bottom:2px solid transparent}
+.tab svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
 
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--text-1);
-  height: 100%;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  user-select: none;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.35) 0%, transparent 100%),
-    radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.25) 0%, transparent 100%),
-    radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.20) 0%, transparent 100%),
-    radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.15) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 88% 60%, rgba(255,255,255,0.20) 0%, transparent 100%),
-    radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.12) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.app {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  height: 100dvh;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-/* TOP BAR */
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: calc(var(--safe-top) + 14px) 20px 14px;
-  background: rgba(8,13,26,0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10;
-}
-.topbar__brand { display: flex; align-items: center; gap: 10px; }
-.topbar__icon { font-size: 1.4rem; color: var(--gold); filter: drop-shadow(0 0 8px rgba(244,201,93,0.5)); }
-.topbar__title { font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-1); }
-.topbar__reset {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-2);
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.topbar__reset:hover, .topbar__reset:active {
-  border-color: var(--border-hi); color: var(--text-1); background: var(--border);
-}
-
-/* SCROLL AREA */
-.scroll-area {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 16px 16px 0;
-  -webkit-overflow-scrolling: touch;
-}
-.scroll-area::-webkit-scrollbar { width: 0; }
-.footer-gap { height: calc(24px + var(--safe-bottom)); }
+/* SCROLL */
+.page{display:none;flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 16px 0;-webkit-overflow-scrolling:touch}
+.page.active{display:block}
+.page::-webkit-scrollbar{width:0}
+.footer-gap{height:calc(24px + var(--safe-b))}
 
 /* CARDS */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  margin-bottom: 12px;
-  position: relative;
-  overflow: hidden;
-  animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) both;
-}
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
-}
-.card:nth-child(1) { animation-delay: 0.05s; }
-.card:nth-child(2) { animation-delay: 0.10s; }
-.card:nth-child(3) { animation-delay: 0.15s; }
-.card:nth-child(4) { animation-delay: 0.20s; }
-.card:nth-child(5) { animation-delay: 0.25s; }
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:12px;position:relative;overflow:hidden;animation:fadeUp .45s cubic-bezier(.22,1,.36,1) both}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.label{font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+/* HERO */
+.hero-card{background:linear-gradient(135deg,#0f1e3a 0%,#0a1628 100%);border-color:rgba(74,158,255,.18);padding:22px 22px 18px}
+.hero-card__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.hero-card__percent{font-family:var(--font-serif);font-size:3.2rem;color:var(--green);line-height:1;margin-top:4px;text-shadow:var(--green-glow)}
+.hero-card__percent.complete{animation:sparkle 2s ease-in-out infinite;color:var(--gold);text-shadow:0 0 24px rgba(244,201,93,.5)}
+@keyframes sparkle{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.ring{transform:rotate(-90deg);filter:drop-shadow(0 0 10px rgba(0,214,143,.2))}
+.ring__track{fill:none;stroke:rgba(255,255,255,.06);stroke-width:10}
+.ring__fill{fill:none;stroke:url(#ring-gradient);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.22,1,.36,1)}
+.ring__label{fill:var(--text-1);font-family:var(--font-mono);font-size:20px;font-weight:500;transform:rotate(90deg);transform-origin:60px 60px}
+.hero-card__stats{display:flex;align-items:center;justify-content:space-around;border-top:1px solid var(--border);padding-top:16px}
+.stat{text-align:center}
+.stat__val{display:block;font-family:var(--font-mono);font-size:1.4rem;font-weight:500;color:var(--text-1);line-height:1}
+.stat__lbl{display:block;font-size:.65rem;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.stat-divider{width:1px;height:30px;background:var(--border)}
 
-.label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-bottom: 4px;
-}
+/* MOTIVE */
+.motive-banner{background:var(--gold-dim);border:1px solid rgba(244,201,93,.2);border-radius:var(--r-md);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.motive-banner__icon{color:var(--gold);font-size:.9rem;flex-shrink:0}
+.motive-banner span:last-child{font-size:.82rem;color:var(--gold);font-style:italic;font-family:var(--font-serif);line-height:1.4}
 
-/* HERO CARD */
-.hero-card {
-  background: linear-gradient(135deg, #0f1e3a 0%, #0a1628 100%);
-  border-color: rgba(74,158,255,0.18);
-  padding: 22px 22px 18px;
-}
-.hero-card::after {
-  content: '';
-  position: absolute;
-  top: -60px; right: -60px;
-  width: 180px; height: 180px;
-  background: radial-gradient(circle, rgba(74,158,255,0.08) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-.hero-card__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-.hero-card__percent {
-  font-family: var(--font-serif);
-  font-size: 3.2rem;
-  color: var(--green);
-  line-height: 1;
-  margin-top: 4px;
-  text-shadow: var(--green-glow);
-}
-.hero-card__percent.complete {
-  animation: sparkle 2s ease-in-out infinite;
-  color: var(--gold);
-  text-shadow: 0 0 24px rgba(244,201,93,0.5);
-}
-@keyframes sparkle {
-  0%,100% { transform: scale(1) rotate(0deg); }
-  50%     { transform: scale(1.15) rotate(180deg); }
-}
+/* TARGET */
+.target-card__header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.target-card__pages{font-family:var(--font-mono);font-size:1.5rem;color:var(--text-1);margin-top:2px}
+.target-card__meta{font-size:.7rem;color:var(--text-3);margin-top:6px;letter-spacing:.04em}
+.btn-icon{background:var(--bg-card-2);border:1px solid var(--border);color:var(--text-2);width:34px;height:34px;border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--ease);flex-shrink:0}
+.btn-icon:hover,.btn-icon:active{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+.progress-track{height:8px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#00d68f,#00b377);border-radius:99px;width:0%;transition:width .8s cubic-bezier(.22,1,.36,1)}
 
-/* RING */
-.ring { transform: rotate(-90deg); filter: drop-shadow(0 0 10px rgba(0,214,143,0.2)); }
-.ring__track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 10; }
-.ring__fill {
-  fill: none;
-  stroke: url(#ring-gradient);
-  stroke-width: 10;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1s cubic-bezier(0.22,1,0.36,1);
-}
-.ring__label {
-  fill: var(--text-1);
-  font-family: var(--font-mono);
-  font-size: 20px;
-  font-weight: 500;
-  transform: rotate(90deg);
-  transform-origin: 60px 60px;
-}
-
-/* STATS ROW */
-.hero-card__stats {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
-}
-.stat { text-align: center; }
-.stat__val { display: block; font-family: var(--font-mono); font-size: 1.4rem; font-weight: 500; color: var(--text-1); line-height: 1; }
-.stat__lbl { display: block; font-size: 0.65rem; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
-.stat-divider { width: 1px; height: 30px; background: var(--border); }
-
-/* MOTIVATIONAL BANNER */
-.motive-banner {
-  background: var(--gold-dim);
-  border: 1px solid rgba(244,201,93,0.2);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-  animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.08s both;
-}
-.motive-banner__icon { color: var(--gold); font-size: 0.9rem; flex-shrink: 0; }
-.motive-banner span:last-child {
-  font-size: 0.82rem; color: var(--gold);
-  font-style: italic; font-family: var(--font-serif);
-  letter-spacing: 0.01em; line-height: 1.4;
-}
-
-/* TARGET CARD */
-.target-card__header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
-.target-card__pages { font-family: var(--font-mono); font-size: 1.5rem; color: var(--text-1); margin-top: 2px; }
-.target-card__meta { font-size: 0.7rem; color: var(--text-3); margin-top: 6px; letter-spacing: 0.04em; }
-.btn-icon {
-  background: var(--bg-card-2);
-  border: 1px solid var(--border);
-  color: var(--text-2);
-  width: 34px; height: 34px;
-  border-radius: var(--radius-sm);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition);
-  flex-shrink: 0;
-}
-.btn-icon:hover, .btn-icon:active { border-color: var(--green); color: var(--green); background: var(--green-dim); }
-
-/* PROGRESS BAR */
-.progress-track { height: 8px; background: rgba(255,255,255,0.05); border-radius: 99px; overflow: hidden; }
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #00d68f, #00b377);
-  border-radius: 99px;
-  width: 0%;
-  transition: width 0.8s cubic-bezier(0.22,1,0.36,1);
-  position: relative;
-}
-.progress-fill::after {
-  content: '';
-  position: absolute;
-  right: 0; top: 0; bottom: 0;
-  width: 20px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
-  border-radius: 99px;
-}
-
-/* INPUT CARD */
-.input-card__sub { font-size: 0.78rem; color: var(--text-2); margin-bottom: 16px; line-height: 1.5; }
-.input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-.stepper {
-  width: 44px; height: 44px;
-  background: var(--bg-card-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-1);
-  font-size: 1.3rem;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  transition: all var(--transition);
-  flex-shrink: 0;
-}
-.stepper:hover, .stepper:active { background: var(--green-dim); border-color: var(--green); color: var(--green); }
-.page-input {
-  flex: 1;
-  background: var(--bg-card-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-1);
-  font-family: var(--font-mono);
-  font-size: 1.6rem;
-  font-weight: 500;
-  text-align: center;
-  padding: 10px;
-  outline: none;
-  transition: border-color var(--transition);
-  -moz-appearance: textfield;
-}
-.page-input::-webkit-inner-spin-button,
-.page-input::-webkit-outer-spin-button { -webkit-appearance: none; }
-.page-input:focus { border-color: var(--green); }
+/* INPUT */
+.input-card__sub{font-size:.78rem;color:var(--text-2);margin-bottom:16px;line-height:1.5}
+.input-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.stepper{width:44px;height:44px;background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text-1);font-size:1.3rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--ease);flex-shrink:0}
+.stepper:hover,.stepper:active{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.page-input{flex:1;background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text-1);font-family:var(--font-mono);font-size:1.6rem;font-weight:500;text-align:center;padding:10px;outline:none;transition:border-color var(--ease);-moz-appearance:textfield}
+.page-input::-webkit-inner-spin-button,.page-input::-webkit-outer-spin-button{-webkit-appearance:none}
+.page-input:focus{border-color:var(--green)}
 
 /* BUTTONS */
-.btn-primary {
-  width: 100%;
-  background: linear-gradient(135deg, #00d68f, #00a86b);
-  border: none;
-  border-radius: var(--radius-md);
-  color: #071412;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  padding: 15px;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.btn-primary:hover { box-shadow: var(--green-glow); }
-.btn-primary:active { transform: scale(0.98); }
-.btn-ghost {
-  flex: 1;
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  color: var(--text-2);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 500;
-  padding: 13px;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.btn-ghost:hover, .btn-ghost:active { border-color: var(--border-hi); color: var(--text-1); }
-.btn-danger {
-  flex: 1;
-  background: rgba(239,68,68,0.15);
-  border: 1px solid rgba(239,68,68,0.3);
-  border-radius: var(--radius-md);
-  color: #f87171;
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 13px;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.btn-danger:hover, .btn-danger:active { background: rgba(239,68,68,0.25); border-color: rgba(239,68,68,0.5); }
+.btn-primary{width:100%;background:linear-gradient(135deg,#00d68f,#00a86b);border:none;border-radius:var(--r-md);color:#071412;font-family:var(--font);font-size:.95rem;font-weight:700;letter-spacing:.03em;padding:15px;cursor:pointer;transition:all var(--ease)}
+.btn-primary:hover{box-shadow:var(--green-glow)}
+.btn-primary:active{transform:scale(.98)}
+.btn-ghost{flex:1;background:transparent;border:1px solid var(--border);border-radius:var(--r-md);color:var(--text-2);font-family:var(--font);font-size:.9rem;font-weight:500;padding:13px;cursor:pointer;transition:all var(--ease)}
+.btn-ghost:hover,.btn-ghost:active{border-color:var(--border-hi);color:var(--text-1)}
+.btn-danger{flex:1;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:var(--r-md);color:#f87171;font-family:var(--font);font-size:.9rem;font-weight:600;padding:13px;cursor:pointer;transition:all var(--ease)}
+.btn-danger:hover,.btn-danger:active{background:rgba(239,68,68,.25)}
 
-/* JUZUK CARD */
-.juzuk-current {
-  display: flex; align-items: center; gap: 14px;
-  margin-top: 10px; margin-bottom: 18px;
-  background: var(--bg-card-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 14px;
-}
-.juzuk-badge {
-  background: linear-gradient(135deg, #1a3a6e, #0f2550);
-  border: 1px solid rgba(74,158,255,0.3);
-  color: var(--blue-hi);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  white-space: nowrap;
-}
-.juzuk-info__name { font-size: 0.88rem; font-weight: 600; color: var(--text-1); line-height: 1.3; }
-.juzuk-info__pages { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; font-family: var(--font-mono); }
+/* JUZUK */
+.juzuk-current{display:flex;align-items:center;gap:14px;margin-top:10px;margin-bottom:18px;background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--r-md);padding:14px}
+.juzuk-badge{background:linear-gradient(135deg,#1a3a6e,#0f2550);border:1px solid rgba(74,158,255,.3);color:var(--blue-hi);font-family:var(--font-mono);font-size:.75rem;padding:8px 12px;border-radius:var(--r-sm);white-space:nowrap}
+.juzuk-info__name{font-size:.88rem;font-weight:600;color:var(--text-1);line-height:1.3}
+.juzuk-info__pages{font-size:.72rem;color:var(--text-3);margin-top:2px;font-family:var(--font-mono)}
+.juz-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.juz-dot{aspect-ratio:1;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-family:var(--font-mono);color:var(--text-3);transition:all .3s ease;position:relative}
+.juz-dot.completed{background:var(--green-dim);border-color:rgba(0,214,143,.3);color:var(--green)}
+.juz-dot.current{background:var(--blue-dim);border-color:rgba(74,158,255,.5);color:var(--blue-hi);box-shadow:0 0 10px rgba(74,158,255,.2)}
+.juz-dot.current::after{content:'';position:absolute;inset:-1px;border-radius:6px;border:1px solid rgba(74,158,255,.6);animation:pulse-border 2s infinite}
+@keyframes pulse-border{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.04)}}
 
-/* JUZ GRID */
-.juz-grid { display: grid; grid-template-columns: repeat(10,1fr); gap: 6px; }
-.juz-dot {
-  aspect-ratio: 1;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.55rem;
-  font-family: var(--font-mono);
-  color: var(--text-3);
-  transition: all 0.3s ease;
-  position: relative;
-}
-.juz-dot.completed { background: var(--green-dim); border-color: rgba(0,214,143,0.3); color: var(--green); }
-.juz-dot.current {
-  background: var(--blue-dim); border-color: rgba(74,158,255,0.5);
-  color: var(--blue-hi); box-shadow: 0 0 10px rgba(74,158,255,0.2);
-}
-.juz-dot.current::after {
-  content: '';
-  position: absolute; inset: -1px;
-  border-radius: 6px;
-  border: 1px solid rgba(74,158,255,0.6);
-  animation: pulse-border 2s infinite;
-}
-@keyframes pulse-border {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50%     { opacity: 0.5; transform: scale(1.04); }
-}
+/* SESSION */
+.session-row{display:flex;gap:8px;margin-top:10px}
+.session-item{flex:1;display:flex;align-items:center;gap:8px;padding:12px;background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--r-sm)}
+.session-item__icon{font-size:1.1rem;flex-shrink:0}
+.session-item__val{font-family:var(--font-mono);font-size:.82rem;font-weight:500;color:var(--text-1);line-height:1.2}
+.session-item__lbl{font-size:.58rem;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase}
 
-/* SESSION CARD */
-.session-row { display: flex; gap: 0; margin-top: 10px; }
-.session-item {
-  flex: 1;
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px;
-  background: var(--bg-card-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  margin-right: 8px;
-}
-.session-item:last-child { margin-right: 0; }
-.session-item__icon { font-size: 1.2rem; flex-shrink: 0; }
-.session-item__val { font-family: var(--font-mono); font-size: 0.88rem; font-weight: 500; color: var(--text-1); line-height: 1.2; }
-.session-item__lbl { font-size: 0.6rem; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; }
+/* ══════════════════════════════════════════════
+   QURAN PAGE TAB
+   ══════════════════════════════════════════════ */
+.quran-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.quran-nav__info{text-align:center}
+.quran-nav__page{font-family:var(--font-mono);font-size:1.1rem;font-weight:500;color:var(--text-1)}
+.quran-nav__surah{font-size:.72rem;color:var(--text-3);margin-top:2px}
+.nav-btn{background:var(--bg-card-2);border:1px solid var(--border);color:var(--text-2);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--ease);font-size:1.1rem}
+.nav-btn:hover,.nav-btn:active{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+.nav-btn:disabled{opacity:.3;pointer-events:none}
+
+.quran-card{background:linear-gradient(160deg,#0d1a10 0%,#0a1628 100%);border:1px solid rgba(0,214,143,.15);border-radius:var(--r-lg);padding:24px 20px;margin-bottom:12px;min-height:300px;display:flex;flex-direction:column}
+.quran-card__header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.quran-card__surah-name{font-family:var(--font-serif);font-size:1rem;color:var(--gold)}
+.quran-card__meta{font-family:var(--font-mono);font-size:.7rem;color:var(--text-3)}
+
+/* Arabic text */
+.arabic-text{font-family:var(--font-quran);font-size:1.55rem;line-height:2.2;text-align:right;direction:rtl;color:var(--text-1);flex:1;letter-spacing:.02em}
+.arabic-text .ayah-num{display:inline-block;font-size:.75rem;color:var(--green);font-family:var(--font-mono);vertical-align:middle;margin:0 2px;padding:1px 5px;background:var(--green-dim);border-radius:99px;direction:ltr}
+
+.basmalah{font-family:var(--font-quran);font-size:1.4rem;text-align:center;color:var(--gold);margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border);direction:rtl}
+
+/* Surah header banner */
+.surah-header{background:linear-gradient(135deg,rgba(244,201,93,.08),rgba(244,201,93,.04));border:1px solid rgba(244,201,93,.2);border-radius:var(--r-md);padding:14px;text-align:center;margin-bottom:16px}
+.surah-header__arabic{font-family:var(--font-quran);font-size:1.6rem;color:var(--gold);direction:rtl;margin-bottom:4px}
+.surah-header__info{font-size:.7rem;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase}
+
+/* Page jump */
+.page-jump-row{display:flex;gap:8px;margin-bottom:12px}
+.page-jump-input{flex:1;background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text-1);font-family:var(--font-mono);font-size:1rem;text-align:center;padding:10px;outline:none;-moz-appearance:textfield}
+.page-jump-input::-webkit-inner-spin-button,.page-jump-input::-webkit-outer-spin-button{-webkit-appearance:none}
+.page-jump-input:focus{border-color:var(--green)}
+.btn-jump{background:var(--green-dim);border:1px solid rgba(0,214,143,.3);border-radius:var(--r-sm);color:var(--green);font-family:var(--font);font-size:.85rem;font-weight:600;padding:10px 16px;cursor:pointer;transition:all var(--ease);white-space:nowrap}
+.btn-jump:hover{background:rgba(0,214,143,.2)}
+
+.mark-btn{width:100%;background:transparent;border:1px solid rgba(0,214,143,.25);border-radius:var(--r-md);color:var(--green);font-family:var(--font);font-size:.88rem;font-weight:600;padding:13px;cursor:pointer;transition:all var(--ease);display:flex;align-items:center;justify-content:center;gap:8px}
+.mark-btn:hover{background:var(--green-dim);border-color:rgba(0,214,143,.5)}
+.mark-btn.marked{background:var(--green);color:#071412;border-color:var(--green)}
 
 /* MODALS */
-.modal-backdrop {
-  position: fixed; inset: 0;
-  background: rgba(5,9,18,0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: flex; align-items: flex-end;
-  padding: 16px;
-  padding-bottom: calc(16px + var(--safe-bottom));
-  z-index: 100;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-.modal-backdrop.active { opacity: 1; pointer-events: all; }
-.modal {
-  background: var(--bg-card);
-  border: 1px solid var(--border-hi);
-  border-radius: var(--radius-xl);
-  padding: 28px 24px 24px;
-  width: 100%;
-  transform: translateY(30px);
-  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
-}
-.modal-backdrop.active .modal { transform: translateY(0); }
-.modal__title { font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-1); margin-bottom: 8px; }
-.modal__sub { font-size: 0.82rem; color: var(--text-2); line-height: 1.5; margin-bottom: 20px; }
-.modal__input {
-  width: 100%;
-  background: var(--bg-card-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  color: var(--text-1);
-  font-family: var(--font-mono);
-  font-size: 2rem; font-weight: 500;
-  text-align: center;
-  padding: 16px; outline: none;
-  margin-bottom: 20px;
-  transition: border-color var(--transition);
-  -moz-appearance: textfield;
-}
-.modal__input::-webkit-inner-spin-button,
-.modal__input::-webkit-outer-spin-button { -webkit-appearance: none; }
-.modal__input:focus { border-color: var(--green); }
-.modal__actions { display: flex; gap: 10px; }
+.modal-backdrop{position:fixed;inset:0;background:rgba(5,9,18,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;align-items:flex-end;padding:16px;padding-bottom:calc(16px + var(--safe-b));z-index:100;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.modal-backdrop.active{opacity:1;pointer-events:all}
+.modal{background:var(--bg-card);border:1px solid var(--border-hi);border-radius:var(--r-xl);padding:28px 24px 24px;width:100%;transform:translateY(30px);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.modal-backdrop.active .modal{transform:translateY(0)}
+.modal__title{font-family:var(--font-serif);font-size:1.4rem;color:var(--text-1);margin-bottom:8px}
+.modal__sub{font-size:.82rem;color:var(--text-2);line-height:1.5;margin-bottom:20px}
+.modal__input{width:100%;background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--r-md);color:var(--text-1);font-family:var(--font-mono);font-size:2rem;font-weight:500;text-align:center;padding:16px;outline:none;margin-bottom:20px;transition:border-color var(--ease);-moz-appearance:textfield}
+.modal__input::-webkit-inner-spin-button,.modal__input::-webkit-outer-spin-button{-webkit-appearance:none}
+.modal__input:focus{border-color:var(--green)}
+.modal__actions{display:flex;gap:10px}
 
 /* TOAST */
-.toast {
-  position: fixed;
-  bottom: calc(20px + var(--safe-bottom));
-  left: 50%; transform: translateX(-50%) translateY(80px);
-  background: var(--bg-card);
-  border: 1px solid var(--border-hi);
-  border-radius: 99px;
-  padding: 10px 20px;
-  font-size: 0.82rem; color: var(--text-1);
-  white-space: nowrap; z-index: 200;
-  pointer-events: none;
-  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s;
-  opacity: 0;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-}
-.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast{position:fixed;bottom:calc(20px + var(--safe-b));left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-card);border:1px solid var(--border-hi);border-radius:99px;padding:10px 20px;font-size:.82rem;color:var(--text-1);white-space:nowrap;z-index:200;pointer-events:none;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .35s;opacity:0;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
   </style>
 </head>
 <body>
 
-<div class="app" id="app">
+<div class="app">
 
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="topbar__brand">
-      <span class="topbar__icon">☽</span>
-      <span class="topbar__title">Quran Tracker</span>
-    </div>
-    <button class="topbar__reset" id="btn-reset" title="Reset semua data">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="1 4 1 10 7 10"></polyline>
-        <path d="M3.51 15a9 9 0 1 0 .49-3.51"></path>
-      </svg>
+  <!-- TABS -->
+  <nav class="tabs">
+    <button class="tab active" data-tab="dashboard">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
     </button>
-  </header>
+    <button class="tab" data-tab="quran">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Al-Quran
+    </button>
+    <button class="tab" data-tab="log">
+      <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Log
+    </button>
+  </nav>
 
-  <main class="scroll-area">
+  <!-- ══ TAB: DASHBOARD ══ -->
+  <div class="page active" id="tab-dashboard">
 
-    <!-- HERO CARD -->
     <section class="hero-card card">
       <div class="hero-card__top">
         <div>
@@ -538,69 +223,39 @@ body::before {
         </div>
         <svg class="ring" viewBox="0 0 120 120" width="100" height="100">
           <circle class="ring__track" cx="60" cy="60" r="50"/>
-          <circle class="ring__fill" id="ring-fill" cx="60" cy="60" r="50"
-            stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+          <circle class="ring__fill" id="ring-fill" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
           <text class="ring__label" x="60" y="65" text-anchor="middle" id="ring-label">0</text>
         </svg>
       </div>
       <div class="hero-card__stats">
-        <div class="stat">
-          <span class="stat__val" id="stat-read">0</span>
-          <span class="stat__lbl">Muka Dibaca</span>
-        </div>
+        <div class="stat"><span class="stat__val" id="stat-read">0</span><span class="stat__lbl">Muka Dibaca</span></div>
         <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat__val">604</span>
-          <span class="stat__lbl">Jumlah Muka</span>
-        </div>
+        <div class="stat"><span class="stat__val">604</span><span class="stat__lbl">Jumlah Muka</span></div>
         <div class="stat-divider"></div>
-        <div class="stat">
-          <span class="stat__val" id="stat-remain">604</span>
-          <span class="stat__lbl">Berbaki</span>
-        </div>
+        <div class="stat"><span class="stat__val" id="stat-remain">604</span><span class="stat__lbl">Berbaki</span></div>
       </div>
     </section>
 
-    <!-- MOTIVATIONAL BANNER -->
     <div class="motive-banner">
       <span class="motive-banner__icon">✦</span>
       <span id="motive-text">Setiap muka surat adalah langkah menghampiri Allah.</span>
     </div>
 
-    <!-- TARGET HARIAN -->
     <section class="card target-card">
       <div class="target-card__header">
         <div>
           <p class="label">Sasaran Harian</p>
           <p class="target-card__pages"><span id="target-done">0</span> / <span id="target-goal">10</span> muka</p>
         </div>
-        <button class="btn-icon" id="btn-edit-target" title="Edit sasaran">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-          </svg>
+        <button class="btn-icon" id="btn-edit-target">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </button>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="daily-bar"></div>
-      </div>
+      <div class="progress-track"><div class="progress-fill" id="daily-bar"></div></div>
       <p class="target-card__meta" id="target-meta">0% sasaran hari ini</p>
     </section>
 
-    <!-- INPUT -->
-    <section class="card input-card">
-      <p class="label">Log Bacaan</p>
-      <p class="input-card__sub">Masukkan bilangan muka surat yang anda baca sesi ini</p>
-      <div class="input-row">
-        <button class="stepper" id="btn-minus">−</button>
-        <input type="number" id="pages-input" class="page-input" value="1" min="1" max="604" />
-        <button class="stepper" id="btn-plus">+</button>
-      </div>
-      <button class="btn-primary" id="btn-add">Tambah Muka Surat</button>
-    </section>
-
-    <!-- JUZUK -->
-    <section class="card juzuk-card">
+    <section class="card">
       <p class="label">Kemajuan Juzuk</p>
       <div class="juzuk-current">
         <div class="juzuk-badge" id="juzuk-badge">Juz 1</div>
@@ -612,40 +267,89 @@ body::before {
       <div class="juz-grid" id="juz-grid"></div>
     </section>
 
-    <!-- SESI TERAKHIR -->
-    <section class="card session-card">
+    <div class="footer-gap"></div>
+  </div>
+
+  <!-- ══ TAB: AL-QURAN ══ -->
+  <div class="page" id="tab-quran">
+
+    <!-- Page jump -->
+    <div class="page-jump-row">
+      <input type="number" class="page-jump-input" id="jump-input" placeholder="No. Muka" min="1" max="604" />
+      <button class="btn-jump" id="btn-jump">Pergi</button>
+    </div>
+
+    <!-- Navigation -->
+    <div class="quran-nav">
+      <button class="nav-btn" id="btn-prev">◀</button>
+      <div class="quran-nav__info">
+        <div class="quran-nav__page">Muka <span id="q-page-num">1</span> / 604</div>
+        <div class="quran-nav__surah" id="q-surah-info">Surah Al-Fatihah</div>
+      </div>
+      <button class="nav-btn" id="btn-next">▶</button>
+    </div>
+
+    <!-- Quran content card -->
+    <div class="quran-card" id="quran-card">
+      <div class="quran-card__header">
+        <span class="quran-card__surah-name" id="q-surah-name">Al-Fatihah</span>
+        <span class="quran-card__meta" id="q-surah-meta">Surah 1 · Ayat 7</span>
+      </div>
+      <div class="arabic-text" id="arabic-display"></div>
+    </div>
+
+    <!-- Mark as read -->
+    <button class="mark-btn" id="mark-btn">
+      <span>✓</span> <span id="mark-btn-text">Tandakan Muka Ini Sudah Dibaca</span>
+    </button>
+
+    <div class="footer-gap"></div>
+  </div>
+
+  <!-- ══ TAB: LOG ══ -->
+  <div class="page" id="tab-log">
+
+    <section class="card">
+      <p class="label">Log Bacaan</p>
+      <p class="input-card__sub" style="margin-top:6px">Masukkan bilangan muka surat yang anda baca sesi ini</p>
+      <div class="input-row" style="margin-top:14px">
+        <button class="stepper" id="btn-minus">−</button>
+        <input type="number" id="pages-input" class="page-input" value="1" min="1" max="604" />
+        <button class="stepper" id="btn-plus">+</button>
+      </div>
+      <button class="btn-primary" id="btn-add">Tambah Muka Surat</button>
+    </section>
+
+    <section class="card">
       <p class="label">Sesi Terakhir</p>
       <div class="session-row">
         <div class="session-item">
           <span class="session-item__icon">📖</span>
-          <div>
-            <p class="session-item__val" id="sess-pages">—</p>
-            <p class="session-item__lbl">Muka</p>
-          </div>
+          <div><p class="session-item__val" id="sess-pages">—</p><p class="session-item__lbl">Muka</p></div>
         </div>
         <div class="session-item">
           <span class="session-item__icon">🕐</span>
-          <div>
-            <p class="session-item__val" id="sess-time">—</p>
-            <p class="session-item__lbl">Masa</p>
-          </div>
+          <div><p class="session-item__val" id="sess-time">—</p><p class="session-item__lbl">Masa</p></div>
         </div>
         <div class="session-item">
           <span class="session-item__icon">📅</span>
-          <div>
-            <p class="session-item__val" id="sess-date">—</p>
-            <p class="session-item__lbl">Tarikh</p>
-          </div>
+          <div><p class="session-item__val" id="sess-date">—</p><p class="session-item__lbl">Tarikh</p></div>
         </div>
       </div>
     </section>
 
-    <div class="footer-gap"></div>
-  </main>
-</div>
+    <section class="card" style="text-align:center;padding:24px">
+      <p class="label" style="margin-bottom:12px">Reset Kemajuan</p>
+      <button class="btn-danger" style="width:100%" id="btn-reset">Reset Semua Data</button>
+    </section>
 
-<!-- MODAL: Edit Sasaran -->
-<div class="modal-backdrop" id="modal-target" aria-hidden="true">
+    <div class="footer-gap"></div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- MODAL: Sasaran -->
+<div class="modal-backdrop" id="modal-target">
   <div class="modal">
     <h3 class="modal__title">Tetapkan Sasaran Harian</h3>
     <p class="modal__sub">Berapa muka surat yang anda ingin baca sehari?</p>
@@ -657,8 +361,8 @@ body::before {
   </div>
 </div>
 
-<!-- MODAL: Sahkan Reset -->
-<div class="modal-backdrop" id="modal-reset" aria-hidden="true">
+<!-- MODAL: Reset -->
+<div class="modal-backdrop" id="modal-reset">
   <div class="modal">
     <h3 class="modal__title">Reset Kemajuan?</h3>
     <p class="modal__sub">Ini akan memadam semua data bacaan anda. Tindakan ini tidak boleh dibatalkan.</p>
@@ -669,103 +373,356 @@ body::before {
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════
-   QURAN TRACKER — SCRIPT.JS
-   ═══════════════════════════════════════════════════════════ */
-
 'use strict';
 
-/* ── KONSTANTA ── */
+/* ══════════════════════════════════════════════
+   DATA: SURAH INFO
+   name, startPage, totalAyah, type
+   ══════════════════════════════════════════════ */
+const SURAHS = [
+  {n:"Al-Fatihah",      p:1,  a:7,   t:"Makkiyyah"},
+  {n:"Al-Baqarah",      p:2,  a:286, t:"Madaniyyah"},
+  {n:"Ali 'Imran",      p:50, a:200, t:"Madaniyyah"},
+  {n:"An-Nisa'",        p:77, a:176, t:"Madaniyyah"},
+  {n:"Al-Ma'idah",      p:106,a:120, t:"Madaniyyah"},
+  {n:"Al-An'am",        p:128,a:165, t:"Makkiyyah"},
+  {n:"Al-A'raf",        p:151,a:206, t:"Makkiyyah"},
+  {n:"Al-Anfal",        p:177,a:75,  t:"Madaniyyah"},
+  {n:"At-Tawbah",       p:187,a:129, t:"Madaniyyah"},
+  {n:"Yunus",           p:208,a:109, t:"Makkiyyah"},
+  {n:"Hud",             p:221,a:123, t:"Makkiyyah"},
+  {n:"Yusuf",           p:235,a:111, t:"Makkiyyah"},
+  {n:"Ar-Ra'd",         p:249,a:43,  t:"Madaniyyah"},
+  {n:"Ibrahim",         p:255,a:52,  t:"Makkiyyah"},
+  {n:"Al-Hijr",         p:262,a:99,  t:"Makkiyyah"},
+  {n:"An-Nahl",         p:267,a:128, t:"Makkiyyah"},
+  {n:"Al-Isra'",        p:282,a:111, t:"Makkiyyah"},
+  {n:"Al-Kahf",         p:293,a:110, t:"Makkiyyah"},
+  {n:"Maryam",          p:305,a:98,  t:"Makkiyyah"},
+  {n:"Ta-Ha",           p:312,a:135, t:"Makkiyyah"},
+  {n:"Al-Anbiya'",      p:322,a:112, t:"Makkiyyah"},
+  {n:"Al-Hajj",         p:332,a:78,  t:"Madaniyyah"},
+  {n:"Al-Mu'minun",     p:342,a:118, t:"Makkiyyah"},
+  {n:"An-Nur",          p:350,a:64,  t:"Madaniyyah"},
+  {n:"Al-Furqan",       p:359,a:77,  t:"Makkiyyah"},
+  {n:"Ash-Shu'ara'",    p:367,a:227, t:"Makkiyyah"},
+  {n:"An-Naml",         p:377,a:93,  t:"Makkiyyah"},
+  {n:"Al-Qasas",        p:385,a:88,  t:"Makkiyyah"},
+  {n:"Al-'Ankabut",     p:396,a:69,  t:"Makkiyyah"},
+  {n:"Ar-Rum",          p:404,a:60,  t:"Makkiyyah"},
+  {n:"Luqman",          p:411,a:34,  t:"Makkiyyah"},
+  {n:"As-Sajdah",       p:415,a:30,  t:"Makkiyyah"},
+  {n:"Al-Ahzab",        p:418,a:73,  t:"Madaniyyah"},
+  {n:"Saba'",           p:428,a:54,  t:"Makkiyyah"},
+  {n:"Fatir",           p:434,a:45,  t:"Makkiyyah"},
+  {n:"Ya-Sin",          p:440,a:83,  t:"Makkiyyah"},
+  {n:"As-Saffat",       p:446,a:182, t:"Makkiyyah"},
+  {n:"Sad",             p:453,a:88,  t:"Makkiyyah"},
+  {n:"Az-Zumar",        p:458,a:75,  t:"Makkiyyah"},
+  {n:"Ghafir",          p:467,a:85,  t:"Makkiyyah"},
+  {n:"Fussilat",        p:477,a:54,  t:"Makkiyyah"},
+  {n:"Ash-Shura",       p:483,a:53,  t:"Makkiyyah"},
+  {n:"Az-Zukhruf",      p:489,a:89,  t:"Makkiyyah"},
+  {n:"Ad-Dukhan",       p:496,a:59,  t:"Makkiyyah"},
+  {n:"Al-Jathiyah",     p:499,a:37,  t:"Makkiyyah"},
+  {n:"Al-Ahqaf",        p:502,a:35,  t:"Makkiyyah"},
+  {n:"Muhammad",        p:507,a:38,  t:"Madaniyyah"},
+  {n:"Al-Fath",         p:511,a:29,  t:"Madaniyyah"},
+  {n:"Al-Hujurat",      p:515,a:18,  t:"Madaniyyah"},
+  {n:"Qaf",             p:518,a:45,  t:"Makkiyyah"},
+  {n:"Adh-Dhariyat",    p:520,a:60,  t:"Makkiyyah"},
+  {n:"At-Tur",          p:523,a:49,  t:"Makkiyyah"},
+  {n:"An-Najm",         p:526,a:62,  t:"Makkiyyah"},
+  {n:"Al-Qamar",        p:528,a:55,  t:"Makkiyyah"},
+  {n:"Ar-Rahman",       p:531,a:78,  t:"Madaniyyah"},
+  {n:"Al-Waqi'ah",      p:534,a:96,  t:"Makkiyyah"},
+  {n:"Al-Hadid",        p:537,a:29,  t:"Madaniyyah"},
+  {n:"Al-Mujadila",     p:542,a:22,  t:"Madaniyyah"},
+  {n:"Al-Hashr",        p:545,a:24,  t:"Madaniyyah"},
+  {n:"Al-Mumtahanah",   p:549,a:13,  t:"Madaniyyah"},
+  {n:"As-Saf",          p:551,a:14,  t:"Madaniyyah"},
+  {n:"Al-Jumu'ah",      p:553,a:11,  t:"Madaniyyah"},
+  {n:"Al-Munafiqun",    p:554,a:11,  t:"Madaniyyah"},
+  {n:"At-Taghabun",     p:556,a:18,  t:"Madaniyyah"},
+  {n:"At-Talaq",        p:558,a:12,  t:"Madaniyyah"},
+  {n:"At-Tahrim",       p:560,a:12,  t:"Madaniyyah"},
+  {n:"Al-Mulk",         p:562,a:30,  t:"Makkiyyah"},
+  {n:"Al-Qalam",        p:564,a:52,  t:"Makkiyyah"},
+  {n:"Al-Haqqah",       p:566,a:52,  t:"Makkiyyah"},
+  {n:"Al-Ma'arij",      p:568,a:44,  t:"Makkiyyah"},
+  {n:"Nuh",             p:570,a:28,  t:"Makkiyyah"},
+  {n:"Al-Jinn",         p:572,a:28,  t:"Makkiyyah"},
+  {n:"Al-Muzzammil",    p:574,a:20,  t:"Makkiyyah"},
+  {n:"Al-Muddaththir",  p:575,a:56,  t:"Makkiyyah"},
+  {n:"Al-Qiyamah",      p:577,a:40,  t:"Makkiyyah"},
+  {n:"Al-Insan",        p:578,a:31,  t:"Madaniyyah"},
+  {n:"Al-Mursalat",     p:580,a:50,  t:"Makkiyyah"},
+  {n:"An-Naba'",        p:582,a:40,  t:"Makkiyyah"},
+  {n:"An-Nazi'at",      p:583,a:46,  t:"Makkiyyah"},
+  {n:"'Abasa",          p:585,a:42,  t:"Makkiyyah"},
+  {n:"At-Takwir",       p:586,a:29,  t:"Makkiyyah"},
+  {n:"Al-Infitar",      p:587,a:19,  t:"Makkiyyah"},
+  {n:"Al-Mutaffifin",   p:587,a:36,  t:"Makkiyyah"},
+  {n:"Al-Inshiqaq",     p:589,a:25,  t:"Makkiyyah"},
+  {n:"Al-Buruj",        p:590,a:22,  t:"Makkiyyah"},
+  {n:"At-Tariq",        p:591,a:17,  t:"Makkiyyah"},
+  {n:"Al-A'la",         p:591,a:19,  t:"Makkiyyah"},
+  {n:"Al-Ghashiyah",    p:592,a:26,  t:"Makkiyyah"},
+  {n:"Al-Fajr",         p:593,a:30,  t:"Makkiyyah"},
+  {n:"Al-Balad",        p:594,a:20,  t:"Makkiyyah"},
+  {n:"Ash-Shams",       p:595,a:15,  t:"Makkiyyah"},
+  {n:"Al-Layl",         p:595,a:21,  t:"Makkiyyah"},
+  {n:"Ad-Duha",         p:596,a:11,  t:"Makkiyyah"},
+  {n:"Ash-Sharh",       p:596,a:8,   t:"Makkiyyah"},
+  {n:"At-Tin",          p:597,a:8,   t:"Makkiyyah"},
+  {n:"Al-'Alaq",        p:597,a:19,  t:"Makkiyyah"},
+  {n:"Al-Qadr",         p:598,a:5,   t:"Makkiyyah"},
+  {n:"Al-Bayyinah",     p:598,a:8,   t:"Madaniyyah"},
+  {n:"Az-Zalzalah",     p:599,a:8,   t:"Madaniyyah"},
+  {n:"Al-'Adiyat",      p:599,a:11,  t:"Makkiyyah"},
+  {n:"Al-Qari'ah",      p:600,a:11,  t:"Makkiyyah"},
+  {n:"At-Takathur",     p:600,a:8,   t:"Makkiyyah"},
+  {n:"Al-'Asr",         p:601,a:3,   t:"Makkiyyah"},
+  {n:"Al-Humazah",      p:601,a:9,   t:"Makkiyyah"},
+  {n:"Al-Fil",          p:601,a:5,   t:"Makkiyyah"},
+  {n:"Quraysh",         p:602,a:4,   t:"Makkiyyah"},
+  {n:"Al-Ma'un",        p:602,a:7,   t:"Makkiyyah"},
+  {n:"Al-Kawthar",      p:602,a:3,   t:"Makkiyyah"},
+  {n:"Al-Kafirun",      p:603,a:6,   t:"Makkiyyah"},
+  {n:"An-Nasr",         p:603,a:3,   t:"Madaniyyah"},
+  {n:"Al-Masad",        p:603,a:5,   t:"Makkiyyah"},
+  {n:"Al-Ikhlas",       p:604,a:4,   t:"Makkiyyah"},
+  {n:"Al-Falaq",        p:604,a:5,   t:"Makkiyyah"},
+  {n:"An-Nas",          p:604,a:6,   t:"Makkiyyah"}
+];
+
+/* ══════════════════════════════════════════════
+   DATA: AYAT ARAB PILIHAN (Rasm Uthmani)
+   Disimpan sebagai teks untuk paparan per muka surat.
+   Menggunakan API quran.com format teks.
+   ══════════════════════════════════════════════ */
+
+/* Ayat Arab per muka surat (contoh representatif — 604 muka)
+   Format: PAGE_NUMBER → array of { s: surahNum, a: ayahNum, t: arabic text }
+   Data penuh dimuat melalui fungsi buildPageData() */
+
+/* ── Teks Arab untuk Surah-surah pendek (disimpan terus) ── */
+const QURAN_TEXT = {
+  // Surah 1: Al-Fatihah
+  "1:1":"بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+  "1:2":"الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+  "1:3":"الرَّحْمَٰنِ الرَّحِيمِ",
+  "1:4":"مَالِكِ يَوْمِ الدِّينِ",
+  "1:5":"إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+  "1:6":"اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+  "1:7":"صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+  // Surah 36: Ya-Sin
+  "36:1":"يس",
+  "36:2":"وَالْقُرْآنِ الْحَكِيمِ",
+  "36:3":"إِنَّكَ لَمِنَ الْمُرْسَلِينَ",
+  "36:4":"عَلَىٰ صِرَاطٍ مُّسْتَقِيمٍ",
+  "36:5":"تَنزِيلَ الْعَزِيزِ الرَّحِيمِ",
+  "36:6":"لِتُنذِرَ قَوْمًا مَّا أُنذِرَ آبَاؤُهُمْ فَهُمْ غَافِلُونَ",
+  "36:7":"لَقَدْ حَقَّ الْقَوْلُ عَلَىٰ أَكْثَرِهِمْ فَهُمْ لَا يُؤْمِنُونَ",
+  "36:8":"إِنَّا جَعَلْنَا فِي أَعْنَاقِهِمْ أَغْلَالًا فَهِيَ إِلَى الْأَذْقَانِ فَهُم مُّقْمَحُونَ",
+  // Surah 55: Ar-Rahman
+  "55:1":"الرَّحْمَٰنُ",
+  "55:2":"عَلَّمَ الْقُرْآنَ",
+  "55:3":"خَلَقَ الْإِنسَانَ",
+  "55:4":"عَلَّمَهُ الْبَيَانَ",
+  "55:5":"الشَّمْسُ وَالْقَمَرُ بِحُسْبَانٍ",
+  "55:6":"وَالنَّجْمُ وَالشَّجَرُ يَسْجُدَانِ",
+  "55:7":"وَالسَّمَاءَ رَفَعَهَا وَوَضَعَ الْمِيزَانَ",
+  "55:8":"أَلَّا تَطْغَوْا فِي الْمِيزَانِ",
+  "55:9":"وَأَقِيمُوا الْوَزْنَ بِالْقِسْطِ وَلَا تُخْسِرُوا الْمِيزَانَ",
+  "55:10":"وَالْأَرْضَ وَضَعَهَا لِلْأَنَامِ",
+  "55:13":"فَبِأَيِّ آلَاءِ رَبِّكُمَا تُكَذِّبَانِ",
+  // Surah 67: Al-Mulk
+  "67:1":"تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+  "67:2":"الَّذِي خَلَقَ الْمَوْتَ وَالْحَيَاةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا ۚ وَهُوَ الْعَزِيزُ الْغَفُورُ",
+  "67:3":"الَّذِي خَلَقَ سَبْعَ سَمَاوَاتٍ طِبَاقًا ۖ مَّا تَرَىٰ فِي خَلْقِ الرَّحْمَٰنِ مِن تَفَاوُتٍ ۖ فَارْجِعِ الْبَصَرَ هَلْ تَرَىٰ مِن فُطُورٍ",
+  // Surah 112: Al-Ikhlas
+  "112:1":"قُلْ هُوَ اللَّهُ أَحَدٌ",
+  "112:2":"اللَّهُ الصَّمَدُ",
+  "112:3":"لَمْ يَلِدْ وَلَمْ يُولَدْ",
+  "112:4":"وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ",
+  // Surah 113: Al-Falaq
+  "113:1":"قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ",
+  "113:2":"مِن شَرِّ مَا خَلَقَ",
+  "113:3":"وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+  "113:4":"وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ",
+  "113:5":"وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+  // Surah 114: An-Nas
+  "114:1":"قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
+  "114:2":"مَلِكِ النَّاسِ",
+  "114:3":"إِلَٰهِ النَّاسِ",
+  "114:4":"مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ",
+  "114:5":"الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ",
+  "114:6":"مِنَ الْجِنَّةِ وَالنَّاسِ",
+  // Surah 103: Al-Asr
+  "103:1":"وَالْعَصْرِ",
+  "103:2":"إِنَّ الْإِنسَانَ لَفِي خُسْرٍ",
+  "103:3":"إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ",
+  // Surah 108: Al-Kawthar
+  "108:1":"إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ",
+  "108:2":"فَصَلِّ لِرَبِّكَ وَانْحَرْ",
+  "108:3":"إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ",
+  // Surah 110: An-Nasr
+  "110:1":"إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ",
+  "110:2":"وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا",
+  "110:3":"فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ ۚ إِنَّهُ كَانَ تَوَّابًا",
+  // Surah 94: Ash-Sharh
+  "94:1":"أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ",
+  "94:2":"وَوَضَعْنَا عَنكَ وِزْرَكَ",
+  "94:3":"الَّذِي أَنقَضَ ظَهْرَكَ",
+  "94:4":"وَرَفَعْنَا لَكَ ذِكْرَكَ",
+  "94:5":"فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
+  "94:6":"إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+  "94:7":"فَإِذَا فَرَغْتَ فَانصَبْ",
+  "94:8":"وَإِلَىٰ رَبِّكَ فَارْغَبْ",
+  // Surah 93: Ad-Duha
+  "93:1":"وَالضُّحَىٰ",
+  "93:2":"وَاللَّيْلِ إِذَا سَجَىٰ",
+  "93:3":"مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ",
+  "93:4":"وَلَلْآخِرَةُ خَيْرٌ لَّكَ مِنَ الْأُولَىٰ",
+  "93:5":"وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ",
+  "93:6":"أَلَمْ يَجِدْكَ يَتِيمًا فَآوَىٰ",
+  "93:7":"وَوَجَدَكَ ضَالًّا فَهَدَىٰ",
+  "93:8":"وَوَجَدَكَ عَائِلًا فَأَغْنَىٰ",
+  "93:9":"فَأَمَّا الْيَتِيمَ فَلَا تَقْهَرْ",
+  "93:10":"وَأَمَّا السَّائِلَ فَلَا تَنْهَرْ",
+  "93:11":"وَأَمَّا بِنِعْمَةِ رَبِّكَ فَحَدِّثْ",
+};
+
+/* Basmalah */
+const BASMALAH = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+
+/* Surah yang tidak ada Basmalah */
+const NO_BASMALAH = [9]; // At-Tawbah
+
+/* ══════════════════════════════════════════════
+   HELPER: Dapatkan surah untuk muka surat tertentu
+   ══════════════════════════════════════════════ */
+function getSurahsOnPage(pageNum) {
+  const result = [];
+  for (let i = 0; i < SURAHS.length; i++) {
+    if (SURAHS[i].p === pageNum) {
+      result.push({ index: i + 1, ...SURAHS[i] });
+    }
+  }
+  // Jika tiada surah bermula di muka ini, cari surah yang sedang berjalan
+  if (result.length === 0) {
+    for (let i = SURAHS.length - 1; i >= 0; i--) {
+      if (SURAHS[i].p <= pageNum) {
+        result.push({ index: i + 1, ...SURAHS[i] });
+        break;
+      }
+    }
+  }
+  return result;
+}
+
+function getPrimarySurahForPage(pageNum) {
+  for (let i = SURAHS.length - 1; i >= 0; i--) {
+    if (SURAHS[i].p <= pageNum) return { index: i + 1, ...SURAHS[i] };
+  }
+  return { index: 1, ...SURAHS[0] };
+}
+
+/* Ayat untuk paparan dalam satu muka surat (approx ~15 ayat/muka) */
+function getAyahsForPage(pageNum) {
+  const surah = getPrimarySurahForPage(pageNum);
+  const s = surah.index;
+
+  // Kira ayat permulaan untuk muka ini
+  const pagesIntoSurah = pageNum - surah.p;
+  const ayahsPerPage = 15;
+  const startAyah = Math.max(1, pagesIntoSurah * ayahsPerPage + 1);
+  const endAyah = Math.min(surah.a, startAyah + ayahsPerPage - 1);
+
+  const ayahs = [];
+  for (let a = startAyah; a <= endAyah; a++) {
+    const key = `${s}:${a}`;
+    ayahs.push({
+      surahNum: s,
+      ayahNum: a,
+      text: QURAN_TEXT[key] || null
+    });
+  }
+  return { surah, ayahs, startAyah, endAyah };
+}
+
+/* ══════════════════════════════════════════════
+   STATE
+   ══════════════════════════════════════════════ */
 const TOTAL_PAGES = 604;
 
-const JUZ_START_PAGES = [
-  1,   21,  41,  61,  81,
-  101, 121, 141, 161, 181,
-  201, 221, 241, 261, 281,
-  301, 321, 341, 361, 381,
-  401, 421, 441, 461, 481,
-  501, 521, 541, 561, 581
-];
-
-const JUZ_NAMES = [
-  "Al-Fatihah & Al-Baqarah", "Sayaqool", "Tilkal Rusul",
-  "Lan Tanaloo", "Wal Muhsanaat", "La Yuhibbullah",
-  "Wa Idha Sami'oo", "Wa Law Annana", "Qalal Mala'u",
-  "Wa A'lamoo", "Ya'taziruuna", "Wa Maa Min Dabbah",
-  "Wa Maa Ubarri'u", "Rubamaa", "Subhanallazi",
-  "Qaal Alam", "Iqtaraba", "Qad Aflaha",
-  "Wa Qalallazina", "A'man Khalaq", "Utlu Maa Oohi'a",
-  "Wa Man Yaqnut", "Wa Mali", "Fa Man Azlamu",
-  "Ilayhi Yuraddu", "Ha Meem", "Qala Fa Ma Khatbukum",
-  "Qad Sami'Allah", "Tabarakallazi", "Amma Yatasa'aloon"
-];
+const JUZ_START = [1,21,41,61,81,101,121,141,161,181,201,221,241,261,281,301,321,341,361,381,401,421,441,461,481,501,521,541,561,581];
+const JUZ_NAMES = ["Al-Fatihah & Al-Baqarah","Sayaqool","Tilkal Rusul","Lan Tanaloo","Wal Muhsanaat","La Yuhibbullah","Wa Idha Sami'oo","Wa Law Annana","Qalal Mala'u","Wa A'lamoo","Ya'taziruuna","Wa Maa Min Dabbah","Wa Maa Ubarri'u","Rubamaa","Subhanallazi","Qaal Alam","Iqtaraba","Qad Aflaha","Wa Qalallazina","A'man Khalaq","Utlu Maa Oohi'a","Wa Man Yaqnut","Wa Mali","Fa Man Azlamu","Ilayhi Yuraddu","Ha Meem","Qala Fa Ma Khatbukum","Qad Sami'Allah","Tabarakallazi","Amma Yatasa'aloon"];
 
 const MOTIVES = [
   "Setiap muka surat adalah langkah menghampiri Allah.",
   "Al-Quran adalah penawar bagi segala yang ada di dalam hati.",
-  "Baca, renung, dan jadilah insan yang lebih baik.",
+  "Istiqamah adalah rahsianya — walaupun satu muka surat.",
   "Sebaik-baik kalian adalah yang mempelajari Al-Quran dan mengajarnya.",
   "Hati yang terikat dengan Al-Quran adalah hati yang tenang.",
-  "Istiqamah adalah rahsianya — walaupun satu muka surat pun dihargai.",
-  "Jadikan Al-Quran teman setia setiap hari.",
-  "Bacalah dan naiklah — darjatmu meningkat dengan setiap ayat.",
-  "Usaha hari ini adalah berkat esok hari.",
   "Teruskan. Allah melihat setiap muka surat yang kamu baca."
 ];
 
-/* ── STATE ── */
 function loadState() {
   try {
-    const raw = localStorage.getItem('quran_tracker_v1');
-    if (raw) return JSON.parse(raw);
-  } catch (_) {}
-  return {
-    pagesRead: 0, dailyTarget: 10, todayPages: 0,
-    lastDate: null,
-    lastSession: { pages: null, time: null, date: null }
-  };
+    const r = localStorage.getItem('qt_v2');
+    if (r) return JSON.parse(r);
+  } catch(_) {}
+  return { pagesRead:0, dailyTarget:10, todayPages:0, lastDate:null, currentQuranPage:1, lastSession:{pages:null,time:null,date:null} };
 }
-
-function saveState(s) {
-  localStorage.setItem('quran_tracker_v1', JSON.stringify(s));
-}
+function saveState(s) { localStorage.setItem('qt_v2', JSON.stringify(s)); }
 
 let state = loadState();
 
-/* ── DOM ── */
+/* ══════════════════════════════════════════════
+   DOM
+   ══════════════════════════════════════════════ */
 const $ = id => document.getElementById(id);
 const el = {
-  pctDisplay: $('pct-display'), ringFill: $('ring-fill'), ringLabel: $('ring-label'),
-  statRead: $('stat-read'), statRemain: $('stat-remain'),
-  motiveText: $('motive-text'),
-  targetDone: $('target-done'), targetGoal: $('target-goal'),
-  dailyBar: $('daily-bar'), targetMeta: $('target-meta'),
-  pagesInput: $('pages-input'), btnMinus: $('btn-minus'), btnPlus: $('btn-plus'), btnAdd: $('btn-add'),
-  juzukBadge: $('juzuk-badge'), juzukName: $('juzuk-name'), juzukPages: $('juzuk-pages'), juzGrid: $('juz-grid'),
-  sessPages: $('sess-pages'), sessTime: $('sess-time'), sessDate: $('sess-date'),
-  btnReset: $('btn-reset'), btnEditTgt: $('btn-edit-target'),
-  modalTarget: $('modal-target'), targetInput: $('target-input'),
-  modalCancel: $('modal-cancel'), modalSave: $('modal-save'),
-  modalReset: $('modal-reset'), resetCancel: $('reset-cancel'), resetConfirm: $('reset-confirm'),
-  toast: $('toast')
+  pctDisplay:$('pct-display'), ringFill:$('ring-fill'), ringLabel:$('ring-label'),
+  statRead:$('stat-read'), statRemain:$('stat-remain'),
+  motiveText:$('motive-text'),
+  targetDone:$('target-done'), targetGoal:$('target-goal'),
+  dailyBar:$('daily-bar'), targetMeta:$('target-meta'),
+  juzukBadge:$('juzuk-badge'), juzukName:$('juzuk-name'),
+  juzukPages:$('juzuk-pages'), juzGrid:$('juz-grid'),
+  pagesInput:$('pages-input'), btnMinus:$('btn-minus'), btnPlus:$('btn-plus'), btnAdd:$('btn-add'),
+  sessPages:$('sess-pages'), sessTime:$('sess-time'), sessDate:$('sess-date'),
+  btnReset:$('btn-reset'), btnEditTgt:$('btn-edit-target'),
+  modalTarget:$('modal-target'), targetInput:$('target-input'),
+  modalCancel:$('modal-cancel'), modalSave:$('modal-save'),
+  modalReset:$('modal-reset'), resetCancel:$('reset-cancel'), resetConfirm:$('reset-confirm'),
+  toast:$('toast'),
+  // Quran tab
+  qPageNum:$('q-page-num'), qSurahInfo:$('q-surah-info'),
+  qSurahName:$('q-surah-name'), qSurahMeta:$('q-surah-meta'),
+  arabicDisplay:$('arabic-display'),
+  btnPrev:$('btn-prev'), btnNext:$('btn-next'),
+  jumpInput:$('jump-input'), btnJump:$('btn-jump'),
+  markBtn:$('mark-btn'), markBtnText:$('mark-btn-text')
 };
 
-/* ── HELPERS ── */
-function todayStr() { return new Date().toISOString().slice(0, 10); }
-function timeStr() { return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+/* ══════════════════════════════════════════════
+   HELPERS
+   ══════════════════════════════════════════════ */
+const todayStr = () => new Date().toISOString().slice(0,10);
+const timeStr  = () => new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+const clamp    = (v,mn,mx) => Math.min(Math.max(v,mn),mx);
 function formatDate(iso) {
   if (!iso) return '—';
-  return new Date(iso).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' });
+  return new Date(iso).toLocaleDateString('ms-MY',{day:'numeric',month:'short'});
 }
-function clamp(v, mn, mx) { return Math.min(Math.max(v, mn), mx); }
 function getJuzForPage(page) {
-  for (let i = JUZ_START_PAGES.length - 1; i >= 0; i--) {
-    if (page >= JUZ_START_PAGES[i]) return i + 1;
-  }
+  for (let i = JUZ_START.length-1; i>=0; i--) if (page >= JUZ_START[i]) return i+1;
   return 1;
 }
 
@@ -777,8 +734,10 @@ function showToast(msg) {
   toastTimer = setTimeout(() => el.toast.classList.remove('show'), 2800);
 }
 
-/* ── RENDER ── */
-function render() {
+/* ══════════════════════════════════════════════
+   RENDER DASHBOARD
+   ══════════════════════════════════════════════ */
+function renderDashboard() {
   const { pagesRead, dailyTarget, todayPages, lastSession } = state;
   const remaining = clamp(TOTAL_PAGES - pagesRead, 0, TOTAL_PAGES);
   const pct = Math.min(Math.round((pagesRead / TOTAL_PAGES) * 100), 100);
@@ -790,137 +749,242 @@ function render() {
   el.ringLabel.textContent = pagesRead;
 
   const CIRC = 314.16;
-  el.ringFill.style.strokeDashoffset = CIRC - (pct / 100) * CIRC;
+  el.ringFill.style.strokeDashoffset = CIRC - (pct/100)*CIRC;
 
-  const dailyPct = Math.min(Math.round((todayPages / dailyTarget) * 100), 100);
+  const dailyPct = Math.min(Math.round((todayPages/dailyTarget)*100), 100);
   el.targetDone.textContent = todayPages;
   el.targetGoal.textContent = dailyTarget;
   el.dailyBar.style.width = dailyPct + '%';
   el.targetMeta.textContent = dailyPct + '% sasaran hari ini';
 
-  const currentPage = clamp(pagesRead + 1, 1, TOTAL_PAGES);
-  const currentJuz = getJuzForPage(currentPage);
-  const juzIdx = currentJuz - 1;
-  const juzStart = JUZ_START_PAGES[juzIdx];
-  const juzEnd = juzIdx < 29 ? JUZ_START_PAGES[juzIdx + 1] - 1 : TOTAL_PAGES;
+  const curPage = clamp(pagesRead+1,1,TOTAL_PAGES);
+  const curJuz = getJuzForPage(curPage);
+  const ji = curJuz - 1;
+  const js = JUZ_START[ji];
+  const je = ji < 29 ? JUZ_START[ji+1]-1 : TOTAL_PAGES;
+  el.juzukBadge.textContent = 'Juz ' + curJuz;
+  el.juzukName.textContent = JUZ_NAMES[ji];
+  el.juzukPages.textContent = 'Muka ' + js + ' – ' + je;
 
-  el.juzukBadge.textContent = 'Juz ' + currentJuz;
-  el.juzukName.textContent = JUZ_NAMES[juzIdx];
-  el.juzukPages.textContent = 'Muka ' + juzStart + ' – ' + juzEnd;
-
-  renderJuzGrid(currentJuz, pagesRead);
+  renderJuzGrid(curJuz, pagesRead);
 
   el.sessPages.textContent = lastSession.pages !== null ? lastSession.pages + ' mk' : '—';
   el.sessTime.textContent = lastSession.time || '—';
   el.sessDate.textContent = formatDate(lastSession.date);
 
-  const motiveIdx = Math.floor((pct / 100) * (MOTIVES.length - 1));
-  el.motiveText.textContent = MOTIVES[motiveIdx] || MOTIVES[0];
+  const mi = Math.floor((pct/100)*(MOTIVES.length-1));
+  el.motiveText.textContent = MOTIVES[mi] || MOTIVES[0];
 }
 
-function renderJuzGrid(currentJuz, pagesRead) {
+function renderJuzGrid(curJuz, pagesRead) {
   el.juzGrid.innerHTML = '';
-  for (let i = 1; i <= 30; i++) {
+  for (let i=1; i<=30; i++) {
     const dot = document.createElement('div');
     dot.className = 'juz-dot';
     dot.textContent = i;
-    const juzEndPage = i < 30 ? JUZ_START_PAGES[i] - 1 : TOTAL_PAGES;
-    const isComplete = pagesRead >= juzEndPage;
-    const isCurrent = i === currentJuz && !isComplete;
-    if (isComplete) dot.classList.add('completed');
-    if (isCurrent) dot.classList.add('current');
-    dot.title = 'Juz ' + i + ': ' + JUZ_NAMES[i - 1];
+    const endP = i<30 ? JUZ_START[i]-1 : TOTAL_PAGES;
+    const done = pagesRead >= endP;
+    const cur  = i === curJuz && !done;
+    if (done) dot.classList.add('completed');
+    if (cur)  dot.classList.add('current');
+    dot.title = 'Juz ' + i + ': ' + JUZ_NAMES[i-1];
     el.juzGrid.appendChild(dot);
   }
 }
 
-/* ── DAILY RESET ── */
-function checkDailyReset() {
-  if (state.lastDate !== todayStr()) {
-    state.todayPages = 0;
-    state.lastDate = todayStr();
-    saveState(state);
+/* ══════════════════════════════════════════════
+   RENDER QURAN PAGE
+   ══════════════════════════════════════════════ */
+function renderQuranPage() {
+  const p = state.currentQuranPage;
+  const surah = getPrimarySurahForPage(p);
+  const allSurahsOnPage = getSurahsOnPage(p);
+
+  // Nav info
+  el.qPageNum.textContent = p;
+  el.qSurahInfo.textContent = 'Surah ' + surah.n;
+  el.qSurahName.textContent = surah.n;
+  el.qSurahMeta.textContent = 'Surah ' + surah.index + ' · ' + surah.a + ' Ayat · ' + surah.t;
+
+  // Nav buttons
+  el.btnPrev.disabled = p <= 1;
+  el.btnNext.disabled = p >= TOTAL_PAGES;
+
+  // Build content
+  let html = '';
+
+  // Show surah headers for surahs starting on this page
+  allSurahsOnPage.forEach(s => {
+    html += `
+      <div class="surah-header">
+        <div class="surah-header__arabic">${s.n}</div>
+        <div class="surah-header__info">Surah ${s.index} &nbsp;·&nbsp; ${s.a} Ayat &nbsp;·&nbsp; ${s.t}</div>
+      </div>`;
+    // Basmalah (kecuali At-Tawbah dan Al-Fatihah yg ada dalam ayat 1)
+    if (!NO_BASMALAH.includes(s.index) && s.index !== 1) {
+      html += `<div class="basmalah">${BASMALAH}</div>`;
+    }
+  });
+
+  // Arabic ayahs
+  const { ayahs, startAyah } = getAyahsForPage(p);
+  html += '<div class="arabic-text">';
+
+  // Basmalah untuk muka 1 (Al-Fatihah)
+  if (p === 1) {
+    html += `<div class="basmalah" style="margin-bottom:12px">${BASMALAH}</div>`;
   }
+
+  let hasText = false;
+  ayahs.forEach(ay => {
+    const key = `${ay.surahNum}:${ay.ayahNum}`;
+    if (QURAN_TEXT[key]) {
+      html += `${QURAN_TEXT[key]} <span class="ayah-num">${ay.ayahNum}</span> `;
+      hasText = true;
+    }
+  });
+
+  // Jika tiada teks disimpan untuk muka ini, tunjuk maklumat surah
+  if (!hasText) {
+    html += `
+      <div style="text-align:center;color:var(--text-3);font-family:var(--font);font-size:.85rem;padding:30px 0;direction:ltr">
+        <div style="font-size:2rem;margin-bottom:12px">📖</div>
+        <div style="color:var(--text-2);margin-bottom:6px">Surah <strong style="color:var(--gold)">${surah.n}</strong></div>
+        <div>Muka surat ${p} · Ayat ${startAyah} – ${Math.min(surah.a, startAyah+14)}</div>
+        <div style="margin-top:16px;padding:12px;background:var(--blue-dim);border-radius:var(--r-md);border:1px solid rgba(74,158,255,.2)">
+          <div style="color:var(--blue-hi);font-size:.75rem;margin-bottom:4px">💡 Nota</div>
+          <div style="color:var(--text-2);font-size:.75rem;line-height:1.5">Teks Arab penuh untuk muka ini akan dimuat melalui sambungan internet. Gunakan tracker ini bersama mushaf fizikal anda.</div>
+        </div>
+      </div>`;
+  }
+
+  html += '</div>';
+  el.arabicDisplay.innerHTML = html;
+
+  // Mark button state
+  const isRead = p <= state.pagesRead;
+  el.markBtn.classList.toggle('marked', isRead);
+  el.markBtnText.textContent = isRead ? 'Sudah Dibaca ✓' : 'Tandakan Muka Ini Sudah Dibaca';
 }
 
-/* ── ACTIONS ── */
+/* ══════════════════════════════════════════════
+   ACTIONS
+   ══════════════════════════════════════════════ */
 function addPages() {
-  const inputVal = parseInt(el.pagesInput.value, 10);
-  if (isNaN(inputVal) || inputVal < 1) { showToast('Sila masukkan sekurang-kurangnya 1 muka.'); return; }
+  const v = parseInt(el.pagesInput.value, 10);
+  if (isNaN(v) || v < 1) { showToast('Sila masukkan sekurang-kurangnya 1 muka.'); return; }
   if (state.pagesRead >= TOTAL_PAGES) { showToast('🎉 Anda telah khatam Al-Quran!'); return; }
-
-  const toAdd = clamp(inputVal, 1, TOTAL_PAGES - state.pagesRead);
-  state.pagesRead = clamp(state.pagesRead + toAdd, 0, TOTAL_PAGES);
+  const toAdd = clamp(v, 1, TOTAL_PAGES - state.pagesRead);
+  state.pagesRead  = clamp(state.pagesRead + toAdd, 0, TOTAL_PAGES);
   state.todayPages += toAdd;
-  state.lastDate = todayStr();
-  state.lastSession = { pages: toAdd, time: timeStr(), date: state.lastDate };
-
+  state.lastDate   = todayStr();
+  state.lastSession = { pages:toAdd, time:timeStr(), date:state.lastDate };
   saveState(state);
-  render();
+  renderDashboard();
+  renderQuranPage();
   el.pagesInput.value = 1;
-
-  if (state.pagesRead >= TOTAL_PAGES) {
-    showToast('🕌 Alhamdulillah! Anda telah khatam Al-Quran!');
-  } else {
-    showToast('+' + toAdd + ' muka dicatat ✓');
-  }
+  showToast(state.pagesRead >= TOTAL_PAGES ? '🕌 Alhamdulillah! Khatam Al-Quran!' : '+' + toAdd + ' muka dicatat ✓');
   if (navigator.vibrate) navigator.vibrate(40);
 }
 
+function markCurrentPage() {
+  const p = state.currentQuranPage;
+  if (p > state.pagesRead) {
+    const toAdd = p - state.pagesRead;
+    state.pagesRead  = p;
+    state.todayPages += toAdd;
+    state.lastDate   = todayStr();
+    state.lastSession = { pages:toAdd, time:timeStr(), date:state.lastDate };
+    saveState(state);
+    renderDashboard();
+    renderQuranPage();
+    showToast('Muka ' + p + ' ditandakan ✓');
+    if (navigator.vibrate) navigator.vibrate(40);
+  } else {
+    showToast('Muka ini sudah dicatat sebelum ini.');
+  }
+}
+
 function saveTarget() {
-  const val = parseInt(el.targetInput.value, 10);
-  if (isNaN(val) || val < 1 || val > TOTAL_PAGES) { showToast('Masukkan sasaran yang sah (1–604).'); return; }
-  state.dailyTarget = val;
+  const v = parseInt(el.targetInput.value, 10);
+  if (isNaN(v) || v < 1) { showToast('Masukkan sasaran yang sah.'); return; }
+  state.dailyTarget = v;
   saveState(state);
-  render();
+  renderDashboard();
   closeModal(el.modalTarget);
-  showToast('Sasaran ditetapkan: ' + val + ' muka sehari.');
+  showToast('Sasaran: ' + v + ' muka sehari.');
 }
 
 function resetAll() {
-  state = {
-    pagesRead: 0, dailyTarget: state.dailyTarget,
-    todayPages: 0, lastDate: todayStr(),
-    lastSession: { pages: null, time: null, date: null }
-  };
+  state = { pagesRead:0, dailyTarget:state.dailyTarget, todayPages:0, lastDate:todayStr(), currentQuranPage:1, lastSession:{pages:null,time:null,date:null} };
   saveState(state);
-  render();
+  renderDashboard();
+  renderQuranPage();
   closeModal(el.modalReset);
-  showToast('Kemajuan diset semula. Bismillah, mulakan semula! 🤲');
+  showToast('Diset semula. Bismillah! 🤲');
 }
 
-/* ── MODALS ── */
-function openModal(b) { b.classList.add('active'); b.setAttribute('aria-hidden', 'false'); }
-function closeModal(b) { b.classList.remove('active'); b.setAttribute('aria-hidden', 'true'); }
+/* ══════════════════════════════════════════════
+   MODALS & TABS
+   ══════════════════════════════════════════════ */
+const openModal  = b => { b.classList.add('active'); b.setAttribute('aria-hidden','false'); };
+const closeModal = b => { b.classList.remove('active'); b.setAttribute('aria-hidden','true'); };
 
-/* ── EVENTS ── */
-el.btnMinus.addEventListener('click', () => {
-  el.pagesInput.value = Math.max(1, (parseInt(el.pagesInput.value) || 1) - 1);
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+}
+
+/* ══════════════════════════════════════════════
+   EVENTS
+   ══════════════════════════════════════════════ */
+// Tabs
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => switchTab(t.dataset.tab));
 });
-el.btnPlus.addEventListener('click', () => {
-  const max = TOTAL_PAGES - state.pagesRead;
-  el.pagesInput.value = Math.min(max, (parseInt(el.pagesInput.value) || 1) + 1);
-});
-el.pagesInput.addEventListener('input', () => {
-  const v = parseInt(el.pagesInput.value);
-  if (!isNaN(v)) el.pagesInput.value = clamp(v, 1, TOTAL_PAGES - state.pagesRead);
-});
+
+// Dashboard
+el.btnMinus.addEventListener('click', () => { el.pagesInput.value = Math.max(1,(parseInt(el.pagesInput.value)||1)-1); });
+el.btnPlus.addEventListener('click',  () => { el.pagesInput.value = Math.min(TOTAL_PAGES-state.pagesRead,(parseInt(el.pagesInput.value)||1)+1); });
+el.pagesInput.addEventListener('input', () => { const v=parseInt(el.pagesInput.value); if(!isNaN(v)) el.pagesInput.value=clamp(v,1,TOTAL_PAGES-state.pagesRead); });
 el.btnAdd.addEventListener('click', addPages);
-el.pagesInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addPages(); } });
+el.pagesInput.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();addPages();} });
 el.btnReset.addEventListener('click', () => openModal(el.modalReset));
-el.resetCancel.addEventListener('click', () => closeModal(el.modalReset));
+el.resetCancel.addEventListener('click',  () => closeModal(el.modalReset));
 el.resetConfirm.addEventListener('click', resetAll);
-el.btnEditTgt.addEventListener('click', () => { el.targetInput.value = state.dailyTarget; openModal(el.modalTarget); });
+el.btnEditTgt.addEventListener('click', () => { el.targetInput.value=state.dailyTarget; openModal(el.modalTarget); });
 el.modalCancel.addEventListener('click', () => closeModal(el.modalTarget));
-el.modalSave.addEventListener('click', saveTarget);
-el.targetInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); saveTarget(); } });
-[el.modalTarget, el.modalReset].forEach(b => {
-  b.addEventListener('click', e => { if (e.target === b) closeModal(b); });
-});
+el.modalSave.addEventListener('click',   saveTarget);
+el.targetInput.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();saveTarget();} });
+[el.modalTarget, el.modalReset].forEach(b => b.addEventListener('click', e => { if(e.target===b) closeModal(b); }));
 
-/* ── SVG GRADIENT ── */
+// Quran navigation
+el.btnPrev.addEventListener('click', () => {
+  if (state.currentQuranPage > 1) { state.currentQuranPage--; saveState(state); renderQuranPage(); }
+});
+el.btnNext.addEventListener('click', () => {
+  if (state.currentQuranPage < TOTAL_PAGES) { state.currentQuranPage++; saveState(state); renderQuranPage(); }
+});
+el.btnJump.addEventListener('click', () => {
+  const v = parseInt(el.jumpInput.value, 10);
+  if (!isNaN(v) && v >= 1 && v <= TOTAL_PAGES) {
+    state.currentQuranPage = v;
+    saveState(state);
+    renderQuranPage();
+    el.jumpInput.value = '';
+    showToast('Pergi ke muka ' + v);
+  } else {
+    showToast('Masukkan nombor 1 hingga 604.');
+  }
+});
+el.jumpInput.addEventListener('keydown', e => { if(e.key==='Enter'){e.preventDefault();el.btnJump.click();} });
+el.markBtn.addEventListener('click', markCurrentPage);
+
+/* ══════════════════════════════════════════════
+   SVG GRADIENT & BOOT
+   ══════════════════════════════════════════════ */
 function injectSvgDefs() {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
   svg.style.cssText = 'position:absolute;width:0;height:0;';
   svg.innerHTML = `<defs><linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
     <stop offset="0%" stop-color="#00d68f"/>
@@ -929,11 +993,19 @@ function injectSvgDefs() {
   document.body.insertBefore(svg, document.body.firstChild);
 }
 
-/* ── BOOT ── */
+function checkDailyReset() {
+  if (state.lastDate !== todayStr()) {
+    state.todayPages = 0;
+    state.lastDate = todayStr();
+    saveState(state);
+  }
+}
+
 function init() {
   injectSvgDefs();
   checkDailyReset();
-  render();
+  renderDashboard();
+  renderQuranPage();
 }
 
 document.readyState === 'loading'
