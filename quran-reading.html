@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0a0f1e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Quran Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+/* ═══════════════════════════════════════════════════════════
+   QURAN TRACKER — STYLE
+   Dark fintech · Navy × Emerald × Gold
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --bg:           #080d1a;
+  --bg-2:         #0f1628;
+  --bg-card:      #111827;
+  --bg-card-2:    #16202f;
+  --border:       rgba(255,255,255,0.07);
+  --border-hi:    rgba(255,255,255,0.13);
+  --green:        #00d68f;
+  --green-dim:    rgba(0,214,143,0.12);
+  --green-glow:   0 0 20px rgba(0,214,143,0.25);
+  --gold:         #f4c95d;
+  --gold-dim:     rgba(244,201,93,0.12);
+  --blue-hi:      #4a9eff;
+  --blue-dim:     rgba(74,158,255,0.12);
+  --text-1:       #f0f4ff;
+  --text-2:       #8899bb;
+  --text-3:       #4a5a7a;
+  --radius-sm:    10px;
+  --radius-md:    16px;
+  --radius-lg:    22px;
+  --radius-xl:    30px;
+  --font-body:    'Outfit', sans-serif;
+  --font-serif:   'DM Serif Display', serif;
+  --font-mono:    'DM Mono', monospace;
+  --safe-bottom:  env(safe-area-inset-bottom, 0px);
+  --safe-top:     env(safe-area-inset-top, 0px);
+  --transition:   0.25s cubic-bezier(0.22,1,0.36,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-1);
+  height: 100%;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.20) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 80%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 60%, rgba(255,255,255,0.20) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.12) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--safe-top) + 14px) 20px 14px;
+  background: rgba(8,13,26,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.topbar__brand { display: flex; align-items: center; gap: 10px; }
+.topbar__icon { font-size: 1.4rem; color: var(--gold); filter: drop-shadow(0 0 8px rgba(244,201,93,0.5)); }
+.topbar__title { font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-1); }
+.topbar__reset {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.topbar__reset:hover, .topbar__reset:active {
+  border-color: var(--border-hi); color: var(--text-1); background: var(--border);
+}
+
+/* SCROLL AREA */
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 16px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-area::-webkit-scrollbar { width: 0; }
+.footer-gap { height: calc(24px + var(--safe-bottom)); }
+
+/* CARDS */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) both;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+}
+.card:nth-child(1) { animation-delay: 0.05s; }
+.card:nth-child(2) { animation-delay: 0.10s; }
+.card:nth-child(3) { animation-delay: 0.15s; }
+.card:nth-child(4) { animation-delay: 0.20s; }
+.card:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 4px;
+}
+
+/* HERO CARD */
+.hero-card {
+  background: linear-gradient(135deg, #0f1e3a 0%, #0a1628 100%);
+  border-color: rgba(74,158,255,0.18);
+  padding: 22px 22px 18px;
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(74,158,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.hero-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.hero-card__percent {
+  font-family: var(--font-serif);
+  font-size: 3.2rem;
+  color: var(--green);
+  line-height: 1;
+  margin-top: 4px;
+  text-shadow: var(--green-glow);
+}
+.hero-card__percent.complete {
+  animation: sparkle 2s ease-in-out infinite;
+  color: var(--gold);
+  text-shadow: 0 0 24px rgba(244,201,93,0.5);
+}
+@keyframes sparkle {
+  0%,100% { transform: scale(1) rotate(0deg); }
+  50%     { transform: scale(1.15) rotate(180deg); }
+}
+
+/* RING */
+.ring { transform: rotate(-90deg); filter: drop-shadow(0 0 10px rgba(0,214,143,0.2)); }
+.ring__track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 10; }
+.ring__fill {
+  fill: none;
+  stroke: url(#ring-gradient);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s cubic-bezier(0.22,1,0.36,1);
+}
+.ring__label {
+  fill: var(--text-1);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 500;
+  transform: rotate(90deg);
+  transform-origin: 60px 60px;
+}
+
+/* STATS ROW */
+.hero-card__stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+.stat { text-align: center; }
+.stat__val { display: block; font-family: var(--font-mono); font-size: 1.4rem; font-weight: 500; color: var(--text-1); line-height: 1; }
+.stat__lbl { display: block; font-size: 0.65rem; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 4px; }
+.stat-divider { width: 1px; height: 30px; background: var(--border); }
+
+/* MOTIVATIONAL BANNER */
+.motive-banner {
+  background: var(--gold-dim);
+  border: 1px solid rgba(244,201,93,0.2);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) 0.08s both;
+}
+.motive-banner__icon { color: var(--gold); font-size: 0.9rem; flex-shrink: 0; }
+.motive-banner span:last-child {
+  font-size: 0.82rem; color: var(--gold);
+  font-style: italic; font-family: var(--font-serif);
+  letter-spacing: 0.01em; line-height: 1.4;
+}
+
+/* TARGET CARD */
+.target-card__header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.target-card__pages { font-family: var(--font-mono); font-size: 1.5rem; color: var(--text-1); margin-top: 2px; }
+.target-card__meta { font-size: 0.7rem; color: var(--text-3); margin-top: 6px; letter-spacing: 0.04em; }
+.btn-icon {
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  width: 34px; height: 34px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.btn-icon:hover, .btn-icon:active { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+
+/* PROGRESS BAR */
+.progress-track { height: 8px; background: rgba(255,255,255,0.05); border-radius: 99px; overflow: hidden; }
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d68f, #00b377);
+  border-radius: 99px;
+  width: 0%;
+  transition: width 0.8s cubic-bezier(0.22,1,0.36,1);
+  position: relative;
+}
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+  border-radius: 99px;
+}
+
+/* INPUT CARD */
+.input-card__sub { font-size: 0.78rem; color: var(--text-2); margin-bottom: 16px; line-height: 1.5; }
+.input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.stepper {
+  width: 44px; height: 44px;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-1);
+  font-size: 1.3rem;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.stepper:hover, .stepper:active { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.page-input {
+  flex: 1;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-1);
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 10px;
+  outline: none;
+  transition: border-color var(--transition);
+  -moz-appearance: textfield;
+}
+.page-input::-webkit-inner-spin-button,
+.page-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.page-input:focus { border-color: var(--green); }
+
+/* BUTTONS */
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #00d68f, #00a86b);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #071412;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 15px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-primary:hover { box-shadow: var(--green-glow); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-ghost {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-2);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 13px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-ghost:hover, .btn-ghost:active { border-color: var(--border-hi); color: var(--text-1); }
+.btn-danger {
+  flex: 1;
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: var(--radius-md);
+  color: #f87171;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 13px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-danger:hover, .btn-danger:active { background: rgba(239,68,68,0.25); border-color: rgba(239,68,68,0.5); }
+
+/* JUZUK CARD */
+.juzuk-current {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 10px; margin-bottom: 18px;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+.juzuk-badge {
+  background: linear-gradient(135deg, #1a3a6e, #0f2550);
+  border: 1px solid rgba(74,158,255,0.3);
+  color: var(--blue-hi);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.juzuk-info__name { font-size: 0.88rem; font-weight: 600; color: var(--text-1); line-height: 1.3; }
+.juzuk-info__pages { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; font-family: var(--font-mono); }
+
+/* JUZ GRID */
+.juz-grid { display: grid; grid-template-columns: repeat(10,1fr); gap: 6px; }
+.juz-dot {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem;
+  font-family: var(--font-mono);
+  color: var(--text-3);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.juz-dot.completed { background: var(--green-dim); border-color: rgba(0,214,143,0.3); color: var(--green); }
+.juz-dot.current {
+  background: var(--blue-dim); border-color: rgba(74,158,255,0.5);
+  color: var(--blue-hi); box-shadow: 0 0 10px rgba(74,158,255,0.2);
+}
+.juz-dot.current::after {
+  content: '';
+  position: absolute; inset: -1px;
+  border-radius: 6px;
+  border: 1px solid rgba(74,158,255,0.6);
+  animation: pulse-border 2s infinite;
+}
+@keyframes pulse-border {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%     { opacity: 0.5; transform: scale(1.04); }
+}
+
+/* SESSION CARD */
+.session-row { display: flex; gap: 0; margin-top: 10px; }
+.session-item {
+  flex: 1;
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-right: 8px;
+}
+.session-item:last-child { margin-right: 0; }
+.session-item__icon { font-size: 1.2rem; flex-shrink: 0; }
+.session-item__val { font-family: var(--font-mono); font-size: 0.88rem; font-weight: 500; color: var(--text-1); line-height: 1.2; }
+.session-item__lbl { font-size: 0.6rem; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* MODALS */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(5,9,18,0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex; align-items: flex-end;
+  padding: 16px;
+  padding-bottom: calc(16px + var(--safe-bottom));
+  z-index: 100;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-backdrop.active { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px 24px;
+  width: 100%;
+  transform: translateY(30px);
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+.modal-backdrop.active .modal { transform: translateY(0); }
+.modal__title { font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-1); margin-bottom: 8px; }
+.modal__sub { font-size: 0.82rem; color: var(--text-2); line-height: 1.5; margin-bottom: 20px; }
+.modal__input {
+  width: 100%;
+  background: var(--bg-card-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-1);
+  font-family: var(--font-mono);
+  font-size: 2rem; font-weight: 500;
+  text-align: center;
+  padding: 16px; outline: none;
+  margin-bottom: 20px;
+  transition: border-color var(--transition);
+  -moz-appearance: textfield;
+}
+.modal__input::-webkit-inner-spin-button,
+.modal__input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.modal__input:focus { border-color: var(--green); }
+.modal__actions { display: flex; gap: 10px; }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: calc(20px + var(--safe-bottom));
+  left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--bg-card);
+  border: 1px solid var(--border-hi);
+  border-radius: 99px;
+  padding: 10px 20px;
+  font-size: 0.82rem; color: var(--text-1);
+  white-space: nowrap; z-index: 200;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.35s;
+  opacity: 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar__brand">
+      <span class="topbar__icon">☽</span>
+      <span class="topbar__title">Quran Tracker</span>
+    </div>
+    <button class="topbar__reset" id="btn-reset" title="Reset semua data">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="1 4 1 10 7 10"></polyline>
+        <path d="M3.51 15a9 9 0 1 0 .49-3.51"></path>
+      </svg>
+    </button>
+  </header>
+
+  <main class="scroll-area">
+
+    <!-- HERO CARD -->
+    <section class="hero-card card">
+      <div class="hero-card__top">
+        <div>
+          <p class="label">Jumlah Kemajuan</p>
+          <h2 class="hero-card__percent" id="pct-display">0%</h2>
+        </div>
+        <svg class="ring" viewBox="0 0 120 120" width="100" height="100">
+          <circle class="ring__track" cx="60" cy="60" r="50"/>
+          <circle class="ring__fill" id="ring-fill" cx="60" cy="60" r="50"
+            stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+          <text class="ring__label" x="60" y="65" text-anchor="middle" id="ring-label">0</text>
+        </svg>
+      </div>
+      <div class="hero-card__stats">
+        <div class="stat">
+          <span class="stat__val" id="stat-read">0</span>
+          <span class="stat__lbl">Muka Dibaca</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat__val">604</span>
+          <span class="stat__lbl">Jumlah Muka</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat__val" id="stat-remain">604</span>
+          <span class="stat__lbl">Berbaki</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOTIVATIONAL BANNER -->
+    <div class="motive-banner">
+      <span class="motive-banner__icon">✦</span>
+      <span id="motive-text">Setiap muka surat adalah langkah menghampiri Allah.</span>
+    </div>
+
+    <!-- TARGET HARIAN -->
+    <section class="card target-card">
+      <div class="target-card__header">
+        <div>
+          <p class="label">Sasaran Harian</p>
+          <p class="target-card__pages"><span id="target-done">0</span> / <span id="target-goal">10</span> muka</p>
+        </div>
+        <button class="btn-icon" id="btn-edit-target" title="Edit sasaran">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="daily-bar"></div>
+      </div>
+      <p class="target-card__meta" id="target-meta">0% sasaran hari ini</p>
+    </section>
+
+    <!-- INPUT -->
+    <section class="card input-card">
+      <p class="label">Log Bacaan</p>
+      <p class="input-card__sub">Masukkan bilangan muka surat yang anda baca sesi ini</p>
+      <div class="input-row">
+        <button class="stepper" id="btn-minus">−</button>
+        <input type="number" id="pages-input" class="page-input" value="1" min="1" max="604" />
+        <button class="stepper" id="btn-plus">+</button>
+      </div>
+      <button class="btn-primary" id="btn-add">Tambah Muka Surat</button>
+    </section>
+
+    <!-- JUZUK -->
+    <section class="card juzuk-card">
+      <p class="label">Kemajuan Juzuk</p>
+      <div class="juzuk-current">
+        <div class="juzuk-badge" id="juzuk-badge">Juz 1</div>
+        <div class="juzuk-info">
+          <p class="juzuk-info__name" id="juzuk-name">Al-Fatihah & Al-Baqarah</p>
+          <p class="juzuk-info__pages" id="juzuk-pages">Muka 1 – 21</p>
+        </div>
+      </div>
+      <div class="juz-grid" id="juz-grid"></div>
+    </section>
+
+    <!-- SESI TERAKHIR -->
+    <section class="card session-card">
+      <p class="label">Sesi Terakhir</p>
+      <div class="session-row">
+        <div class="session-item">
+          <span class="session-item__icon">📖</span>
+          <div>
+            <p class="session-item__val" id="sess-pages">—</p>
+            <p class="session-item__lbl">Muka</p>
+          </div>
+        </div>
+        <div class="session-item">
+          <span class="session-item__icon">🕐</span>
+          <div>
+            <p class="session-item__val" id="sess-time">—</p>
+            <p class="session-item__lbl">Masa</p>
+          </div>
+        </div>
+        <div class="session-item">
+          <span class="session-item__icon">📅</span>
+          <div>
+            <p class="session-item__val" id="sess-date">—</p>
+            <p class="session-item__lbl">Tarikh</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-gap"></div>
+  </main>
+</div>
+
+<!-- MODAL: Edit Sasaran -->
+<div class="modal-backdrop" id="modal-target" aria-hidden="true">
+  <div class="modal">
+    <h3 class="modal__title">Tetapkan Sasaran Harian</h3>
+    <p class="modal__sub">Berapa muka surat yang anda ingin baca sehari?</p>
+    <input type="number" id="target-input" class="modal__input" value="10" min="1" max="604" />
+    <div class="modal__actions">
+      <button class="btn-ghost" id="modal-cancel">Batal</button>
+      <button class="btn-primary" id="modal-save">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Sahkan Reset -->
+<div class="modal-backdrop" id="modal-reset" aria-hidden="true">
+  <div class="modal">
+    <h3 class="modal__title">Reset Kemajuan?</h3>
+    <p class="modal__sub">Ini akan memadam semua data bacaan anda. Tindakan ini tidak boleh dibatalkan.</p>
+    <div class="modal__actions">
+      <button class="btn-ghost" id="reset-cancel">Batal</button>
+      <button class="btn-danger" id="reset-confirm">Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   QURAN TRACKER — SCRIPT.JS
+   ═══════════════════════════════════════════════════════════ */
+
+'use strict';
+
+/* ── KONSTANTA ── */
+const TOTAL_PAGES = 604;
+
+const JUZ_START_PAGES = [
+  1,   21,  41,  61,  81,
+  101, 121, 141, 161, 181,
+  201, 221, 241, 261, 281,
+  301, 321, 341, 361, 381,
+  401, 421, 441, 461, 481,
+  501, 521, 541, 561, 581
+];
+
+const JUZ_NAMES = [
+  "Al-Fatihah & Al-Baqarah", "Sayaqool", "Tilkal Rusul",
+  "Lan Tanaloo", "Wal Muhsanaat", "La Yuhibbullah",
+  "Wa Idha Sami'oo", "Wa Law Annana", "Qalal Mala'u",
+  "Wa A'lamoo", "Ya'taziruuna", "Wa Maa Min Dabbah",
+  "Wa Maa Ubarri'u", "Rubamaa", "Subhanallazi",
+  "Qaal Alam", "Iqtaraba", "Qad Aflaha",
+  "Wa Qalallazina", "A'man Khalaq", "Utlu Maa Oohi'a",
+  "Wa Man Yaqnut", "Wa Mali", "Fa Man Azlamu",
+  "Ilayhi Yuraddu", "Ha Meem", "Qala Fa Ma Khatbukum",
+  "Qad Sami'Allah", "Tabarakallazi", "Amma Yatasa'aloon"
+];
+
+const MOTIVES = [
+  "Setiap muka surat adalah langkah menghampiri Allah.",
+  "Al-Quran adalah penawar bagi segala yang ada di dalam hati.",
+  "Baca, renung, dan jadilah insan yang lebih baik.",
+  "Sebaik-baik kalian adalah yang mempelajari Al-Quran dan mengajarnya.",
+  "Hati yang terikat dengan Al-Quran adalah hati yang tenang.",
+  "Istiqamah adalah rahsianya — walaupun satu muka surat pun dihargai.",
+  "Jadikan Al-Quran teman setia setiap hari.",
+  "Bacalah dan naiklah — darjatmu meningkat dengan setiap ayat.",
+  "Usaha hari ini adalah berkat esok hari.",
+  "Teruskan. Allah melihat setiap muka surat yang kamu baca."
+];
+
+/* ── STATE ── */
+function loadState() {
+  try {
+    const raw = localStorage.getItem('quran_tracker_v1');
+    if (raw) return JSON.parse(raw);
+  } catch (_) {}
+  return {
+    pagesRead: 0, dailyTarget: 10, todayPages: 0,
+    lastDate: null,
+    lastSession: { pages: null, time: null, date: null }
+  };
+}
+
+function saveState(s) {
+  localStorage.setItem('quran_tracker_v1', JSON.stringify(s));
+}
+
+let state = loadState();
+
+/* ── DOM ── */
+const $ = id => document.getElementById(id);
+const el = {
+  pctDisplay: $('pct-display'), ringFill: $('ring-fill'), ringLabel: $('ring-label'),
+  statRead: $('stat-read'), statRemain: $('stat-remain'),
+  motiveText: $('motive-text'),
+  targetDone: $('target-done'), targetGoal: $('target-goal'),
+  dailyBar: $('daily-bar'), targetMeta: $('target-meta'),
+  pagesInput: $('pages-input'), btnMinus: $('btn-minus'), btnPlus: $('btn-plus'), btnAdd: $('btn-add'),
+  juzukBadge: $('juzuk-badge'), juzukName: $('juzuk-name'), juzukPages: $('juzuk-pages'), juzGrid: $('juz-grid'),
+  sessPages: $('sess-pages'), sessTime: $('sess-time'), sessDate: $('sess-date'),
+  btnReset: $('btn-reset'), btnEditTgt: $('btn-edit-target'),
+  modalTarget: $('modal-target'), targetInput: $('target-input'),
+  modalCancel: $('modal-cancel'), modalSave: $('modal-save'),
+  modalReset: $('modal-reset'), resetCancel: $('reset-cancel'), resetConfirm: $('reset-confirm'),
+  toast: $('toast')
+};
+
+/* ── HELPERS ── */
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+function timeStr() { return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+function formatDate(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short' });
+}
+function clamp(v, mn, mx) { return Math.min(Math.max(v, mn), mx); }
+function getJuzForPage(page) {
+  for (let i = JUZ_START_PAGES.length - 1; i >= 0; i--) {
+    if (page >= JUZ_START_PAGES[i]) return i + 1;
+  }
+  return 1;
+}
+
+let toastTimer;
+function showToast(msg) {
+  el.toast.textContent = msg;
+  el.toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.toast.classList.remove('show'), 2800);
+}
+
+/* ── RENDER ── */
+function render() {
+  const { pagesRead, dailyTarget, todayPages, lastSession } = state;
+  const remaining = clamp(TOTAL_PAGES - pagesRead, 0, TOTAL_PAGES);
+  const pct = Math.min(Math.round((pagesRead / TOTAL_PAGES) * 100), 100);
+
+  el.pctDisplay.textContent = pct + '%';
+  el.pctDisplay.classList.toggle('complete', pct === 100);
+  el.statRead.textContent = pagesRead;
+  el.statRemain.textContent = remaining;
+  el.ringLabel.textContent = pagesRead;
+
+  const CIRC = 314.16;
+  el.ringFill.style.strokeDashoffset = CIRC - (pct / 100) * CIRC;
+
+  const dailyPct = Math.min(Math.round((todayPages / dailyTarget) * 100), 100);
+  el.targetDone.textContent = todayPages;
+  el.targetGoal.textContent = dailyTarget;
+  el.dailyBar.style.width = dailyPct + '%';
+  el.targetMeta.textContent = dailyPct + '% sasaran hari ini';
+
+  const currentPage = clamp(pagesRead + 1, 1, TOTAL_PAGES);
+  const currentJuz = getJuzForPage(currentPage);
+  const juzIdx = currentJuz - 1;
+  const juzStart = JUZ_START_PAGES[juzIdx];
+  const juzEnd = juzIdx < 29 ? JUZ_START_PAGES[juzIdx + 1] - 1 : TOTAL_PAGES;
+
+  el.juzukBadge.textContent = 'Juz ' + currentJuz;
+  el.juzukName.textContent = JUZ_NAMES[juzIdx];
+  el.juzukPages.textContent = 'Muka ' + juzStart + ' – ' + juzEnd;
+
+  renderJuzGrid(currentJuz, pagesRead);
+
+  el.sessPages.textContent = lastSession.pages !== null ? lastSession.pages + ' mk' : '—';
+  el.sessTime.textContent = lastSession.time || '—';
+  el.sessDate.textContent = formatDate(lastSession.date);
+
+  const motiveIdx = Math.floor((pct / 100) * (MOTIVES.length - 1));
+  el.motiveText.textContent = MOTIVES[motiveIdx] || MOTIVES[0];
+}
+
+function renderJuzGrid(currentJuz, pagesRead) {
+  el.juzGrid.innerHTML = '';
+  for (let i = 1; i <= 30; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'juz-dot';
+    dot.textContent = i;
+    const juzEndPage = i < 30 ? JUZ_START_PAGES[i] - 1 : TOTAL_PAGES;
+    const isComplete = pagesRead >= juzEndPage;
+    const isCurrent = i === currentJuz && !isComplete;
+    if (isComplete) dot.classList.add('completed');
+    if (isCurrent) dot.classList.add('current');
+    dot.title = 'Juz ' + i + ': ' + JUZ_NAMES[i - 1];
+    el.juzGrid.appendChild(dot);
+  }
+}
+
+/* ── DAILY RESET ── */
+function checkDailyReset() {
+  if (state.lastDate !== todayStr()) {
+    state.todayPages = 0;
+    state.lastDate = todayStr();
+    saveState(state);
+  }
+}
+
+/* ── ACTIONS ── */
+function addPages() {
+  const inputVal = parseInt(el.pagesInput.value, 10);
+  if (isNaN(inputVal) || inputVal < 1) { showToast('Sila masukkan sekurang-kurangnya 1 muka.'); return; }
+  if (state.pagesRead >= TOTAL_PAGES) { showToast('🎉 Anda telah khatam Al-Quran!'); return; }
+
+  const toAdd = clamp(inputVal, 1, TOTAL_PAGES - state.pagesRead);
+  state.pagesRead = clamp(state.pagesRead + toAdd, 0, TOTAL_PAGES);
+  state.todayPages += toAdd;
+  state.lastDate = todayStr();
+  state.lastSession = { pages: toAdd, time: timeStr(), date: state.lastDate };
+
+  saveState(state);
+  render();
+  el.pagesInput.value = 1;
+
+  if (state.pagesRead >= TOTAL_PAGES) {
+    showToast('🕌 Alhamdulillah! Anda telah khatam Al-Quran!');
+  } else {
+    showToast('+' + toAdd + ' muka dicatat ✓');
+  }
+  if (navigator.vibrate) navigator.vibrate(40);
+}
+
+function saveTarget() {
+  const val = parseInt(el.targetInput.value, 10);
+  if (isNaN(val) || val < 1 || val > TOTAL_PAGES) { showToast('Masukkan sasaran yang sah (1–604).'); return; }
+  state.dailyTarget = val;
+  saveState(state);
+  render();
+  closeModal(el.modalTarget);
+  showToast('Sasaran ditetapkan: ' + val + ' muka sehari.');
+}
+
+function resetAll() {
+  state = {
+    pagesRead: 0, dailyTarget: state.dailyTarget,
+    todayPages: 0, lastDate: todayStr(),
+    lastSession: { pages: null, time: null, date: null }
+  };
+  saveState(state);
+  render();
+  closeModal(el.modalReset);
+  showToast('Kemajuan diset semula. Bismillah, mulakan semula! 🤲');
+}
+
+/* ── MODALS ── */
+function openModal(b) { b.classList.add('active'); b.setAttribute('aria-hidden', 'false'); }
+function closeModal(b) { b.classList.remove('active'); b.setAttribute('aria-hidden', 'true'); }
+
+/* ── EVENTS ── */
+el.btnMinus.addEventListener('click', () => {
+  el.pagesInput.value = Math.max(1, (parseInt(el.pagesInput.value) || 1) - 1);
+});
+el.btnPlus.addEventListener('click', () => {
+  const max = TOTAL_PAGES - state.pagesRead;
+  el.pagesInput.value = Math.min(max, (parseInt(el.pagesInput.value) || 1) + 1);
+});
+el.pagesInput.addEventListener('input', () => {
+  const v = parseInt(el.pagesInput.value);
+  if (!isNaN(v)) el.pagesInput.value = clamp(v, 1, TOTAL_PAGES - state.pagesRead);
+});
+el.btnAdd.addEventListener('click', addPages);
+el.pagesInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addPages(); } });
+el.btnReset.addEventListener('click', () => openModal(el.modalReset));
+el.resetCancel.addEventListener('click', () => closeModal(el.modalReset));
+el.resetConfirm.addEventListener('click', resetAll);
+el.btnEditTgt.addEventListener('click', () => { el.targetInput.value = state.dailyTarget; openModal(el.modalTarget); });
+el.modalCancel.addEventListener('click', () => closeModal(el.modalTarget));
+el.modalSave.addEventListener('click', saveTarget);
+el.targetInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); saveTarget(); } });
+[el.modalTarget, el.modalReset].forEach(b => {
+  b.addEventListener('click', e => { if (e.target === b) closeModal(b); });
+});
+
+/* ── SVG GRADIENT ── */
+function injectSvgDefs() {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.style.cssText = 'position:absolute;width:0;height:0;';
+  svg.innerHTML = `<defs><linearGradient id="ring-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#00d68f"/>
+    <stop offset="100%" stop-color="#00a86b"/>
+  </linearGradient></defs>`;
+  document.body.insertBefore(svg, document.body.firstChild);
+}
+
+/* ── BOOT ── */
+function init() {
+  injectSvgDefs();
+  checkDailyReset();
+  render();
+}
+
+document.readyState === 'loading'
+  ? document.addEventListener('DOMContentLoaded', init)
+  : init();
+</script>
+</body>
+</html>
