@@ -207,6 +207,17 @@ body::before {
 .juz-badge { background:linear-gradient(135deg,#1a3a6e,#0f2550); border:1px solid rgba(74,158,255,.3); color:var(--blue); font-family:var(--font-mono); font-size:.7rem; padding:6px 10px; border-radius:var(--r-sm); white-space:nowrap; }
 .juz-info-name { font-size:.84rem; font-weight:600; color:var(--t1); }
 .juz-info-pg { font-size:.68rem; color:var(--t3); margin-top:2px; font-family:var(--font-mono); }
+
+/* ── Juz Arabic name (dashboard) ── */
+.juz-info-arabic {
+  font-family:var(--font-quran);
+  font-size:1.05rem;
+  color:var(--gold);
+  direction:rtl;
+  margin-bottom:2px;
+  line-height:1.4;
+}
+
 .juz-grid { display:grid; grid-template-columns:repeat(10,1fr); gap:5px; }
 .juz-dot {
   aspect-ratio:1; border-radius:6px;
@@ -300,29 +311,70 @@ body::before {
 .q-bm-btn:hover { border-color:var(--gold); color:var(--gold); background:var(--gold-dim); }
 .q-bm-btn.has-bm { border-color:rgba(244,201,93,.3); color:var(--gold); background:var(--gold-dim); }
 
-/* ── Quran display card — mushaf style ── */
+/* ═══════════════════════════════════════════════
+   QURAN DISPLAY — MUSHAF STYLE (REVAMPED)
+═══════════════════════════════════════════════ */
 .quran-card {
-  background:linear-gradient(160deg, #0b1309 0%, #060c08 100%);
-  border:1px solid rgba(0,214,143,.14);
+  background:linear-gradient(160deg, #f5f0e8 0%, #ede8dc 100%);
+  border:1px solid rgba(180,150,80,.25);
   border-radius:var(--r-lg); padding:0; margin-bottom:10px;
   overflow:hidden;
-  box-shadow: 0 0 40px rgba(0,214,143,.05), inset 0 1px 0 rgba(255,255,255,.04);
+  box-shadow:
+    0 0 0 1px rgba(180,150,80,.1),
+    0 8px 32px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.6);
 }
 
 /* Mushaf header */
 .quran-card-hd {
   display:flex; align-items:center; justify-content:space-between;
-  padding:12px 18px 11px;
-  border-bottom:1px solid rgba(0,214,143,.1);
-  background: rgba(0,0,0,.2);
+  padding:11px 18px 10px;
+  border-bottom:1px solid rgba(180,150,80,.2);
+  background:linear-gradient(90deg, rgba(180,150,80,.12), rgba(244,201,93,.08), rgba(180,150,80,.12));
 }
-.surah-name-lbl { font-family:var(--font-serif); font-size:.9rem; color:var(--gold); }
-.surah-meta-lbl { font-family:var(--font-mono); font-size:.6rem; color:var(--t3); }
+.surah-name-lbl { font-family:var(--font-serif); font-size:.88rem; color:#5a3e00; }
+.surah-meta-lbl { font-family:var(--font-mono); font-size:.58rem; color:#8a7040; }
+
+/* Juz info strip below header */
+.quran-juz-strip {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:7px 18px;
+  background:rgba(180,150,80,.07);
+  border-bottom:1px solid rgba(180,150,80,.12);
+}
+.quran-juz-strip-left {
+  display:flex; align-items:center; gap:6px;
+}
+.quran-juz-badge {
+  background:linear-gradient(135deg,#8a6a10,#6b4f08);
+  color:#f4e0a0;
+  font-family:var(--font-mono); font-size:.6rem; font-weight:600;
+  padding:3px 9px; border-radius:99px;
+  border:1px solid rgba(180,150,80,.3);
+}
+.quran-juz-arabic {
+  font-family:var(--font-quran);
+  font-size:.95rem;
+  color:#6b4f08;
+  direction:rtl;
+}
+/* Juz countdown on right */
+.quran-juz-countdown {
+  display:flex; align-items:center; gap:4px;
+}
+.quran-juz-cd-num {
+  font-family:var(--font-mono); font-size:.78rem; font-weight:600;
+  color:#8a6a10;
+}
+.quran-juz-cd-lbl {
+  font-size:.6rem; color:#a08040;
+}
 
 /* Mushaf page area */
 .mushaf-body {
   padding:18px 16px 22px;
   position:relative;
+  background:transparent;
 }
 
 /* Decorative corner borders like Quran pages */
@@ -330,80 +382,81 @@ body::before {
 .mushaf-body::after {
   content:'';
   position:absolute;
-  width:24px; height:24px;
-  border-color:rgba(244,201,93,.2);
+  width:28px; height:28px;
+  border-color:rgba(180,150,80,.35);
   border-style:solid;
 }
 .mushaf-body::before {
   top:8px; right:8px;
-  border-width:1px 1px 0 0;
+  border-width:1.5px 1.5px 0 0;
 }
 .mushaf-body::after {
   bottom:8px; left:8px;
-  border-width:0 0 1px 1px;
+  border-width:0 0 1.5px 1.5px;
 }
 
 /* Surah header (when new surah starts on this page) */
 .surah-header {
-  background:linear-gradient(90deg, transparent, rgba(244,201,93,.06), transparent);
-  border-top:1px solid rgba(244,201,93,.15);
-  border-bottom:1px solid rgba(244,201,93,.15);
+  background:linear-gradient(90deg, transparent, rgba(180,150,80,.12), transparent);
+  border-top:1px solid rgba(180,150,80,.25);
+  border-bottom:1px solid rgba(180,150,80,.25);
   padding:14px 16px; text-align:center; margin-bottom:16px; margin:0 -16px 16px;
 }
-.surah-header-arabic { font-family:var(--font-quran); font-size:1.4rem; color:var(--gold); direction:rtl; margin-bottom:3px; }
-.surah-header-info { font-size:.62rem; color:var(--t3); letter-spacing:.06em; text-transform:uppercase; }
+.surah-header-arabic { font-family:var(--font-quran); font-size:1.5rem; color:#5a3e00; direction:rtl; margin-bottom:3px; }
+.surah-header-info { font-size:.62rem; color:#8a7040; letter-spacing:.06em; text-transform:uppercase; }
 
 /* Basmalah */
 .basmalah {
-  font-family:var(--font-quran); font-size:1.4rem; color:rgba(244,201,93,.85);
+  font-family:var(--font-quran); font-size:1.5rem; color:#5a3e00;
   text-align:center; direction:rtl; margin-bottom:18px; padding-bottom:14px;
-  border-bottom:1px solid rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(180,150,80,.15);
   letter-spacing:.02em;
 }
 
-/* Arabic text block — mushaf style */
+/* Arabic text block — mushaf style, dark warm text on cream */
 .arabic-block {
   font-family:var(--font-quran);
-  font-size:1.62rem;
-  line-height:2.55;
+  font-size:1.68rem;
+  line-height:2.7;
   text-align:justify;
   direction:rtl;
-  color:rgba(240,244,255,.93);
+  color:#1a1008;
   word-break:break-word;
   letter-spacing:.01em;
 }
+
 /* Page number footer */
 .mushaf-footer {
   display:flex; align-items:center; justify-content:center;
-  padding:10px 18px 12px;
-  border-top:1px solid rgba(0,214,143,.08);
-  background:rgba(0,0,0,.15);
+  padding:9px 18px 11px;
+  border-top:1px solid rgba(180,150,80,.15);
+  background:rgba(180,150,80,.06);
 }
 .mushaf-pg-num {
-  font-family:var(--font-mono); font-size:.7rem; color:var(--t3);
-  border:1px solid var(--border); border-radius:99px; padding:2px 12px;
+  font-family:var(--font-mono); font-size:.7rem; color:#8a7040;
+  border:1px solid rgba(180,150,80,.25); border-radius:99px; padding:2px 12px;
 }
 
 /* Ayah number ornament */
 .ayah-num {
   display:inline-flex; align-items:center; justify-content:center;
-  font-family:var(--font-mono); font-size:.55rem; color:var(--gold);
-  background:rgba(244,201,93,.1); border:1px solid rgba(244,201,93,.2);
+  font-family:var(--font-mono); font-size:.55rem; color:#7a5800;
+  background:rgba(180,150,80,.18); border:1px solid rgba(180,150,80,.35);
   border-radius:99px; padding:1px 6px; margin:0 3px; vertical-align:middle;
   direction:ltr; line-height:1.6;
 }
 
 /* Loading spinner */
 .spinner-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:40px 0; }
-.spinner { width:36px; height:36px; border:3px solid var(--border); border-top-color:var(--green); border-radius:50%; animation:spin .8s linear infinite; }
+.spinner { width:36px; height:36px; border:3px solid rgba(180,150,80,.2); border-top-color:#8a6a10; border-radius:50%; animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
-.spinner-lbl { font-size:.78rem; color:var(--t3); }
+.spinner-lbl { font-size:.78rem; color:#8a7040; }
 
 /* Error state */
 .error-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:36px 16px; text-align:center; }
 .error-icon { font-size:2rem; }
-.error-msg { font-size:.8rem; color:var(--t2); line-height:1.5; }
-.btn-retry { background:var(--blue-dim); border:1px solid rgba(74,158,255,.3); border-radius:var(--r-md); color:var(--blue); font-family:var(--font); font-size:.85rem; font-weight:600; padding:10px 20px; cursor:pointer; transition:all .2s; }
+.error-msg { font-size:.8rem; color:#8a7040; line-height:1.5; }
+.btn-retry { background:rgba(74,158,255,.12); border:1px solid rgba(74,158,255,.3); border-radius:var(--r-md); color:var(--blue); font-family:var(--font); font-size:.85rem; font-weight:600; padding:10px 20px; cursor:pointer; transition:all .2s; }
 .btn-retry:hover { background:rgba(74,158,255,.2); }
 
 /* Mark button */
@@ -495,6 +548,81 @@ body::before {
 .sess-icon { font-size:1rem; flex-shrink:0; }
 .sess-val { font-family:var(--font-mono); font-size:.8rem; font-weight:500; color:var(--t1); line-height:1.2; }
 .sess-lbl { font-size:.58rem; color:var(--t3); text-transform:uppercase; letter-spacing:.06em; }
+
+/* ═══════════════════════════════════════════════
+   TAB 4: SURAH LAZIM (TERSIMPAN)
+═══════════════════════════════════════════════ */
+.lazim-card {
+  background:linear-gradient(160deg,#f5f0e8 0%,#ede8dc 100%);
+  border:1px solid rgba(180,150,80,.25);
+  border-radius:var(--r-lg); padding:0; margin-bottom:10px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.lazim-card-hd {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 18px;
+  background:linear-gradient(90deg, rgba(180,150,80,.12), rgba(244,201,93,.08), rgba(180,150,80,.12));
+  border-bottom:1px solid rgba(180,150,80,.2);
+}
+.lazim-card-title { font-family:var(--font-serif); font-size:.9rem; color:#5a3e00; }
+.lazim-card-badge { font-size:.58rem; color:#8a7040; background:rgba(180,150,80,.15); border:1px solid rgba(180,150,80,.25); border-radius:99px; padding:2px 8px; font-family:var(--font-mono); }
+.lazim-body { padding:16px; }
+.lazim-arabic {
+  font-family:var(--font-quran);
+  font-size:1.65rem;
+  line-height:2.65;
+  text-align:justify;
+  direction:rtl;
+  color:#1a1008;
+  word-break:break-word;
+}
+.lazim-divider {
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(180,150,80,.3), transparent);
+  margin:14px 0;
+}
+.lazim-section-lbl {
+  font-size:.6rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:#8a7040; margin-bottom:10px; text-align:center;
+}
+.lazim-footer {
+  padding:8px 18px 11px;
+  border-top:1px solid rgba(180,150,80,.15);
+  background:rgba(180,150,80,.05);
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.lazim-footer-txt { font-size:.6rem; color:#a08040; font-family:var(--font-mono); }
+.lazim-offline-badge {
+  background:rgba(0,214,143,.1); border:1px solid rgba(0,214,143,.2);
+  color:var(--green); font-size:.58rem; font-family:var(--font-mono);
+  border-radius:99px; padding:2px 8px;
+}
+
+/* Lazim tab selectors */
+.lazim-sel-row { display:flex; gap:7px; margin-bottom:12px; }
+.lazim-sel-btn {
+  flex:1; background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:var(--r-sm); color:var(--t2); font-family:var(--font);
+  font-size:.78rem; font-weight:600; padding:9px 8px;
+  cursor:pointer; transition:all .2s;
+}
+.lazim-sel-btn.active { border-color:rgba(244,201,93,.4); color:var(--gold); background:var(--gold-dim); }
+.lazim-sel-btn:hover:not(.active) { border-color:var(--border-hi); color:var(--t1); }
+
+/* Surah list for lazim tab */
+.lazim-surah-list { display:flex; flex-direction:column; gap:8px; margin-bottom:10px; }
+.lazim-surah-item {
+  background:var(--bg-card2); border:1px solid var(--border);
+  border-radius:var(--r-md); padding:12px 16px;
+  cursor:pointer; transition:all .2s;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.lazim-surah-item:hover { border-color:var(--gold); background:var(--gold-dim); }
+.lazim-surah-item.active { border-color:rgba(244,201,93,.45); background:var(--gold-dim); }
+.lazim-surah-item-name { font-size:.88rem; font-weight:600; color:var(--t1); }
+.lazim-surah-item-sub { font-size:.65rem; color:var(--t3); margin-top:2px; }
+.lazim-surah-item-arabic { font-family:var(--font-quran); font-size:1.1rem; color:var(--gold); direction:rtl; }
 
 /* ═══════════════════════════════════════════════
    BUTTONS
@@ -645,6 +773,7 @@ body::before {
       <div class="juz-hd">
         <div class="juz-badge" id="juz-badge">Juz 1</div>
         <div>
+          <div class="juz-info-arabic" id="juz-arabic">الم</div>
           <div class="juz-info-name" id="juz-name">Al-Fatihah & Al-Baqarah</div>
           <div class="juz-info-pg" id="juz-pg">Muka 1 – 20</div>
         </div>
@@ -720,6 +849,17 @@ body::before {
         <span class="surah-name-lbl" id="q-surah-name">Al-Fatihah</span>
         <span class="surah-meta-lbl" id="q-surah-meta">Surah 1 · 7 Ayat</span>
       </div>
+      <!-- Juz strip -->
+      <div class="quran-juz-strip" id="quran-juz-strip">
+        <div class="quran-juz-strip-left">
+          <span class="quran-juz-badge" id="q-juz-badge">Juz 1</span>
+          <span class="quran-juz-arabic" id="q-juz-arabic">الم</span>
+        </div>
+        <div class="quran-juz-countdown">
+          <span class="quran-juz-cd-num" id="q-juz-cd-num">20</span>
+          <span class="quran-juz-cd-lbl">muka berbaki</span>
+        </div>
+      </div>
       <div class="mushaf-body" id="quran-body">
         <!-- content injected by JS -->
       </div>
@@ -781,6 +921,54 @@ body::before {
     <div class="page-bot"></div>
   </div>
 
+  <!-- TAB 4: SURAH LAZIM -->
+  <div class="page" id="pg-lazim">
+    <div class="page-top"></div>
+
+    <!-- Selector -->
+    <div class="lazim-sel-row">
+      <button class="lazim-sel-btn active" id="lz-btn-kahfi-awal" onclick="showLazim('kahfi-awal')">
+        Al-Kahfi (Awal)
+      </button>
+      <button class="lazim-sel-btn" id="lz-btn-kahfi-akhir" onclick="showLazim('kahfi-akhir')">
+        Al-Kahfi (Akhir)
+      </button>
+    </div>
+
+    <!-- Info card -->
+    <div class="card" style="padding:14px 16px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div class="lbl" style="margin-bottom:2px" id="lz-surah-lbl">Surah Al-Kahfi</div>
+          <div style="font-size:.7rem;color:var(--t2)" id="lz-ayah-lbl">10 Ayat Pertama (1–10)</div>
+        </div>
+        <span class="lazim-offline-badge">✓ Tersimpan Offline</span>
+      </div>
+    </div>
+
+    <!-- Arabic display -->
+    <div class="lazim-card" id="lazim-display-card">
+      <div class="lazim-card-hd">
+        <span class="lazim-card-title" id="lz-title">Al-Kahfi — 10 Ayat Pertama</span>
+        <span class="lazim-card-badge" id="lz-badge">Ayat 1–10</span>
+      </div>
+      <div class="lazim-body">
+        <div class="lazim-section-lbl" id="lz-section-lbl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+        <div class="lazim-divider"></div>
+        <div class="lazim-arabic" id="lz-arabic-text">
+          <!-- injected by JS -->
+        </div>
+      </div>
+      <div class="lazim-footer">
+        <span class="lazim-footer-txt">Surah 18 · Al-Kahfi</span>
+        <span style="color:rgba(180,150,80,.3);font-size:.6rem">·</span>
+        <span class="lazim-offline-badge">Tersedia Offline</span>
+      </div>
+    </div>
+
+    <div class="page-bot"></div>
+  </div>
+
   <!-- ═══════ BOTTOM TAB BAR ═══════ -->
   <nav class="tabbar">
     <button class="tab-btn active" data-tab="dash">
@@ -794,6 +982,10 @@ body::before {
     <button class="tab-btn" data-tab="log">
       <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
       Log
+    </button>
+    <button class="tab-btn" data-tab="lazim">
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Lazim
     </button>
   </nav>
 
@@ -892,6 +1084,16 @@ const JUZ_START = [
   401,421,441,461,481,501,521,541,561,581
 ];
 
+/* Juz Arabic opening words (first few words of each juz) */
+const JUZ_ARABIC = [
+  'الم', 'سَيَقُولُ', 'تِلْكَ الرُّسُلُ', 'لَن تَنَالُوا', 'وَالْمُحْصَنَاتُ',
+  'لَا يُحِبُّ اللَّهُ', 'وَإِذَا سَمِعُوا', 'وَلَوْ أَنَّنَا', 'قَالَ الْمَلَأُ', 'وَاعْلَمُوا',
+  'يَعْتَذِرُونَ', 'وَمَا مِن دَآبَّةٍ', 'وَمَا أُبَرِّئُ', 'رُبَمَا', 'سُبْحَانَ الَّذِي',
+  'قَالَ أَلَمْ', 'اقْتَرَبَ', 'قَدْ أَفْلَحَ', 'وَقَالَ الَّذِينَ', 'أَمَّنْ خَلَقَ',
+  'اتْلُ مَا أُوحِيَ', 'وَمَن يَقْنُتْ', 'وَمَالِيَ', 'فَمَنْ أَظْلَمُ', 'إِلَيْهِ يُرَدُّ',
+  'حم', 'قَالَ فَمَا خَطْبُكُمْ', 'قَدْ سَمِعَ اللَّهُ', 'تَبَارَكَ الَّذِي', 'عَمَّ يَتَسَاءَلُونَ'
+];
+
 const JUZ_NAMES = [
   "Al-Fatihah & Al-Baqarah","Sayaqool","Tilkal Rusul","Lan Tanaloo","Wal Muhsanaat",
   "La Yuhibbullah","Wa Idha Sami'oo","Wa Law Annana","Qalal Mala'u","Wa A'lamoo",
@@ -963,6 +1165,35 @@ const SURAHS = [
 
 const NO_BASMALAH = new Set([9]);
 
+/* ── SURAH AL-KAHFI — HARDCODED ──────────────────────────── */
+/* 10 Ayat Pertama (1-10) */
+const KAHFI_AWAL = [
+  { num:1,  text:'ٱلْحَمْدُ لِلَّهِ ٱلَّذِىٓ أَنزَلَ عَلَىٰ عَبْدِهِ ٱلْكِتَـٰبَ وَلَمْ يَجْعَل لَّهُۥ عِوَجًا' },
+  { num:2,  text:'قَيِّمًا لِّيُنذِرَ بَأْسًا شَدِيدًا مِّن لَّدُنْهُ وَيُبَشِّرَ ٱلْمُؤْمِنِينَ ٱلَّذِينَ يَعْمَلُونَ ٱلصَّـٰلِحَـٰتِ أَنَّ لَهُمْ أَجْرًا حَسَنًا' },
+  { num:3,  text:'مَّـٰكِثِينَ فِيهِ أَبَدًا' },
+  { num:4,  text:'وَيُنذِرَ ٱلَّذِينَ قَالُوا۟ ٱتَّخَذَ ٱللَّهُ وَلَدًا' },
+  { num:5,  text:'مَّا لَهُم بِهِۦ مِنْ عِلْمٍ وَلَا لِءَابَآئِهِمْ ۚ كَبُرَتْ كَلِمَةً تَخْرُجُ مِنْ أَفْوَٰهِهِمْ ۚ إِن يَقُولُونَ إِلَّا كَذِبًا' },
+  { num:6,  text:'فَلَعَلَّكَ بَـٰخِعٌ نَّفْسَكَ عَلَىٰٓ ءَاثَـٰرِهِمْ إِن لَّمْ يُؤْمِنُوا۟ بِهَـٰذَا ٱلْحَدِيثِ أَسَفًا' },
+  { num:7,  text:'إِنَّا جَعَلْنَا مَا عَلَى ٱلْأَرْضِ زِينَةً لَّهَا لِنَبْلُوَهُمْ أَيُّهُمْ أَحْسَنُ عَمَلًا' },
+  { num:8,  text:'وَإِنَّا لَجَـٰعِلُونَ مَا عَلَيْهَا صَعِيدًا جُرُزًا' },
+  { num:9,  text:'أَمْ حَسِبْتَ أَنَّ أَصْحَـٰبَ ٱلْكَهْفِ وَٱلرَّقِيمِ كَانُوا۟ مِنْ ءَايَـٰتِنَا عَجَبًا' },
+  { num:10, text:'إِذْ أَوَى ٱلْفِتْيَةُ إِلَى ٱلْكَهْفِ فَقَالُوا۟ رَبَّنَآ ءَاتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا' }
+];
+
+/* 10 Ayat Terakhir (101-110) */
+const KAHFI_AKHIR = [
+  { num:101, text:'ٱلَّذِينَ كَانَتْ أَعْيُنُهُمْ فِى غِطَآءٍ عَن ذِكْرِى وَكَانُوا۟ لَا يَسْتَطِيعُونَ سَمْعًا' },
+  { num:102, text:'أَفَحَسِبَ ٱلَّذِينَ كَفَرُوٓا۟ أَن يَتَّخِذُوا۟ عِبَادِى مِن دُونِىٓ أَوْلِيَآءَ ۚ إِنَّآ أَعْتَدْنَا جَهَنَّمَ لِلْكَـٰفِرِينَ نُزُلًا' },
+  { num:103, text:'قُلْ هَلْ نُنَبِّئُكُم بِٱلْأَخْسَرِينَ أَعْمَـٰلًا' },
+  { num:104, text:'ٱلَّذِينَ ضَلَّ سَعْيُهُمْ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا وَهُمْ يَحْسَبُونَ أَنَّهُمْ يُحْسِنُونَ صُنْعًا' },
+  { num:105, text:'أُو۟لَـٰٓئِكَ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ رَبِّهِمْ وَلِقَآئِهِۦ فَحَبِطَتْ أَعْمَـٰلُهُمْ فَلَا نُقِيمُ لَهُمْ يَوْمَ ٱلْقِيَـٰمَةِ وَزْنًا' },
+  { num:106, text:'ذَٰلِكَ جَزَآؤُهُمْ جَهَنَّمُ بِمَا كَفَرُوا۟ وَٱتَّخَذُوٓا۟ ءَايَـٰتِى وَرُسُلِى هُزُوًا' },
+  { num:107, text:'إِنَّ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ كَانَتْ لَهُمْ جَنَّـٰتُ ٱلْفِرْدَوْسِ نُزُلًا' },
+  { num:108, text:'خَـٰلِدِينَ فِيهَا لَا يَبْغُونَ عَنْهَا حِوَلًا' },
+  { num:109, text:'قُل لَّوْ كَانَ ٱلْبَحْرُ مِدَادًا لِّكَلِمَـٰتِ رَبِّى لَنَفِدَ ٱلْبَحْرُ قَبْلَ أَن تَنفَدَ كَلِمَـٰتُ رَبِّى وَلَوْ جِئْنَا بِمِثْلِهِۦ مَدَدًا' },
+  { num:110, text:'قُلْ إِنَّمَآ أَنَا۠ بَشَرٌ مِّثْلُكُمْ يُوحَىٰٓ إِلَىَّ أَنَّمَآ إِلَـٰهُكُمْ إِلَـٰهٌ وَٰحِدٌ ۖ فَمَن كَانَ يَرْجُوا۟ لِقَآءَ رَبِّهِۦ فَلْيَعْمَلْ عَمَلًا صَـٰلِحًا وَلَا يُشْرِكْ بِعِبَادَةِ رَبِّهِۦٓ أَحَدًۢا' }
+];
+
 /* ── STATE ────────────────────────────────────────────────── */
 const DEFAULT_STATE = {
   pagesRead: 0,
@@ -971,8 +1202,8 @@ const DEFAULT_STATE = {
   lastDate: null,
   currentQuranPage: 1,
   lastSession: { pages: null, time: null, date: null },
-  bookmarks: [],       // [{page, surah, addedAt}]
-  recentPages: []      // last 10 visited pages
+  bookmarks: [],
+  recentPages: []
 };
 
 function loadState() {
@@ -1007,6 +1238,7 @@ const el = {
   progFill:   $('prog-fill'),
   tMeta:      $('t-meta'),
   juzBadge:   $('juz-badge'),
+  juzArabic:  $('juz-arabic'),
   juzName:    $('juz-name'),
   juzPg:      $('juz-pg'),
   juzGrid:    $('juz-grid'),
@@ -1033,6 +1265,10 @@ const el = {
   btnRecent:    $('btn-recent'),
   btnBmView:    $('btn-bookmark-view'),
   btnBmAdd:     $('btn-bookmark-add'),
+  // Juz strip
+  qJuzBadge:    $('q-juz-badge'),
+  qJuzArabic:   $('q-juz-arabic'),
+  qJuzCdNum:    $('q-juz-cd-num'),
   // Log tab
   pgInp:        $('pg-inp'),
   btnMinus:     $('btn-minus'),
@@ -1062,7 +1298,14 @@ const el = {
   modalBm:      $('modal-bookmarks'),
   bmList:       $('bm-list'),
   bmCancel:     $('bm-cancel'),
-  toast:        $('toast')
+  toast:        $('toast'),
+  // Lazim
+  lzArabicText: $('lz-arabic-text'),
+  lzTitle:      $('lz-title'),
+  lzBadge:      $('lz-badge'),
+  lzSectionLbl: $('lz-section-lbl'),
+  lzSurahLbl:   $('lz-surah-lbl'),
+  lzAyahLbl:    $('lz-ayah-lbl'),
 };
 
 /* ── HELPERS ───────────────────────────────────────────────── */
@@ -1090,6 +1333,17 @@ function getJuzForPage(page) {
     if (page >= JUZ_START[i]) return i + 1;
   }
   return 1;
+}
+
+function getJuzEndPage(juzNum) {
+  const i = juzNum - 1;
+  return i < 29 ? JUZ_START[i + 1] - 1 : TOTAL;
+}
+
+function getJuzPagesRemaining(page) {
+  const juzNum = getJuzForPage(page);
+  const endPage = getJuzEndPage(juzNum);
+  return endPage - page; // pages remaining after current
 }
 
 let toastTimer;
@@ -1127,10 +1381,11 @@ function renderDash() {
   const curJuz  = getJuzForPage(curPage);
   const ji      = curJuz - 1;
   const jStart  = JUZ_START[ji];
-  const jEnd    = ji < 29 ? JUZ_START[ji + 1] - 1 : TOTAL;
-  el.juzBadge.textContent = 'Juz ' + curJuz;
-  el.juzName.textContent  = JUZ_NAMES[ji];
-  el.juzPg.textContent    = 'Muka ' + jStart + ' – ' + jEnd;
+  const jEnd    = getJuzEndPage(curJuz);
+  el.juzBadge.textContent  = 'Juz ' + curJuz;
+  el.juzArabic.textContent = JUZ_ARABIC[ji];
+  el.juzName.textContent   = JUZ_NAMES[ji];
+  el.juzPg.textContent     = 'Muka ' + jStart + ' – ' + jEnd;
 
   renderJuzGrid(curJuz, pagesRead);
 
@@ -1145,7 +1400,7 @@ function renderJuzGrid(curJuz, pagesRead) {
     const dot  = document.createElement('div');
     dot.className = 'juz-dot';
     dot.textContent = i;
-    const endPg  = i < 30 ? JUZ_START[i] - 1 : TOTAL;
+    const endPg  = getJuzEndPage(i);
     const isDone = pagesRead >= endPg;
     const isCur  = i === curJuz && !isDone;
     if (isDone) dot.classList.add('done');
@@ -1170,12 +1425,31 @@ function renderTargetBar() {
   }
 }
 
-/* ── RECENT PAGES ──────────────────────────────────────────── */
+/* ── JUZ STRIP (in quran card) ─────────────────────────────── */
+function renderJuzStrip(page) {
+  const juzNum = getJuzForPage(page);
+  const ji     = juzNum - 1;
+  const endPg  = getJuzEndPage(juzNum);
+  const remaining = endPg - page; // pages remaining after current in this juz
+
+  el.qJuzBadge.textContent  = 'Juz ' + juzNum;
+  el.qJuzArabic.textContent = JUZ_ARABIC[ji];
+  el.qJuzCdNum.textContent  = remaining > 0 ? remaining : '✓';
+  // Update label text based on whether done
+  const cdLbl = document.querySelector('.quran-juz-cd-lbl');
+  if (cdLbl) {
+    cdLbl.textContent = remaining > 0 ? 'muka berbaki' : 'Juzuk selesai!';
+    cdLbl.style.color = remaining === 0 ? '#00d68f' : '#a08040';
+  }
+  el.qJuzCdNum.style.color = remaining === 0 ? '#00d68f' : '#8a6a10';
+}
+
+/* ── RECENT PAGES (max 3) ──────────────────────────────────── */
 function addToRecent(page) {
   const surah = getSurahForPage(page);
   state.recentPages = state.recentPages.filter(r => r.page !== page);
   state.recentPages.unshift({ page, surah: surah.n, visitedAt: new Date().toISOString() });
-  if (state.recentPages.length > 10) state.recentPages = state.recentPages.slice(0, 10);
+  if (state.recentPages.length > 3) state.recentPages = state.recentPages.slice(0, 3);
   saveState();
 }
 
@@ -1209,7 +1483,7 @@ function renderBookmarkSheet() {
   const { bookmarks, recentPages } = state;
 
   if (recentPages.length > 0) {
-    html += `<div class="bm-section-lbl">📖 Muka Terkini</div>`;
+    html += `<div class="bm-section-lbl">📖 Muka Terkini (3 Terakhir)</div>`;
     recentPages.forEach(r => {
       html += `
         <div class="bm-item" data-page="${r.page}" data-type="recent">
@@ -1225,7 +1499,7 @@ function renderBookmarkSheet() {
   }
 
   if (bookmarks.length > 0) {
-    html += `<div class="bm-section-lbl" style="margin-top:${recentPages.length>0?'14px':'0'}">🔖 Penanda Saya</div>`;
+    html += `<div class="bm-section-lbl" style="margin-top:${recentPages.length>0?'14px':'0'}">🔖 Penanda Sambungan</div>`;
     bookmarks.forEach(b => {
       html += `
         <div class="bm-item" data-page="${b.page}" data-type="bookmark">
@@ -1247,7 +1521,6 @@ function renderBookmarkSheet() {
 
   el.bmList.innerHTML = html;
 
-  // Events
   el.bmList.querySelectorAll('.bm-item').forEach(item => {
     item.addEventListener('click', e => {
       if (e.target.closest('[data-bm-del]')) return;
@@ -1275,14 +1548,14 @@ function renderJuzSheet(filter) {
   JUZ_NAMES.forEach((name, i) => {
     const juzNum = i + 1;
     const startPg = JUZ_START[i];
-    const endPg = i < 29 ? JUZ_START[i+1] - 1 : TOTAL;
+    const endPg = getJuzEndPage(juzNum);
     if (f && !name.toLowerCase().includes(f) && !String(juzNum).includes(f)) return;
     const div = document.createElement('div');
     div.className = 'sel-item';
     div.innerHTML = `
       <div class="sel-item-left">
         <div class="sel-item-name">Juzuk ${juzNum}</div>
-        <div class="sel-item-sub">${name}</div>
+        <div class="sel-item-sub">${JUZ_ARABIC[i]} &nbsp;·&nbsp; ${name}</div>
       </div>
       <div class="sel-item-right">Muka ${startPg}</div>`;
     div.addEventListener('click', () => {
@@ -1334,6 +1607,9 @@ async function renderQuranPage(page) {
   el.btnPrev.disabled = page <= 1;
   el.btnNext.disabled = page >= TOTAL;
   el.mushafPgNum.textContent = toArabicNum(page);
+
+  // Juz strip
+  renderJuzStrip(page);
 
   // Mark button state
   const isRead = page <= state.pagesRead;
@@ -1418,6 +1694,34 @@ function renderAyahs(page, verses, newSurahs) {
   }
 
   el.quranBody.innerHTML = html;
+}
+
+/* ── LAZIM TAB ─────────────────────────────────────────────── */
+let currentLazim = 'kahfi-awal';
+
+function showLazim(type) {
+  currentLazim = type;
+  const isAwal = type === 'kahfi-awal';
+  const ayat   = isAwal ? KAHFI_AWAL : KAHFI_AKHIR;
+
+  // Toggle active button
+  $('lz-btn-kahfi-awal').classList.toggle('active', isAwal);
+  $('lz-btn-kahfi-akhir').classList.toggle('active', !isAwal);
+
+  // Update labels
+  el.lzTitle.textContent    = isAwal ? 'Al-Kahfi — 10 Ayat Pertama' : 'Al-Kahfi — 10 Ayat Terakhir';
+  el.lzBadge.textContent    = isAwal ? 'Ayat 1–10' : 'Ayat 101–110';
+  el.lzSurahLbl.textContent = 'Surah Al-Kahfi';
+  el.lzAyahLbl.textContent  = isAwal ? '10 Ayat Pertama (1–10)' : '10 Ayat Terakhir (101–110)';
+  el.lzSectionLbl.textContent = isAwal ? 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ' : 'سورة الكهف';
+
+  // Render arabic text
+  let html = `<div class="lazim-arabic">`;
+  ayat.forEach(v => {
+    html += `${v.text} <span class="ayah-num">${toArabicNum(v.num)}</span> `;
+  });
+  html += `</div>`;
+  el.lzArabicText.innerHTML = html;
 }
 
 /* ── ACTIONS ───────────────────────────────────────────────── */
@@ -1506,12 +1810,13 @@ function checkDailyReset() {
 const TABS = {
   dash:  { btn: null, page: $('pg-dash')  },
   quran: { btn: null, page: $('pg-quran') },
-  log:   { btn: null, page: $('pg-log')   }
+  log:   { btn: null, page: $('pg-log')   },
+  lazim: { btn: null, page: $('pg-lazim') }
 };
 
 document.querySelectorAll('.tab-btn').forEach(btn => {
   const key = btn.dataset.tab;
-  TABS[key].btn = btn;
+  if (TABS[key]) TABS[key].btn = btn;
   btn.addEventListener('click', () => switchTab(key));
 });
 
@@ -1620,6 +1925,7 @@ function init() {
   renderDash();
   renderTargetBar();
   renderQuranPage(state.currentQuranPage);
+  showLazim('kahfi-awal');
   console.log('%c☽ Quran Tracker v3', 'color:#00d68f;font-size:13px;font-weight:bold');
 }
 
