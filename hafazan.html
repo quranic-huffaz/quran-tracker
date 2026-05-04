@@ -42,7 +42,7 @@
         .app-container {
             width: 100%;
             max-width: 500px;
-            padding-bottom: 80px; /* Space for bottom nav */
+            padding-bottom: 80px;
         }
 
         /* NAVIGATION TABS */
@@ -71,9 +71,7 @@
             width: 40%;
         }
 
-        .nav-btn.active {
-            color: var(--accent);
-        }
+        .nav-btn.active { color: var(--accent); }
 
         .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
@@ -147,23 +145,35 @@
         /* QURAN API SECTION */
         .quran-container { text-align: right; direction: rtl; }
         .ayah-box {
-            padding: 15px;
+            padding: 20px;
             border-bottom: 1px solid var(--border);
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             line-height: 2.5;
             font-family: 'Times New Roman', serif;
         }
-        .ayah-box.highlight {
-            background: var(--accent-soft);
-            border-right: 4px solid var(--accent);
-        }
-        .ayah-num {
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin-left: 10px;
+        .ayah-box.highlight { background: var(--accent-soft); border-right: 4px solid var(--accent); }
+        
+        /* REPETITION COUNTER */
+        .counter-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
             direction: ltr;
-            display: inline-block;
+            justify-content: flex-end;
         }
+        .counter-btn {
+            background: var(--bg-deep);
+            color: var(--text-main);
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            width: auto;
+            text-align: center;
+        }
+        .counter-btn span { color: var(--accent); font-weight: bold; }
+
+        .ayah-num { font-size: 0.8rem; color: var(--accent); margin-left: 10px; direction: ltr; display: inline-block; }
 
         /* LISTS */
         .scroll-area { max-height: 250px; overflow-y: auto; }
@@ -224,7 +234,12 @@
 
         <div class="card">
             <h2>📥 Rekod Hafazan</h2>
-            <div class="form-group"><label>Nama Surah</label><input type="text" id="input-surah" placeholder="Cth: Al-Mulk"></div>
+            <div class="form-group">
+                <label>Pilih Surah</label>
+                <select id="input-surah-dropdown">
+                    <option value="">Sila Pilih Surah...</option>
+                </select>
+            </div>
             <div class="form-group"><label>Jumlah Ayat</label><input type="number" id="input-ayat" placeholder="Cth: 10"></div>
             <button onclick="app.addHafazan()">Simpan Hafazan</button>
         </div>
@@ -244,13 +259,13 @@
     <div id="tab-quran" class="tab-content">
         <header>
             <h1>BACAAN QURAN</h1>
-            <p class="subtitle">Highlight mengikut target harian anda</p>
+            <p class="subtitle">Highlight & Sistem 20x Pengulangan</p>
         </header>
 
         <div class="card">
             <div class="form-group">
                 <label>Pilih Surah</label>
-                <select id="surah-select" onchange="quranApp.loadSurah()">
+                <select id="surah-select-quran" onchange="quranApp.loadSurah()">
                     <option value="">Muat turun senarai...</option>
                 </select>
             </div>
@@ -302,13 +317,15 @@
         },
 
         addHafazan() {
-            const surah = document.getElementById('input-surah').value.trim();
+            const selectEl = document.getElementById('input-surah-dropdown');
+            const surahName = selectEl.options[selectEl.selectedIndex].text;
             const ayat = parseInt(document.getElementById('input-ayat').value);
-            if (!surah || isNaN(ayat)) return alert("Isi data!");
-            this.data.push({ surah, ayat, date: new Date().toDateString(), timestamp: Date.now() });
+            
+            if (!selectEl.value || isNaN(ayat)) return alert("Sila pilih surah dan jumlah ayat!");
+            
+            this.data.push({ surah: surahName, ayat, date: new Date().toDateString(), timestamp: Date.now() });
             localStorage.setItem('elite_hafazan_logs', JSON.stringify(this.data));
             this.renderAll();
-            document.getElementById('input-surah').value = '';
             document.getElementById('input-ayat').value = '';
         },
 
@@ -367,21 +384,29 @@
         }
     };
 
-    // --- NEW QURAN API LOGIC ---
+    // --- QURAN API & COUNTER LOGIC ---
     const quranApp = {
         currentAyahs: [],
-        
+        counters: {}, // To track local session counts
+
         async loadSurahList() {
             try {
                 const res = await fetch('https://api.alquran.cloud/v1/surah');
                 const json = await res.json();
-                const select = document.getElementById('surah-select');
-                select.innerHTML = json.data.map(s => `<option value="${s.number}">${s.number}. ${s.englishName}</option>`).join('');
+                
+                // Populate Dashboard Dropdown
+                const dashSelect = document.getElementById('input-surah-dropdown');
+                dashSelect.innerHTML = '<option value="">Sila Pilih Surah...</option>' + 
+                    json.data.map(s => `<option value="${s.number}">${s.number}. ${s.englishName}</option>`).join('');
+
+                // Populate Quran Tab Dropdown
+                const quranSelect = document.getElementById('surah-select-quran');
+                quranSelect.innerHTML = json.data.map(s => `<option value="${s.number}">${s.number}. ${s.englishName}</option>`).join('');
             } catch (e) { console.error("API Error"); }
         },
 
         async loadSurah() {
-            const id = document.getElementById('surah-select').value;
+            const id = document.getElementById('surah-select-quran').value;
             const display = document.getElementById('quran-display');
             display.innerHTML = "Memuatkan ayat...";
             
@@ -389,9 +414,18 @@
                 const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`);
                 const json = await res.json();
                 this.currentAyahs = json.data.ayahs;
+                this.counters = {}; // Reset counters for new surah
                 document.getElementById('quran-info').innerText = `Target anda: ${app.target} ayat harian.`;
                 this.renderHighlight();
             } catch (e) { display.innerHTML = "Gagal memuatkan surah."; }
+        },
+
+        updateCount(index, type) {
+            const key = `${index}_${type}`;
+            this.counters[key] = (this.counters[key] || 0) + 1;
+            if(this.counters[key] > 20) this.counters[key] = 0; // Reset after 20
+            
+            document.getElementById(`cnt-${key}`).innerText = this.counters[key];
         },
 
         renderHighlight() {
@@ -399,11 +433,23 @@
             if(!this.currentAyahs.length) return;
 
             display.innerHTML = this.currentAyahs.map((a, index) => {
-                // Highlight logic: if current index < daily target
                 const isHighlighted = (index < app.target) ? 'highlight' : '';
+                const keyTengok = `${index}_tengok`;
+                const keyTanpa = `${index}_tanpa`;
+
                 return `
                     <div class="ayah-box ${isHighlighted}">
-                        ${a.text} <span class="ayah-num">(${a.numberInSurah})</span>
+                        <div>${a.text} <span class="ayah-num">(${a.numberInSurah})</span></div>
+                        ${isHighlighted ? `
+                            <div class="counter-row">
+                                <button class="counter-btn" onclick="quranApp.updateCount(${index}, 'tengok')">
+                                    Tengok: <span id="cnt-${keyTengok}">${this.counters[keyTengok] || 0}</span>/20
+                                </button>
+                                <button class="counter-btn" onclick="quranApp.updateCount(${index}, 'tanpa')">
+                                    Tanpa Tengok: <span id="cnt-${keyTanpa}">${this.counters[keyTanpa] || 0}</span>/20
+                                </button>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
             }).join('');
