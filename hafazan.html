@@ -3,457 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hafazan Tracker ELITE</title>
+    <title>Hafazan Quran Tracker ELITE</title>
     <style>
+        /* 
+           CSS DESIGN SYSTEM 
+           Theme: Fintech Dark (Slate & Gold)
+        */
         :root {
-            --bg-body: #0f172a;
+            --bg-deep: #0f172a;
             --bg-card: #1e293b;
             --accent: #fbbf24; /* Gold */
+            --accent-soft: rgba(251, 191, 36, 0.1);
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
             --border: #334155;
             --success: #10b981;
+            --radius: 14px;
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-body);
+            background-color: var(--bg-deep);
             color: var(--text-main);
-            padding: 20px;
+            font-family: var(--font-main);
             line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            padding-bottom: 50px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        /* TYPOGRAPHY */
+        h1 { font-size: 1.5rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+        h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .subtitle { color: var(--text-dim); font-size: 0.85rem; margin-top: -10px; margin-bottom: 25px; }
 
-        header h1 {
-            color: var(--accent);
-            font-size: 1.8rem;
-            letter-spacing: 1px;
-        }
-
-        /* Dashboard Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
+        /* COMPONENTS: CARDS */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 16px;
+            border-radius: var(--radius);
             padding: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.2s ease;
         }
 
-        .stat-card {
+        /* GRID STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 15px 10px;
             text-align: center;
         }
 
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--accent);
-            display: block;
-        }
+        .stat-val { display: block; font-size: 1.25rem; font-weight: 800; color: var(--accent); }
+        .stat-label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 0.5px; }
 
-        .stat-label {
-            color: var(--text-dim);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin-top: 15px;
-        }
-
-        .progress-bar-bg {
-            background: var(--border);
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background: var(--accent);
-            height: 100%;
-            width: 0%;
-            transition: width 0.5s ease-in-out;
-        }
-
-        /* Form */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            color: var(--text-dim);
-        }
-
+        /* FORM ELEMENTS */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 6px; font-weight: 600; }
         input {
             width: 100%;
-            padding: 12px;
+            padding: 12px 16px;
             background: #0f172a;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             color: white;
+            font-size: 1rem;
             outline: none;
+            transition: border-color 0.3s;
         }
-
-        input:focus {
-            border-color: var(--accent);
-        }
+        input:focus { border-color: var(--accent); }
 
         button {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background: var(--accent);
             color: #000;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        button:active { transform: scale(0.98); }
+
+        /* PROGRESS BAR */
+        .progress-wrapper { margin-top: 10px; }
+        .progress-meta { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; }
+        .progress-bg { background: var(--border); height: 8px; border-radius: 10px; overflow: hidden; }
+        .progress-fill { 
+            background: linear-gradient(90deg, var(--accent), #fcd34d); 
+            height: 100%; 
+            width: 0%; 
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        button:hover {
-            opacity: 0.9;
-        }
+        /* LISTS & HISTORY */
+        .scroll-area { max-height: 250px; overflow-y: auto; padding-right: 5px; }
+        .scroll-area::-webkit-scrollbar { width: 4px; }
+        .scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
 
-        /* List Styling */
         .list-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
+            align-items: center;
+            padding: 12px 0;
             border-bottom: 1px solid var(--border);
         }
+        .list-item:last-child { border-bottom: none; }
+        .list-info h4 { font-size: 0.95rem; font-weight: 600; }
+        .list-info p { font-size: 0.75rem; color: var(--text-dim); }
+        .list-badge { background: var(--accent-soft); color: var(--accent); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
 
-        .list-item:last-child {
-            border: none;
-        }
+        /* REVISION ENGINE */
+        .revision-card { border: 1px dashed var(--accent); background: rgba(251, 191, 36, 0.03); }
+        .rev-item { display: inline-block; padding: 6px 12px; background: var(--bg-deep); border-radius: 8px; font-size: 0.8rem; margin-right: 8px; margin-top: 8px; border: 1px solid var(--border); }
 
-        .badge {
-            background: var(--border);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
+        /* CHART */
+        canvas { width: 100% !important; height: 160px !important; margin-top: 10px; }
 
-        canvas {
-            width: 100% !important;
-            height: 200px !important;
-        }
+        /* ANIMATIONS */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.4s ease forwards; }
 
-        .revision-box {
-            background: rgba(251, 191, 36, 0.1);
-            border: 1px dashed var(--accent);
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 10px;
-        }
-
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-        }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="app-container">
     <header>
-        <h1>HAFAZAN TRACKER <span style="color: white;">ELITE</span></h1>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <h1>HAFAZAN ELITE</h1>
+            <div id="streak-badge" style="font-size: 0.9rem;">🔥 0 Day</div>
+        </div>
+        <p class="subtitle">Disiplin Hafazan & Murajaah</p>
     </header>
 
-    <div class="grid">
-        <!-- Input Section -->
-        <div class="card">
-            <h3 style="margin-bottom:15px;">Input Hafazan</h3>
-            <div class="form-group">
-                <label>Nama Surah</label>
-                <input type="text" id="surahName" placeholder="Contoh: Al-Mulk">
-            </div>
-            <div class="form-group">
-                <label>Jumlah Ayat</label>
-                <input type="number" id="ayatCount" placeholder="0">
-            </div>
-            <button onclick="addHafazan()">Simpan Hafazan</button>
-        </div>
-
-        <!-- Target Section -->
-        <div class="card">
-            <h3 style="margin-bottom:15px;">Target Harian</h3>
-            <div class="form-group">
-                <label>Set Target (Ayat)</label>
-                <input type="number" id="dailyTargetInput" onchange="updateTarget()" placeholder="5">
-            </div>
-            <div class="progress-container">
-                <div style="display:flex; justify-content: space-between; margin-bottom: 5px;">
-                    <span id="progressText" class="stat-label">0 / 0 ayat</span>
-                    <span id="progressPercent" class="stat-label" style="color:var(--accent)">0%</span>
-                </div>
-                <div class="progress-bar-bg">
-                    <div id="progressBar" class="progress-bar-fill"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats Section -->
-    <div class="grid">
-        <div class="card stat-card">
+    <!-- STATS OVERVIEW -->
+    <div class="stats-grid">
+        <div class="stat-box">
             <span class="stat-label">Total Ayat</span>
-            <span id="totalAyat" class="stat-value">0</span>
+            <span id="stat-total" class="stat-val">0</span>
         </div>
-        <div class="card stat-card">
+        <div class="stat-box">
             <span class="stat-label">Hari Ini</span>
-            <span id="todayAyat" class="stat-value">0</span>
+            <span id="stat-today" class="stat-val">0</span>
         </div>
-        <div class="card stat-card">
-            <span class="stat-label">Streak</span>
-            <span id="streakCount" class="stat-value">0 🔥</span>
+        <div class="stat-box">
+            <span class="stat-label">Target</span>
+            <span id="stat-target-display" class="stat-val">0</span>
         </div>
     </div>
 
-    <div class="grid">
-        <!-- Graph Section -->
-        <div class="card" style="grid-column: span 1;">
-            <h3 style="margin-bottom:15px;">Prestasi 7 Hari</h3>
-            <canvas id="chartCanvas"></canvas>
+    <!-- TARGET & PROGRESS -->
+    <div class="card fade-in">
+        <h2>🎯 Target Harian</h2>
+        <div class="form-group" style="display: flex; gap: 10px;">
+            <input type="number" id="input-target" placeholder="Set target ayat...">
+            <button onclick="app.setTarget()" style="width: 80px; padding: 10px; font-size: 0.8rem;">Set</button>
         </div>
-        
-        <!-- Revision Section -->
-        <div class="card">
-            <h3 style="margin-bottom:10px;">Cadangan Murajaah</h3>
-            <p class="stat-label">Ulang surah yang paling banyak dihafal:</p>
-            <div id="revisionList" class="revision-box">
-                -
+        <div class="progress-wrapper">
+            <div class="progress-meta">
+                <span id="progress-text">0 / 0 ayat hari ini</span>
+                <span id="progress-percent" style="color: var(--accent); font-weight: bold;">0%</span>
+            </div>
+            <div class="progress-bg">
+                <div id="progress-fill" class="progress-bar-fill"></div>
             </div>
         </div>
     </div>
 
-    <div class="grid">
-        <!-- Ranking Section -->
-        <div class="card">
-            <h3 style="margin-bottom:15px;">Ranking Surah</h3>
-            <div id="rankingList"></div>
+    <!-- INPUT HAFAZAN -->
+    <div class="card fade-in" style="animation-delay: 0.1s;">
+        <h2>📥 Rekod Hafazan</h2>
+        <div class="form-group">
+            <label>Nama Surah</label>
+            <input type="text" id="input-surah" placeholder="Cth: Al-Mulk">
         </div>
-        
-        <!-- History Section -->
-        <div class="card">
-            <h3 style="margin-bottom:15px;">Sejarah Hafazan</h3>
-            <div id="historyList" style="max-height: 300px; overflow-y: auto;"></div>
+        <div class="form-group">
+            <label>Jumlah Ayat</label>
+            <input type="number" id="input-ayat" placeholder="Cth: 10">
+        </div>
+        <button onclick="app.addHafazan()">Simpan Hafazan</button>
+    </div>
+
+    <!-- ANALYTICS: CHART -->
+    <div class="card fade-in" style="animation-delay: 0.2s;">
+        <h2>📈 Analitik 7 Hari</h2>
+        <canvas id="analyticsChart"></canvas>
+    </div>
+
+    <!-- OPTIMIZATION: REVISION -->
+    <div class="card revision-card fade-in" style="animation-delay: 0.3s;">
+        <h2>🔄 Cadangan Murajaah</h2>
+        <p style="font-size: 0.75rem; color: var(--text-dim);">Ulang surah dengan hafazan terbanyak untuk pengukuhan:</p>
+        <div id="revision-list">
+            <!-- JS Rendered -->
+        </div>
+    </div>
+
+    <!-- RANKING & HISTORY GRID -->
+    <div class="card fade-in" style="animation-delay: 0.4s;">
+        <h2>🏆 Ranking Surah</h2>
+        <div id="ranking-list" class="scroll-area">
+            <!-- JS Rendered -->
+        </div>
+    </div>
+
+    <div class="card fade-in" style="animation-delay: 0.5s;">
+        <h2>📜 Sejarah Hafazan</h2>
+        <div id="history-list" class="scroll-area">
+            <!-- JS Rendered -->
         </div>
     </div>
 </div>
 
 <script>
-    let logs = JSON.parse(localStorage.getItem('hafazanLogs')) || [];
-    let target = localStorage.getItem('hafazanTarget') || 5;
+    /**
+     * HAFAZAN ELITE - CORE ENGINE
+     * Clean Architecture Approach
+     */
 
-    // Initialize
-    window.onload = () => {
-        document.getElementById('dailyTargetInput').value = target;
-        renderAll();
-        checkReminder();
-    };
+    const app = {
+        // --- DATA STATE ---
+        data: JSON.parse(localStorage.getItem('elite_hafazan_logs')) || [],
+        target: parseInt(localStorage.getItem('elite_hafazan_target')) || 10,
 
-    function addHafazan() {
-        const surah = document.getElementById('surahName').value;
-        const ayat = parseInt(document.getElementById('ayatCount').value);
-        const date = new Date().toDateString();
+        init() {
+            this.renderAll();
+            this.setupReminder();
+        },
 
-        if (!surah || !ayat) {
-            alert("Sila isi nama surah dan jumlah ayat!");
-            return;
-        }
+        // --- CORE ACTIONS ---
+        addHafazan() {
+            const surahEl = document.getElementById('input-surah');
+            const ayatEl = document.getElementById('input-ayat');
+            
+            const surah = surahEl.value.trim();
+            const ayat = parseInt(ayatEl.value);
+            const date = new Date().toDateString();
 
-        logs.push({ surah, ayat, date });
-        localStorage.setItem('hafazanLogs', JSON.stringify(logs));
-        
-        // Reset input
-        document.getElementById('surahName').value = '';
-        document.getElementById('ayatCount').value = '';
-        
-        renderAll();
-    }
-
-    function updateTarget() {
-        target = document.getElementById('dailyTargetInput').value;
-        localStorage.setItem('hafazanTarget', target);
-        renderAll();
-    }
-
-    function renderAll() {
-        updateStats();
-        renderHistory();
-        renderRanking();
-        renderRevision();
-        drawChart();
-    }
-
-    function updateStats() {
-        const todayDate = new Date().toDateString();
-        
-        // Total Ayat
-        const total = logs.reduce((sum, item) => sum + item.ayat, 0);
-        document.getElementById('totalAyat').innerText = total;
-
-        // Today Ayat
-        const todayTotal = logs
-            .filter(item => item.date === todayDate)
-            .reduce((sum, item) => sum + item.ayat, 0);
-        document.getElementById('todayAyat').innerText = todayTotal;
-
-        // Progress Bar
-        const percent = Math.min((todayTotal / target) * 100, 100);
-        document.getElementById('progressBar').style.width = percent + '%';
-        document.getElementById('progressText').innerText = `${todayTotal} / ${target} ayat`;
-        document.getElementById('progressPercent').innerText = Math.round(percent) + '%';
-
-        // Streak
-        document.getElementById('streakCount').innerText = calculateStreak() + ' 🔥';
-    }
-
-    function calculateStreak() {
-        if (logs.length === 0) return 0;
-        
-        const dates = [...new Set(logs.map(l => l.date))].map(d => new Date(d));
-        dates.sort((a, b) => b - a);
-
-        let streak = 0;
-        let today = new Date();
-        today.setHours(0,0,0,0);
-
-        let currentCheck = today;
-
-        for (let i = 0; i < dates.length; i++) {
-            let logDate = new Date(dates[i]);
-            logDate.setHours(0,0,0,0);
-
-            let diff = (currentCheck - logDate) / (1000 * 60 * 60 * 24);
-
-            if (diff === 0 || diff === 1) {
-                streak++;
-                currentCheck = logDate;
-            } else {
-                break;
+            if (!surah || isNaN(ayat) || ayat <= 0) {
+                alert("⚠️ Mohon masukkan nama surah dan jumlah ayat yang sah.");
+                return;
             }
-        }
-        return streak;
-    }
 
-    function renderHistory() {
-        const container = document.getElementById('historyList');
-        container.innerHTML = logs.slice().reverse().map(item => `
-            <div class="list-item">
-                <span><strong>${item.surah}</strong> <br><small style="color:var(--text-dim)">${item.date}</small></span>
-                <span class="badge">${item.ayat} Ayat</span>
-            </div>
-        `).join('');
-    }
+            const newRecord = { surah, ayat, date, timestamp: new Date().getTime() };
+            this.data.push(newRecord);
+            this.save();
+            
+            // UI Feedback
+            surahEl.value = '';
+            ayatEl.value = '';
+            this.renderAll();
+        },
 
-    function renderRanking() {
-        const ranking = {};
-        logs.forEach(item => {
-            ranking[item.surah] = (ranking[item.surah] || 0) + item.ayat;
-        });
+        setTarget() {
+            const val = parseInt(document.getElementById('input-target').value);
+            if (val > 0) {
+                this.target = val;
+                localStorage.setItem('elite_hafazan_target', val);
+                this.renderAll();
+                document.getElementById('input-target').value = '';
+            }
+        },
 
-        const sorted = Object.entries(ranking).sort((a, b) => b[1] - a[1]);
-        
-        document.getElementById('rankingList').innerHTML = sorted.map(([name, count]) => `
-            <div class="list-item">
-                <span>${name}</span>
-                <span style="color:var(--accent)">${count} Ayat</span>
-            </div>
-        `).join('');
-    }
+        save() {
+            localStorage.setItem('elite_hafazan_logs', JSON.stringify(this.data));
+        },
 
-    function renderRevision() {
-        const ranking = {};
-        logs.forEach(item => {
-            ranking[item.surah] = (ranking[item.surah] || 0) + item.ayat;
-        });
+        // --- LOGIC / COMPUTATION ---
+        getTotalAyat() {
+            return this.data.reduce((sum, item) => sum + item.ayat, 0);
+        },
 
-        const top3 = Object.entries(ranking)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 3)
-            .map(item => item[0]);
+        getTodayAyat() {
+            const today = new Date().toDateString();
+            return this.data
+                .filter(item => item.date === today)
+                .reduce((sum, item) => sum + item.ayat, 0);
+        },
 
-        document.getElementById('revisionList').innerText = top3.length > 0 ? top3.join(' • ') : "Tiada data.";
-    }
+        getStreak() {
+            if (this.data.length === 0) return 0;
+            
+            const uniqueDates = [...new Set(this.data.map(i => i.date))].map(d => new Date(d));
+            uniqueDates.sort((a, b) => b - a);
 
-    function checkReminder() {
-        const todayDate = new Date().toDateString();
-        const hasToday = logs.some(item => item.date === todayDate);
-        
-        if (!hasToday) {
+            let streak = 0;
+            let checkDate = new Date();
+            checkDate.setHours(0,0,0,0);
+
+            for (let i = 0; i < uniqueDates.length; i++) {
+                const logDate = uniqueDates[i];
+                logDate.setHours(0,0,0,0);
+                
+                const diff = (checkDate - logDate) / (1000 * 60 * 60 * 24);
+                
+                if (diff === 0 || diff === 1) {
+                    streak++;
+                    checkDate = logDate;
+                } else {
+                    break;
+                }
+            }
+            return streak;
+        },
+
+        // --- UI RENDERING ---
+        renderAll() {
+            // Stats
+            document.getElementById('stat-total').innerText = this.getTotalAyat();
+            const todayAyat = this.getTodayAyat();
+            document.getElementById('stat-today').innerText = todayAyat;
+            document.getElementById('stat-target-display').innerText = this.target;
+            document.getElementById('streak-badge').innerText = `🔥 ${this.getStreak()} Day`;
+
+            // Progress Bar
+            const percent = Math.min(Math.round((todayAyat / this.target) * 100), 100);
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-text').innerText = `${todayAyat} / ${this.target} ayat hari ini`;
+            document.getElementById('progress-percent').innerText = percent + '%';
+
+            this.renderHistory();
+            this.renderRanking();
+            this.renderRevision();
+            this.renderChart();
+        },
+
+        renderHistory() {
+            const container = document.getElementById('history-list');
+            const sorted = [...this.data].sort((a, b) => b.timestamp - a.timestamp);
+            
+            container.innerHTML = sorted.length ? sorted.map(item => `
+                <div class="list-item">
+                    <div class="list-info">
+                        <h4>${item.surah}</h4>
+                        <p>${item.date}</p>
+                    </div>
+                    <span class="list-badge">${item.ayat} Ayat</span>
+                </div>
+            `).join('') : '<p style="text-align:center; color:var(--text-dim); font-size:0.8rem;">Tiada rekod lagi.</p>';
+        },
+
+        renderRanking() {
+            const container = document.getElementById('ranking-list');
+            const counts = {};
+            this.data.forEach(item => {
+                counts[item.surah] = (counts[item.surah] || 0) + item.ayat;
+            });
+
+            const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+            
+            container.innerHTML = sorted.length ? sorted.map(([name, total]) => `
+                <div class="list-item">
+                    <div class="list-info"><h4>${name}</h4></div>
+                    <span style="color: var(--accent); font-weight: bold; font-size: 0.85rem;">${total} Ayat</span>
+                </div>
+            `).join('') : '<p style="text-align:center; color:var(--text-dim); font-size:0.8rem;">-</p>';
+        },
+
+        renderRevision() {
+            const counts = {};
+            this.data.forEach(item => counts[item.surah] = (counts[item.surah] || 0) + item.ayat);
+            const top3 = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 3);
+            
+            document.getElementById('revision-list').innerHTML = top3.length ? 
+                top3.map(i => `<span class="rev-item">📖 ${i[0]}</span>`).join('') : 
+                '<p style="margin-top:10px; font-size:0.8rem;">Mula menghafal untuk cadangan.</p>';
+        },
+
+        // --- ANALYTICS ENGINE (CANVAS) ---
+        renderChart() {
+            const canvas = document.getElementById('analyticsChart');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.offsetWidth;
+            const height = canvas.offsetHeight;
+            canvas.width = width;
+            canvas.height = height;
+
+            // Prepare 7 days data
+            const last7Days = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                const dateStr = d.toDateString();
+                const total = this.data
+                    .filter(item => item.date === dateStr)
+                    .reduce((sum, item) => sum + item.ayat, 0);
+                last7Days.push({ label: d.toLocaleDateString('ms-MY', { weekday: 'short' }), val: total });
+            }
+
+            const maxVal = Math.max(...last7Days.map(d => d.val), 5);
+            const barWidth = (width / 7) - 10;
+            const chartBottom = height - 20;
+
+            ctx.clearRect(0, 0, width, height);
+
+            last7Days.forEach((day, i) => {
+                const barHeight = (day.val / maxVal) * (height - 50);
+                const x = i * (width / 7) + 5;
+                const y = chartBottom - barHeight;
+
+                // Draw Bar
+                ctx.fillStyle = day.val > 0 ? '#fbbf24' : '#334155';
+                this.roundRect(ctx, x, y, barWidth, barHeight, 5);
+                ctx.fill();
+
+                // Draw Label
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '10px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(day.label, x + barWidth / 2, height - 5);
+                
+                if (day.val > 0) {
+                    ctx.fillStyle = '#fff';
+                    ctx.fillText(day.val, x + barWidth / 2, y - 5);
+                }
+            });
+        },
+
+        roundRect(ctx, x, y, width, height, radius) {
+            if (height < 1) height = 1; // Minimum visual bar
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height);
+            ctx.lineTo(x, y + height);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        },
+
+        setupReminder() {
             setTimeout(() => {
-                alert("Anda belum hafal hari ini! Jom capai target anda hari ini.");
+                const today = new Date().toDateString();
+                const hasToday = this.data.some(i => i.date === today);
+                if (!hasToday) {
+                    alert("⚠️ Anda belum hafal hari ini! Jom kekalkan momentum dan streak anda.");
+                }
             }, 2000);
         }
-    }
+    };
 
-    // Manual Bar Chart using Canvas
-    function drawChart() {
-        const canvas = document.getElementById('chartCanvas');
-        const ctx = canvas.getContext('2d');
-        const days = 7;
-        const data = [];
-        
-        // Get last 7 days data
-        for (let i = days - 1; i >= 0; i--) {
-            const d = new Date();
-            d.setDate(d.getDate() - i);
-            const dateStr = d.toDateString();
-            const count = logs
-                .filter(l => l.date === dateStr)
-                .reduce((sum, item) => sum + item.ayat, 0);
-            data.push(count);
-        }
+    // BOOTSTRAP APP
+    app.init();
 
-        const maxData = Math.max(...data, 5);
-        const padding = 30;
-        const width = canvas.width = canvas.offsetWidth;
-        const height = canvas.height = 200;
-        const barWidth = (width - padding * 2) / days;
-
-        ctx.clearRect(0, 0, width, height);
-
-        data.forEach((val, i) => {
-            const barHeight = (val / maxData) * (height - padding * 2);
-            const x = padding + i * barWidth;
-            const y = height - padding - barHeight;
-
-            // Draw Bar
-            ctx.fillStyle = val > 0 ? '#fbbf24' : '#334155';
-            ctx.fillRect(x + 5, y, barWidth - 10, barHeight);
-
-            // Draw Value
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '10px Arial';
-            ctx.fillText(val, x + barWidth/2 - 5, y - 5);
-        });
-    }
 </script>
-
 </body>
 </html>
