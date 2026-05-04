@@ -4,19 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hafazan Tracker - Pemula</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-deep: #0f172a;
             --bg-card: #1e293b;
+            --bg-quran: #ffffff;
             --accent: #fbbf24; 
             --accent-soft: rgba(251, 191, 36, 0.1);
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
+            --text-quran: #1a1a1a;
             --border: #334155;
             --success: #10b981;
             --danger: #ef4444;
             --radius: 14px;
-            --font-main: 'Inter', system-ui, sans-serif;
+            --font-main: 'Inter', sans-serif;
+            --font-quran: 'Amiri', serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -29,7 +33,7 @@
             border-top: 1px solid var(--border); display: flex;
             justify-content: space-around; padding: 12px 0; z-index: 1000;
         }
-        .nav-btn { background: none; border: none; color: var(--text-dim); font-weight: 600; font-size: 0.75rem; cursor: pointer; flex: 1; }
+        .nav-btn { background: none; border: none; color: var(--text-dim); font-weight: 600; font-size: 0.7rem; cursor: pointer; flex: 1; text-transform: uppercase; }
         .nav-btn.active { color: var(--accent); }
         .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
@@ -38,16 +42,10 @@
         .subtitle { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 20px; }
         .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 15px; }
 
-        .quote-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-left: 4px solid var(--accent); position: relative; overflow: hidden;
-        }
-        .quote-text { font-style: italic; font-size: 0.85rem; color: var(--text-main); margin-bottom: 10px; line-height: 1.5; }
+        .quote-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-left: 4px solid var(--accent); position: relative; }
+        .quote-text { font-style: italic; font-size: 0.8rem; color: var(--text-main); margin-bottom: 10px; }
         .quote-author { font-size: 0.75rem; color: var(--accent); font-weight: 700; }
-        .btn-link { 
-            display: inline-block; margin-top: 10px; padding: 5px 12px; background: var(--accent-soft); 
-            color: var(--accent); border-radius: 6px; text-decoration: none; font-size: 0.7rem; font-weight: bold; 
-        }
+        .btn-link { display: inline-block; margin-top: 10px; padding: 5px 12px; background: var(--accent-soft); color: var(--accent); border-radius: 6px; text-decoration: none; font-size: 0.7rem; font-weight: bold; }
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; text-align: center; }
@@ -57,26 +55,26 @@
         .form-group { margin-bottom: 10px; }
         label { display: block; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 4px; font-weight: 600; }
         input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: white; font-size: 0.85rem; outline: none; }
-        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
         .btn-primary { background: var(--accent); color: #000; }
         .btn-success { background: var(--success); color: white; }
 
-        .quran-container { text-align: right; direction: rtl; }
-        .ayah-box { padding: 20px; border-bottom: 1px solid var(--border); font-size: 1.6rem; line-height: 2.3; font-family: 'Times New Roman', serif; transition: background 0.3s; }
-        .ayah-box.highlight { background: var(--accent-soft); border-right: 4px solid var(--accent); }
+        .quran-container { text-align: right; direction: rtl; background: var(--bg-quran); color: var(--text-quran); padding: 0 !important; overflow: hidden; border: none; }
+        .ayah-box { padding: 25px 20px; border-bottom: 1px solid #eee; font-size: 1.8rem; line-height: 2.8; font-family: var(--font-quran); transition: background 0.3s; }
+        .ayah-box.highlight { background: #fdf6e3; border-right: 5px solid var(--accent); }
         
-        .counter-section { direction: ltr; margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
-        .counter-row { display: flex; align-items: center; justify-content: space-between; background: var(--bg-deep); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); }
-        .counter-label { font-size: 0.75rem; color: var(--text-dim); font-weight: 600; }
-        .counter-controls { display: flex; align-items: center; gap: 10px; }
-        .c-btn { width: 28px; height: 28px; padding: 0; background: var(--border); color: white; border-radius: 5px; font-size: 1rem; }
-        .c-count { min-width: 50px; text-align: center; font-weight: 800; color: var(--accent); }
-        .noti-success { font-size: 0.7rem; color: var(--success); text-align: center; margin-top: 4px; font-weight: bold; }
+        .counter-section { direction: ltr; margin-top: 15px; display: flex; flex-direction: column; gap: 6px; }
+        .counter-card { background: #f8fafc; padding: 10px; border-radius: 10px; border: 1px solid #e2e8f0; }
+        .counter-row { display: flex; align-items: center; justify-content: space-between; }
+        .counter-label { font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; }
+        .counter-controls { display: flex; align-items: center; gap: 8px; }
+        .c-btn { width: 26px; height: 26px; border: none; background: #cbd5e1; color: #1e293b; border-radius: 6px; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+        .c-count { min-width: 60px; text-align: center; font-weight: 800; color: #1e293b; font-size: 0.85rem; cursor: pointer; }
+        .noti-success { font-size: 0.65rem; color: var(--success); text-align: center; margin-top: 4px; font-weight: bold; }
 
         .list-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
         .list-meta { display: flex; justify-content: space-between; align-items: flex-start; }
-        .list-actions { display: flex; gap: 8px; margin-top: 8px; }
-        .btn-small { padding: 4px 10px; font-size: 0.65rem; border-radius: 4px; width: auto; }
+        .btn-small { padding: 4px 10px; font-size: 0.65rem; border-radius: 4px; width: auto; margin-right: 5px; }
         .btn-del { background: var(--danger); color: white; }
         .btn-mur { background: var(--success); color: white; }
 
@@ -101,13 +99,29 @@
         </div>
 
         <div class="stats-grid">
-            <div class="stat-box"><span class="stat-label">Hafazan</span><span id="stat-total" class="stat-val">0</span></div>
+            <div class="stat-box"><span class="stat-label">Saba'</span><span id="stat-total" class="stat-val">0</span></div>
             <div class="stat-box"><span class="stat-label">Murajaah</span><span id="stat-murajaah" class="stat-val">0</span></div>
             <div class="stat-box"><span class="stat-label">Streak</span><span id="streak-badge" class="stat-val">0</span></div>
         </div>
 
+        <div class="card" style="background: linear-gradient(to right, #1e293b, #334155); border: 1px solid var(--accent);">
+            <h2 style="font-size: 0.9rem; color: var(--accent);">📊 Kemajuan Hafazan Saba'</h2>
+            <div id="kemajuan-saba" style="margin-top: 10px;">
+                <p style="font-size: 0.75rem; color: var(--text-dim);">Tiada rekod saba' terkini.</p>
+            </div>
+        </div>
+
         <div class="card">
-            <h2>🎯 Target Hafazan Baru</h2>
+            <h2>🏆 Ranking Murajaah</h2>
+            <div id="ranking-list"></div>
+        </div>
+    </div>
+
+    <!-- SABA' TAB -->
+    <div id="tab-saba-nav" class="tab-content">
+        <header><h1>Hafazan Saba'</h1><p class="subtitle">Rekod hafazan baru anda hari ini.</p></header>
+        <div class="card">
+            <h2>🎯 Target Saba' Baru</h2>
             <div class="form-group">
                 <label>Pilih Surah</label>
                 <select id="target-surah-select" onchange="app.handleSurahChange('target-surah-select', 'target-start-ayat')"></select>
@@ -116,24 +130,17 @@
                 <div class="form-group"><label>Mula Ayat</label><select id="target-start-ayat"></select></div>
                 <div class="form-group"><label>Jumlah Ayat</label><input type="number" id="input-target-count" value="5"></div>
             </div>
-            <button onclick="app.setAndHafal('baru')" class="btn-success">Jom Hafal & Rekod</button>
+            <button onclick="app.setAndHafal('baru')" class="btn-success">Jom Hafal & Rekod Saba'</button>
         </div>
-
         <div class="card">
-            <h2>📜 Sejarah Hafazan & Cadangan Murajaah</h2>
-            <div id="history-list" class="scroll-area" style="max-height: 300px; overflow-y: auto;"></div>
-        </div>
-
-        <div class="card">
-            <h2>🏆 Ranking Murajaah</h2>
-            <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 10px;">Surah yang paling kerap diulang.</p>
-            <div id="ranking-list"></div>
+            <h2>📜 Sejarah Saba'</h2>
+            <div id="history-list" class="scroll-area" style="max-height: 400px; overflow-y: auto;"></div>
         </div>
     </div>
 
     <!-- MURAJAAH TAB -->
     <div id="tab-murajaah-nav" class="tab-content">
-        <header><h1>Sistem Murajaah</h1><p class="subtitle">Mantapkan hafazan lama anda.</p></header>
+        <header><h1>Murajaah</h1><p class="subtitle">Mantapkan hafazan lama anda.</p></header>
         <div class="card">
             <div class="form-group">
                 <label>Mod Murajaah</label>
@@ -142,8 +149,6 @@
                     <option value="juzuk">Ikut Juzuk</option>
                 </select>
             </div>
-
-            <!-- Surah Mode -->
             <div id="m-mode-surah">
                 <div class="form-group">
                     <label>Pilih Surah</label>
@@ -154,36 +159,25 @@
                     <div class="form-group"><label>Jumlah Ayat</label><input type="number" id="m-count-ayat" value="10"></div>
                 </div>
             </div>
-
-            <!-- Juzuk Mode -->
             <div id="m-mode-juzuk" style="display:none;">
-                <div class="form-group">
-                    <label>Pilih Juzuk</label>
-                    <select id="m-juzuk-select">
-                        <script>for(let i=1; i<=30; i++) document.write(`<option value="${i}">Juzuk ${i}</option>`);</script>
-                    </select>
-                </div>
-                <div class="form-group"><label>Mula Muka Surat (Optional)</label><input type="number" id="m-page-start" placeholder="Cth: 1"></div>
+                <div class="form-group"><label>Pilih Juzuk</label><select id="m-juzuk-select"><script>for(let i=1; i<=30; i++) document.write(`<option value="${i}">Juzuk ${i}</option>`);</script></select></div>
+                <div class="form-group"><label>Mula Muka Surat</label><input type="number" id="m-page-start" placeholder="1"></div>
             </div>
-
             <button onclick="app.setAndHafal('murajaah')" class="btn-primary" style="margin-top: 15px;">Murajaah Sekarang</button>
         </div>
-        <div class="card">
-            <h2>📊 Log Murajaah</h2>
-            <div id="murajaah-history" class="scroll-area"></div>
-        </div>
+        <div class="card"><h2>📊 Log Murajaah</h2><div id="murajaah-history" class="scroll-area"></div></div>
     </div>
 
     <!-- AL-QURAN TAB -->
     <div id="tab-quran" class="tab-content">
-        <header><h1>Halaman Bacaan</h1><p class="subtitle" id="quran-status">Pilih tugasan di Dashboard/Murajaah</p></header>
         <div id="quran-display" class="card quran-container"></div>
     </div>
 
     <nav class="bottom-nav">
-        <button id="nav-dashboard" class="nav-btn active" onclick="app.switchTab('dashboard')">DASHBOARD</button>
-        <button id="nav-murajaah" class="nav-btn" onclick="app.switchTab('murajaah-nav')">MURAJAAH</button>
-        <button id="nav-quran" class="nav-btn" onclick="app.switchTab('quran')">AL-QURAN</button>
+        <button id="nav-dashboard" class="nav-btn active" onclick="app.switchTab('dashboard')">Utama</button>
+        <button id="nav-saba" class="nav-btn" onclick="app.switchTab('saba-nav')">Saba'</button>
+        <button id="nav-murajaah" class="nav-btn" onclick="app.switchTab('murajaah-nav')">Murajaah</button>
+        <button id="nav-quran" class="nav-btn" onclick="app.switchTab('quran')">Al-Quran</button>
     </nav>
 </div>
 
@@ -199,14 +193,17 @@
             this.renderAll();
         },
 
+        vibrate() {
+            if (navigator.vibrate) navigator.vibrate(20);
+        },
+
         async fetchSurahList() {
             const res = await fetch('https://api.alquran.cloud/v1/surah');
             const json = await res.json();
             this.allSurahs = json.data;
             const options = this.allSurahs.map(s => `<option value="${s.number}" data-ayahs="${s.numberOfAyahs}">${s.number}. ${s.englishName}</option>`).join('');
-            ['target-surah-select', 'm-surah-select'].forEach(id => {
-                document.getElementById(id).innerHTML = options;
-            });
+            document.getElementById('target-surah-select').innerHTML = options;
+            document.getElementById('m-surah-select').innerHTML = options;
             this.handleSurahChange('target-surah-select', 'target-start-ayat');
             this.handleSurahChange('m-surah-select', 'm-start-ayat');
         },
@@ -229,7 +226,8 @@
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
-            document.getElementById('nav-' + (tabId.split('-')[0])).classList.add('active');
+            const navId = tabId.split('-')[0];
+            document.getElementById('nav-' + navId).classList.add('active');
             if(tabId === 'quran' && this.currentTask) quranApp.scrollToHighlight();
         },
 
@@ -242,7 +240,7 @@
                 surahName = document.getElementById('target-surah-select').options[document.getElementById('target-surah-select').selectedIndex].text;
                 startAyat = parseInt(document.getElementById('target-start-ayat').value);
                 count = parseInt(document.getElementById('input-target-count').value);
-                this.logs.push({ surahId, surahName, startAyat, count, date, type: 'Hafazan' });
+                this.logs.push({ surahId, surahName, startAyat, count, date });
             } else {
                 const mode = document.getElementById('murajaah-mode').value;
                 if(mode === 'surah') {
@@ -251,9 +249,7 @@
                     startAyat = parseInt(document.getElementById('m-start-ayat').value);
                     count = parseInt(document.getElementById('m-count-ayat').value);
                 } else {
-                    // Juzuk logic simplified for display
-                    surahId = 1; // Default redirect to placeholder or specific juzuk API in real app
-                    surahName = `Juzuk ${document.getElementById('m-juzuk-select').value}`;
+                    surahId = 1; surahName = `Juzuk ${document.getElementById('m-juzuk-select').value}`;
                     startAyat = 1; count = 20;
                 }
                 this.murajaahLogs.push({ surahId, surahName, startAyat, count, date });
@@ -271,12 +267,6 @@
             this.renderAll();
         },
 
-        murajaahSedia(surahId, startAyat, count) {
-            this.currentTask = { surahId, startAyat, count };
-            quranApp.loadSurah(surahId, startAyat, count);
-            this.switchTab('quran');
-        },
-
         save() {
             localStorage.setItem('h_logs', JSON.stringify(this.logs));
             localStorage.setItem('m_logs', JSON.stringify(this.murajaahLogs));
@@ -287,39 +277,55 @@
             document.getElementById('stat-total').innerText = this.logs.length;
             document.getElementById('stat-murajaah').innerText = this.murajaahLogs.length;
             
-            // History
+            // Sejarah Saba'
             const hist = document.getElementById('history-list');
             hist.innerHTML = this.logs.slice().reverse().map((l, i) => `
                 <div class="list-item">
                     <div class="list-meta">
                         <div><strong>${l.surahName}</strong><br><small>${l.date} • ${l.count} Ayat</small></div>
                     </div>
-                    <div class="list-actions">
-                        <button class="btn-small btn-mur" onclick="app.murajaahSedia(${l.surahId}, ${l.startAyat}, ${l.count})">Murajaah</button>
+                    <div class="list-actions" style="margin-top:8px;">
+                        <button class="btn-small btn-mur" onclick="app.setAndHafalManual(${l.surahId}, ${l.startAyat}, ${l.count})">Ulang Baca</button>
                         <button class="btn-small btn-del" onclick="app.deleteLog(${this.logs.length - 1 - i})">Padam</button>
                     </div>
                 </div>
             `).join('');
 
-            // Ranking (Based on murajaah frequency)
+            // Kemajuan Saba' Card
+            const lastSaba = this.logs[this.logs.length -1];
+            const kemajuanEl = document.getElementById('kemajuan-saba');
+            if(lastSaba) {
+                kemajuanEl.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div><h3 style="color:white; font-size:1rem;">${lastSaba.surahName}</h3><p style="color:var(--text-dim); font-size:0.7rem;">Mula: Ayat ${lastSaba.startAyat} (${lastSaba.count} Ayat)</p></div>
+                    <div style="background:var(--accent); color:black; padding:4px 10px; border-radius:6px; font-weight:800; font-size:0.75rem;">AKTIF</div>
+                </div>`;
+            }
+
+            // Ranking
             const mCounts = {};
             this.murajaahLogs.forEach(l => mCounts[l.surahName] = (mCounts[l.surahName] || 0) + 1);
             const sorted = Object.entries(mCounts).sort((a,b) => b[1]-a[1]);
             document.getElementById('ranking-list').innerHTML = sorted.map(s => `
-                <div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:5px 0; border-bottom:1px solid #334155;">
-                    <span>${s[0]}</span><span color="var(--accent)">${s[1]}x Murajaah</span>
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; padding:8px 0; border-bottom:1px solid #334155;">
+                    <span>${s[0]}</span><span style="color:var(--accent); font-weight:bold;">${s[1]}x Murajaah</span>
                 </div>
             `).join('') || '<p style="font-size:0.7rem; color:var(--text-dim);">Belum ada data murajaah.</p>';
+        },
+
+        setAndHafalManual(id, start, count) {
+            this.currentTask = { surahId: id, startAyat: start, count };
+            quranApp.loadSurah(id, start, count);
+            this.switchTab('quran');
         }
     };
 
     const quranApp = {
         currentAyahs: [],
-        targets: { tengok: 20, tanpa: 20 },
+        targets: { tengok: 20, tanpatengok: 20 },
 
         async loadSurah(id, start, count) {
             const display = document.getElementById('quran-display');
-            display.innerHTML = "<p style='text-align:center;'>Memuatkan Kalamullah...</p>";
+            display.innerHTML = "<p style='text-align:center; padding:50px; color:#1e293b;'>Memuatkan Kalamullah...</p>";
             try {
                 const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}`);
                 const json = await res.json();
@@ -337,7 +343,7 @@
                 const active = (i >= startIdx && i < endIdx);
                 return `
                     <div id="ayah-${i+1}" class="ayah-box ${active ? 'highlight' : ''}">
-                        <div>${a.text} <span style="font-size:0.8rem; color:var(--accent); font-family:sans-serif;">(${a.numberInSurah})</span></div>
+                        <div style="margin-bottom:10px;">${a.text} <span style="font-size:0.9rem; color:#d97706; font-family:sans-serif;">(${a.numberInSurah})</span></div>
                         ${active ? this.renderCounters(i) : ''}
                     </div>
                 `;
@@ -348,35 +354,56 @@
         renderCounters(idx) {
             return `
                 <div class="counter-section">
-                    ${['Tengok', 'Tanpa Tengok'].map(type => {
-                        const key = type.toLowerCase().replace(' ', '');
-                        return `
-                            <div class="counter-row">
-                                <span class="counter-label">${type}</span>
-                                <div class="counter-controls">
-                                    <button class="c-btn" onclick="quranApp.changeCount(${idx}, '${key}', -1)">-</button>
-                                    <span class="c-count" id="val-${idx}-${key}">0 / ${this.targets[key]}</span>
-                                    <button class="c-btn" onclick="quranApp.changeCount(${idx}, '${key}', 1)">+</button>
-                                </div>
+                    <div class="counter-card">
+                        <div class="counter-row">
+                            <span class="counter-label">Tengok</span>
+                            <div class="counter-controls">
+                                <button class="c-btn" onclick="quranApp.changeCount(${idx}, 'tengok', -1)">-</button>
+                                <span class="c-count" onclick="quranApp.editTarget('tengok')">
+                                    <span id="val-${idx}-tengok">0</span> / <span id="tgt-tengok">${this.targets.tengok}</span>
+                                </span>
+                                <button class="c-btn" onclick="quranApp.changeCount(${idx}, 'tengok', 1)">+</button>
                             </div>
-                            <div id="noti-${idx}-${key}" class="noti-success"></div>
-                        `;
-                    }).join('')}
+                        </div>
+                        <div id="noti-${idx}-tengok" class="noti-success"></div>
+                    </div>
+                    <div class="counter-card">
+                        <div class="counter-row">
+                            <span class="counter-label">Tanpa Tengok</span>
+                            <div class="counter-controls">
+                                <button class="c-btn" onclick="quranApp.changeCount(${idx}, 'tanpatengok', -1)">-</button>
+                                <span class="c-count" onclick="quranApp.editTarget('tanpatengok')">
+                                    <span id="val-${idx}-tanpatengok">0</span> / <span id="tgt-tanpatengok">${this.targets.tanpatengok}</span>
+                                </span>
+                                <button class="c-btn" onclick="quranApp.changeCount(${idx}, 'tanpatengok', 1)">+</button>
+                            </div>
+                        </div>
+                        <div id="noti-${idx}-tanpatengok" class="noti-success"></div>
+                    </div>
                 </div>
             `;
         },
 
+        editTarget(key) {
+            const newT = prompt("Masukkan jumlah target baru:", this.targets[key]);
+            if(newT && !isNaN(newT)) {
+                this.targets[key] = parseInt(newT);
+                document.querySelectorAll(`#tgt-${key}`).forEach(el => el.innerText = newT);
+            }
+        },
+
         changeCount(idx, key, delta) {
+            app.vibrate();
             const el = document.getElementById(`val-${idx}-${key}`);
             const noti = document.getElementById(`noti-${idx}-${key}`);
-            let current = parseInt(el.innerText.split(' / ')[0]);
+            let current = parseInt(el.innerText);
             let target = this.targets[key];
             
             current = Math.max(0, current + delta);
-            el.innerText = `${current} / ${target}`;
+            el.innerText = current;
 
             if(current >= target) {
-                noti.innerText = "Alhamdulillah, Mantap! Teruskan istiqamah.";
+                noti.innerText = "Alhamdulillah! Hafazan semakin mantap.";
             } else {
                 noti.innerText = "";
             }
