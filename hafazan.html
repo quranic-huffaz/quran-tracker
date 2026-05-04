@@ -3,348 +3,351 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hafazan Tracker - Pemula</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Hafazan Pro - Fintech Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0f172a;
-            --bg-card: #1e293b;
+            --bg-deep: #0a0f1a;
+            --bg-card: #161e2d;
             --bg-quran: #ffffff;
-            --accent: #fbbf24; 
-            --accent-soft: rgba(251, 191, 36, 0.1);
+            --accent: #d4af37; /* Premium Gold */
+            --accent-light: #f1e4bc;
             --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --text-quran: #1a1a1a;
-            --border: #334155;
+            --text-dim: #64748b;
+            --text-quran: #1e293b;
+            --border: rgba(255, 255, 255, 0.05);
             --success: #10b981;
-            --danger: #ef4444;
-            --radius: 14px;
+            --danger: #f43f5e;
+            --radius-lg: 16px;
+            --radius-sm: 8px;
             --font-main: 'Inter', sans-serif;
             --font-quran: 'Amiri', serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-deep); color: var(--text-main); font-family: var(--font-main); line-height: 1.6; padding: 10px; display: flex; justify-content: center; }
-        .app-container { width: 100%; max-width: 500px; padding-bottom: 100px; }
+        body { background-color: var(--bg-deep); color: var(--text-main); font-family: var(--font-main); line-height: 1.5; display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 480px; padding: 15px; padding-bottom: 100px; }
 
-        /* NAVIGATION */
+        /* NAVIGATION - FINTECH STYLE */
         .bottom-nav {
-            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 500px; background: var(--bg-card);
-            border-top: 1px solid var(--border); display: flex;
-            justify-content: space-around; padding: 12px 0; z-index: 1000;
+            position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 30px); max-width: 450px; background: rgba(22, 30, 45, 0.95);
+            backdrop-filter: blur(10px); border: 1px solid var(--border);
+            display: flex; justify-content: space-around; padding: 10px;
+            border-radius: 20px; z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .nav-btn { background: none; border: none; color: var(--text-dim); font-weight: 600; font-size: 0.7rem; cursor: pointer; flex: 1; text-transform: uppercase; }
+        .nav-btn { background: none; border: none; color: var(--text-dim); font-weight: 600; font-size: 0.65rem; cursor: pointer; flex: 1; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
         .nav-btn.active { color: var(--accent); }
-        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+
+        /* TYPOGRAPHY & CARDS */
+        h1 { font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 4px; }
+        .subtitle { color: var(--text-dim); font-size: 0.8rem; margin-bottom: 20px; }
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        .premium-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid rgba(212, 175, 55, 0.3); }
+        .btn-link { display: inline-block; margin-top: 12px; padding: 6px 14px; background: var(--accent); color: #000; border-radius: 6px; text-decoration: none; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+
+        .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+        .stat-item { background: var(--bg-card); padding: 15px; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--border); }
+        .stat-val { display: block; font-size: 1.4rem; font-weight: 800; color: var(--accent); }
+        .stat-label { font-size: 0.6rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 1px; }
+
+        /* INPUTS & BUTTONS */
+        .form-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
+        select, input { width: 100%; padding: 12px; background: #0a0f1a; border: 1px solid var(--border); border-radius: 10px; color: #fff; font-size: 0.9rem; transition: 0.3s; }
+        select:focus { border-color: var(--accent); }
+        button { width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .btn-accent { background: linear-gradient(to right, #d4af37, #f1e4bc); color: #000; }
+        .btn-ghost { background: transparent; border: 1px solid var(--border); color: #fff; }
+
+        /* QURAN TAB - THE CORE */
+        .quran-container { background: var(--bg-quran) !important; padding: 0 !important; overflow: hidden; }
+        .ayah-card { padding: 30px 20px; border-bottom: 1px solid #f1f5f9; text-align: right; direction: rtl; }
+        .ayah-text { font-family: var(--font-quran); font-size: 1.85rem; line-height: 2.6; color: var(--text-quran); margin-bottom: 15px; }
+        .ayah-num { font-size: 1rem; color: var(--accent); font-family: var(--font-main); font-weight: 800; margin-right: 10px; }
+        .highlight { background: #fffdf5; border-right: 4px solid var(--accent); }
+
+        /* MINIMALIST COUNTER */
+        .count-bar { direction: ltr; display: flex; gap: 10px; margin-top: 15px; }
+        .count-pill { flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 12px; border-radius: 30px; display: flex; align-items: center; justify-content: space-between; }
+        .pill-label { font-size: 0.6rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+        .pill-controls { display: flex; align-items: center; gap: 10px; }
+        .pill-btn { width: 24px; height: 24px; border: none; background: #e2e8f0; color: #1e293b; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; }
+        .pill-val { font-size: 0.8rem; font-weight: 800; color: #0f172a; min-width: 40px; text-align: center; }
+
+        .empty-state { text-align: center; padding: 80px 20px; direction: ltr; }
+        .tab-content { display: none; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .tab-content.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* CARDS */
-        h1 { font-size: 1.6rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
-        .subtitle { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 20px; }
-        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; margin-bottom: 15px; }
-        
-        .quote-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-left: 4px solid var(--accent); }
-        .quote-text { font-style: italic; font-size: 0.8rem; color: var(--text-main); margin-bottom: 10px; }
-        .quote-author { font-size: 0.75rem; color: var(--accent); font-weight: 700; }
-        .btn-link { display: inline-block; margin-top: 10px; padding: 5px 12px; background: var(--accent-soft); color: var(--accent); border-radius: 6px; text-decoration: none; font-size: 0.7rem; font-weight: bold; }
-
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; text-align: center; }
-        .stat-val { display: block; font-size: 1.3rem; font-weight: 800; color: var(--accent); }
-        .stat-label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-dim); }
-
-        /* FORMS */
-        .form-group { margin-bottom: 10px; }
-        label { display: block; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 4px; font-weight: 600; }
-        input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border); border-radius: 8px; color: white; font-size: 0.85rem; outline: none; }
-        button { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
-        .btn-primary { background: var(--accent); color: #000; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-small { padding: 4px 10px; font-size: 0.65rem; border-radius: 4px; width: auto; font-weight: bold; }
-        .btn-del { background: var(--danger); color: white; margin-left: 5px; }
-        .btn-mur { background: var(--success); color: white; }
-
-        /* QURAN DISPLAY */
-        .quran-container { text-align: right; direction: rtl; background: var(--bg-quran); color: var(--text-quran); padding: 0 !important; border: none; }
-        .ayah-box { padding: 25px 20px; border-bottom: 1px solid #eee; font-size: 1.8rem; line-height: 2.8; font-family: var(--font-quran); }
-        .ayah-box.highlight { background: #fdf6e3; border-right: 5px solid var(--accent); }
-        
-        .counter-section { direction: ltr; margin-top: 15px; display: flex; flex-direction: column; gap: 6px; }
-        .counter-card { background: #f8fafc; padding: 10px; border-radius: 10px; border: 1px solid #e2e8f0; }
-        .counter-row { display: flex; align-items: center; justify-content: space-between; }
-        .counter-label { font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; }
-        .c-count { min-width: 65px; text-align: center; font-weight: 800; color: #1e293b; font-size: 0.9rem; cursor: pointer; border-bottom: 1px dashed #cbd5e1; }
-        .c-btn { width: 28px; height: 28px; border: none; background: #cbd5e1; color: #1e293b; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-
-        .empty-state { text-align: center; padding: 60px 20px; direction: ltr; }
-        .list-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        /* LIST ITEMS */
+        .history-item { padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .history-info strong { font-size: 0.9rem; color: #fff; }
+        .history-info small { color: var(--text-dim); font-size: 0.7rem; }
+        .action-btns { display: flex; gap: 6px; }
+        .sm-btn { padding: 5px 10px; font-size: 0.6rem; border-radius: 6px; font-weight: 700; }
+        .btn-del { background: rgba(244, 63, 94, 0.1); color: var(--danger); }
+        .btn-mur { background: rgba(16, 185, 129, 0.1); color: var(--success); }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     
-    <!-- DASHBOARD TAB -->
+    <!-- DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
-        <header><h1>Hafazan Tracker</h1><p class="subtitle">Hafazan Al-Quran Bagi Pemula</p></header>
-        <div class="card quote-card">
-            <p class="quote-text">"Yang dikejar tak dapat, yang dikendung berciciran. Utamakan juga hafazan lama (murajaah)"</p>
-            <p class="quote-author">- Nota Wan Hasbullah</p>
-            <a href="https://nota-wanhasbullah.blogspot.com/" target="_blank" class="btn-link">Blog Saya</a>
+        <header>
+            <h1>Hafazan Pro</h1>
+            <p class="subtitle">Edisi Premium Fintech v1.0</p>
+        </header>
+
+        <div class="card premium-card">
+            <p style="font-style: italic; font-size: 0.85rem; margin-bottom: 8px;">"Utamakan murajaah (hafazan lama) sebelum menambah saba' (hafazan baru)."</p>
+            <p style="font-size: 0.75rem; color: var(--accent); font-weight: 700;">— Nota Wan Hasbullah</p>
         </div>
-        <div class="stats-grid">
-            <div class="stat-box"><span class="stat-label">Saba'</span><span id="stat-total" class="stat-val">0</span></div>
-            <div class="stat-box"><span class="stat-label">Murajaah</span><span id="stat-murajaah" class="stat-val">0</span></div>
+
+        <div class="stats-row">
+            <div class="stat-item"><span class="stat-label">Saba'</span><span id="stat-saba" class="stat-val">0</span></div>
+            <div class="stat-item"><span class="stat-label">Murajaah</span><span id="stat-murajaah" class="stat-val">0</span></div>
         </div>
-        <div class="card" style="border-left: 4px solid var(--success);">
-            <h2 style="font-size: 0.85rem; color: var(--success); text-transform: uppercase;">📊 Hafazan Saba' Terakhir</h2>
-            <div id="kemajuan-saba" style="margin-top: 10px;"><p style="font-size: 0.75rem; color: var(--text-dim);">Tiada rekod.</p></div>
+
+        <div class="card">
+            <label style="color:var(--success)">Saba' Terakhir</label>
+            <div id="last-saba" style="margin-top:5px; font-size:0.9rem;">—</div>
         </div>
-        <div class="card" style="border-left: 4px solid var(--accent);">
-            <h2 style="font-size: 0.85rem; color: var(--accent); text-transform: uppercase;">📊 Hafazan Murajaah Terakhir</h2>
-            <div id="kemajuan-murajaah" style="margin-top: 10px;"><p style="font-size: 0.75rem; color: var(--text-dim);">Tiada rekod.</p></div>
+
+        <div class="card">
+            <label style="color:var(--accent)">Murajaah Terakhir</label>
+            <div id="last-murajaah" style="margin-top:5px; font-size:0.9rem;">—</div>
         </div>
     </div>
 
-    <!-- SABA' TAB -->
+    <!-- SABA' -->
     <div id="tab-saba-nav" class="tab-content">
-        <header><h1>Hafazan Saba'</h1><p class="subtitle">Rekod hafazan baru.</p></header>
+        <header><h1>Rekod Saba'</h1><p class="subtitle">Input hafazan baru hari ini</p></header>
         <div class="card">
             <div class="form-group">
                 <label>Pilih Surah</label>
-                <select id="target-surah-select" onchange="app.handleSurahChange('target-surah-select', 'target-start-ayat', 'input-target-count')"></select>
+                <select id="saba-surah" onchange="app.updateAyahCount('saba-surah', 'saba-start', 'saba-total')"></select>
             </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-                <div class="form-group"><label>Mula Ayat</label><select id="target-start-ayat"></select></div>
-                <div class="form-group"><label>Jumlah Ayat</label><select id="input-target-count"></select></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group"><label>Mula</label><select id="saba-start"></select></div>
+                <div class="form-group"><label>Jumlah</label><select id="saba-total"></select></div>
             </div>
-            <button onclick="app.setAndHafal('baru')" class="btn-success">Jom Hafal Saba'</button>
+            <button onclick="app.start('baru')" class="btn-accent">HAFAL SEKARANG</button>
         </div>
-        <div class="card"><h2>📜 Sejarah Saba'</h2><div id="history-list" style="max-height: 350px; overflow-y: auto;"></div></div>
+        <div class="card">
+            <label>Sejarah Saba'</label>
+            <div id="saba-history" style="margin-top:10px;"></div>
+        </div>
     </div>
 
-    <!-- MURAJAAH TAB -->
+    <!-- MURAJAAH -->
     <div id="tab-murajaah-nav" class="tab-content">
-        <header><h1>Murajaah</h1><p class="subtitle">Mantapkan hafazan lama.</p></header>
+        <header><h1>Murajaah</h1><p class="subtitle">Mantapkan hafazan anda</p></header>
         <div class="card">
-            <div class="form-group"><label>Mod Murajaah</label>
-                <select id="murajaah-mode" onchange="app.toggleMurajaahMode()">
+            <div class="form-group"><label>Mod Bacaan</label>
+                <select id="m-mode" onchange="app.toggleMMode()">
                     <option value="surah">Ikut Surah</option>
                     <option value="juzuk">Ikut Juzuk</option>
                 </select>
             </div>
-            <div id="m-mode-surah">
-                <div class="form-group"><label>Pilih Surah</label><select id="m-surah-select" onchange="app.handleSurahChange('m-surah-select', 'm-start-ayat', 'm-count-ayat')"></select></div>
+            <div id="m-surah-box">
+                <div class="form-group"><label>Surah</label><select id="m-surah" onchange="app.updateAyahCount('m-surah', 'm-start', 'm-total')"></select></div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <div class="form-group"><label>Mula Ayat</label><select id="m-start-ayat"></select></div>
-                    <div class="form-group"><label>Jumlah Ayat</label><select id="m-count-ayat"></select></div>
+                    <div class="form-group"><label>Mula</label><select id="m-start"></select></div>
+                    <div class="form-group"><label>Jumlah</label><select id="m-total"></select></div>
                 </div>
             </div>
-            <div id="m-mode-juzuk" style="display:none;">
-                <div class="form-group"><label>Pilih Juzuk</label><select id="m-juzuk-select"><script>for(let i=1; i<=30; i++) document.write(`<option value="${i}">Juzuk ${i}</option>`);</script></select></div>
-                <div class="form-group"><label>Mula Muka Surat (Juzuk Ini)</label><select id="m-page-start"><script>for(let i=1; i<=20; i++) document.write(`<option value="${i}">Muka Surat ${i}</option>`);</script></select></div>
+            <div id="m-juzuk-box" style="display:none;">
+                <div class="form-group"><label>Juzuk</label><select id="m-juzuk"><script>for(let i=1; i<=30; i++) document.write(`<option value="${i}">Juzuk ${i}</option>`);</script></select></div>
+                <div class="form-group"><label>Muka Surat</label><select id="m-page"><script>for(let i=1; i<=20; i++) document.write(`<option value="${i}">Muka Surat ${i}</option>`);</script></select></div>
             </div>
-            <button onclick="app.setAndHafal('murajaah')" class="btn-primary" style="margin-top: 15px;">Murajaah Sekarang</button>
+            <button onclick="app.start('murajaah')" class="btn-accent" style="margin-top:10px;">MULA MURAJAAH</button>
         </div>
-        <div class="card"><h2>🏆 Ranking Murajaah</h2><div id="ranking-list"></div></div>
+        <div class="card">
+            <label>Ranking Murajaah</label>
+            <div id="m-ranking" style="margin-top:10px;"></div>
+        </div>
     </div>
 
-    <!-- AL-QURAN TAB -->
+    <!-- AL-QURAN -->
     <div id="tab-quran" class="tab-content">
-        <div id="quran-display" class="card quran-container">
+        <div id="quran-render" class="card quran-container">
             <div class="empty-state">
-                <p style="color: var(--text-dim); margin-bottom: 20px; font-weight:600;">Mulakan hafazan hari ini</p>
-                <button onclick="app.switchTab('saba-nav')" class="btn-success" style="width:120px; margin-right:10px;">Saba'</button>
-                <button onclick="app.switchTab('murajaah-nav')" class="btn-primary" style="width:120px; background:#475569; color:white;">Murajaah</button>
+                <p style="color: #64748b; margin-bottom: 25px; font-weight:500;">Pilih Tugasan Hafazan</p>
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button onclick="app.switchTab('saba-nav')" class="btn-accent" style="width:120px;">SABA'</button>
+                    <button onclick="app.switchTab('murajaah-nav')" class="btn-ghost" style="width:120px;">MURAJAAH</button>
+                </div>
             </div>
         </div>
     </div>
 
     <nav class="bottom-nav">
-        <button id="nav-dashboard" class="nav-btn active" onclick="app.switchTab('dashboard')">Utama</button>
+        <button id="nav-dashboard" class="nav-btn active" onclick="app.switchTab('dashboard')">Home</button>
         <button id="nav-saba" class="nav-btn" onclick="app.switchTab('saba-nav')">Saba'</button>
         <button id="nav-murajaah" class="nav-btn" onclick="app.switchTab('murajaah-nav')">Murajaah</button>
-        <button id="nav-quran" class="nav-btn" onclick="app.switchTab('quran')">Al-Quran</button>
+        <button id="nav-quran" class="nav-btn" onclick="app.switchTab('quran')">Quran</button>
     </nav>
 </div>
 
 <script>
     const app = {
-        logs: JSON.parse(localStorage.getItem('h_logs')) || [],
+        sLogs: JSON.parse(localStorage.getItem('s_logs')) || [],
         mLogs: JSON.parse(localStorage.getItem('m_logs')) || [],
-        allSurahs: [],
-        currentTask: null,
+        surahs: [],
+        task: null,
 
         async init() {
-            await this.fetchSurahList();
-            this.renderAll();
+            const res = await fetch('https://api.alquran.cloud/v1/surah');
+            const json = await res.json();
+            this.surahs = json.data;
+            const opts = this.surahs.map(s => `<option value="${s.number}" data-max="${s.numberOfAyahs}">${s.number}. ${s.englishName}</option>`).join('');
+            ['saba-surah', 'm-surah'].forEach(id => document.getElementById(id).innerHTML = opts);
+            this.updateAyahCount('saba-surah', 'saba-start', 'saba-total');
+            this.updateAyahCount('m-surah', 'm-start', 'm-total');
+            this.render();
         },
 
-        vibrate() { if (navigator.vibrate) navigator.vibrate(25); },
-
-        async fetchSurahList() {
-            try {
-                const res = await fetch('https://api.alquran.cloud/v1/surah');
-                const json = await res.json();
-                this.allSurahs = json.data;
-                const options = this.allSurahs.map(s => `<option value="${s.number}" data-ayahs="${s.numberOfAyahs}">${s.number}. ${s.englishName}</option>`).join('');
-                document.getElementById('target-surah-select').innerHTML = options;
-                document.getElementById('m-surah-select').innerHTML = options;
-                this.handleSurahChange('target-surah-select', 'target-start-ayat', 'input-target-count');
-                this.handleSurahChange('m-surah-select', 'm-start-ayat', 'm-count-ayat');
-            } catch(e) { console.error("Gagal ambil senarai surah"); }
+        updateAyahCount(sId, startId, totalId) {
+            const max = parseInt(document.getElementById(sId).options[document.getElementById(sId).selectedIndex].dataset.max);
+            let h = ""; for(let i=1; i<=max; i++) h += `<option value="${i}">${i}</option>`;
+            document.getElementById(startId).innerHTML = h;
+            document.getElementById(totalId).innerHTML = h;
+            if(sId === 'saba-surah') document.getElementById(totalId).value = 5;
         },
 
-        handleSurahChange(sId, startId, countId) {
-            const select = document.getElementById(sId);
-            const ayahs = parseInt(select.options[select.selectedIndex].dataset.ayahs);
-            let opt = "";
-            for(let i=1; i<=ayahs; i++) opt += `<option value="${i}">${i}</option>`;
-            document.getElementById(startId).innerHTML = opt;
-            document.getElementById(countId).innerHTML = opt;
-            if(countId === 'input-target-count') document.getElementById(countId).value = 5;
+        toggleMMode() {
+            const isS = document.getElementById('m-mode').value === 'surah';
+            document.getElementById('m-surah-box').style.display = isS ? 'block' : 'none';
+            document.getElementById('m-juzuk-box').style.display = isS ? 'none' : 'block';
         },
 
-        toggleMurajaahMode() {
-            const mode = document.getElementById('murajaah-mode').value;
-            document.getElementById('m-mode-surah').style.display = mode === 'surah' ? 'block' : 'none';
-            document.getElementById('m-mode-juzuk').style.display = mode === 'juzuk' ? 'block' : 'none';
-        },
-
-        switchTab(tabId) {
+        switchTab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            document.getElementById('nav-' + tabId.split('-')[0]).classList.add('active');
+            document.getElementById('tab-' + id).classList.add('active');
+            document.getElementById('nav-' + id.split('-')[0]).classList.add('active');
         },
 
-        setAndHafal(type) {
-            let surahId, surahName, startAyat, count, mode = 'surah';
-            const date = new Date().toLocaleDateString();
+        start(type) {
+            let sId, name, start, count, mode = 'surah';
+            const date = new Date().toLocaleDateString('ms-MY');
 
             if(type === 'baru') {
-                surahId = document.getElementById('target-surah-select').value;
-                surahName = document.getElementById('target-surah-select').options[document.getElementById('target-surah-select').selectedIndex].text;
-                startAyat = parseInt(document.getElementById('target-start-ayat').value);
-                count = parseInt(document.getElementById('input-target-count').value);
-                this.logs.push({ surahId, surahName, startAyat, count, date });
+                sId = document.getElementById('saba-surah').value;
+                name = document.getElementById('saba-surah').options[document.getElementById('saba-surah').selectedIndex].text;
+                start = parseInt(document.getElementById('saba-start').value);
+                count = parseInt(document.getElementById('saba-total').value);
+                this.sLogs.push({ sId, name, start, count, date });
             } else {
-                mode = document.getElementById('murajaah-mode').value;
+                mode = document.getElementById('m-mode').value;
                 if(mode === 'surah') {
-                    surahId = document.getElementById('m-surah-select').value;
-                    surahName = document.getElementById('m-surah-select').options[document.getElementById('m-surah-select').selectedIndex].text;
-                    startAyat = parseInt(document.getElementById('m-start-ayat').value);
-                    count = parseInt(document.getElementById('m-count-ayat').value);
+                    sId = document.getElementById('m-surah').value;
+                    name = document.getElementById('m-surah').options[document.getElementById('m-surah').selectedIndex].text;
+                    start = parseInt(document.getElementById('m-start').value);
+                    count = parseInt(document.getElementById('m-total').value);
                 } else {
-                    surahId = document.getElementById('m-juzuk-select').value;
-                    startAyat = document.getElementById('m-page-start').value;
-                    surahName = `Juzuk ${surahId} (M/S ${startAyat})`;
+                    sId = document.getElementById('m-juzuk').value;
+                    start = document.getElementById('m-page').value;
+                    name = `Juzuk ${sId} (M/S ${start})`;
                     count = 20; mode = 'juzuk';
                 }
-                this.mLogs.push({ surahId, surahName, startAyat, count, date });
+                this.mLogs.push({ sId, name, start, count, date });
             }
             this.save();
-            this.currentTask = { surahId, startAyat, count, mode };
-            quranApp.loadData(this.currentTask);
+            this.task = { sId, start, count, mode };
+            quran.load(this.task);
             this.switchTab('quran');
         },
 
         save() {
-            localStorage.setItem('h_logs', JSON.stringify(this.logs));
+            localStorage.setItem('s_logs', JSON.stringify(this.sLogs));
             localStorage.setItem('m_logs', JSON.stringify(this.mLogs));
-            this.renderAll();
+            this.render();
         },
 
-        renderAll() {
-            document.getElementById('stat-total').innerText = this.logs.length;
+        render() {
+            document.getElementById('stat-saba').innerText = this.sLogs.length;
             document.getElementById('stat-murajaah').innerText = this.mLogs.length;
 
-            const lastS = this.logs[this.logs.length - 1];
-            document.getElementById('kemajuan-saba').innerHTML = lastS ? `<strong>${lastS.surahName}</strong><br><small>Ayat ${lastS.startAyat} • ${lastS.count} Ayat</small>` : "Tiada rekod.";
+            const lS = this.sLogs[this.sLogs.length-1];
+            document.getElementById('last-saba').innerHTML = lS ? `<b>${lS.name}</b> <br><small>Ayat ${lS.start} (${lS.count} ayat)</small>` : "—";
+            
+            const lM = this.mLogs[this.mLogs.length-1];
+            document.getElementById('last-murajaah').innerHTML = lM ? `<b>${lM.name}</b> <br><small>${lM.date}</small>` : "—";
 
-            const lastM = this.mLogs[this.mLogs.length - 1];
-            document.getElementById('kemajuan-murajaah').innerHTML = lastM ? `<strong>${lastM.surahName}</strong><br><small>${lastM.date}</small>` : "Tiada rekod.";
-
-            // History Saba' (Original buttons)
-            document.getElementById('history-list').innerHTML = this.logs.slice().reverse().map((l, i) => `
-                <div class="list-item">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div><strong>${l.surahName}</strong><br><small>${l.date} • ${l.count} Ayat</small></div>
-                        <div>
-                            <button class="btn-small btn-mur" onclick="app.redoTask(${JSON.stringify(l).replace(/"/g, '&quot;')})">Murajaah</button>
-                            <button class="btn-small btn-del" onclick="app.deleteLog('saba', ${this.logs.length-1-i})">Padam</button>
-                        </div>
+            // History Saba
+            document.getElementById('saba-history').innerHTML = this.sLogs.slice().reverse().map((l, i) => `
+                <div class="history-item">
+                    <div class="history-info"><strong>${l.name}</strong><br><small>${l.date}</small></div>
+                    <div class="action-btns">
+                        <button class="sm-btn btn-mur" onclick="app.redo(${JSON.stringify(l).replace(/"/g, '&quot;')})">REDO</button>
+                        <button class="sm-btn btn-del" onclick="app.del('s', ${this.sLogs.length-1-i})">DEL</button>
                     </div>
                 </div>
             `).join('');
 
             // Ranking Murajaah
-            const counts = {};
-            this.mLogs.forEach(l => counts[l.surahName] = (counts[l.surahName] || 0) + 1);
-            const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
-            document.getElementById('ranking-list').innerHTML = sorted.map(([name, count]) => `
-                <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:10px 0; border-bottom:1px solid #334155;">
-                    <span>${name} <b style="color:var(--accent); margin-left:5px;">${count}x</b></span>
-                    <button class="btn-small btn-del" style="font-size:0.5rem; padding:2px 6px;" onclick="app.deleteRank('${name}')">Padam</button>
+            const rank = {}; this.mLogs.forEach(l => rank[l.name] = (rank[l.name] || 0) + 1);
+            document.getElementById('m-ranking').innerHTML = Object.entries(rank).sort((a,b)=>b[1]-a[1]).map(([n, c]) => `
+                <div class="history-item">
+                    <span>${n} <b style="color:var(--accent); margin-left:8px;">${c}x</b></span>
+                    <button class="sm-btn btn-del" onclick="app.delRank('${n}')">PADAM</button>
                 </div>
-            `).join('') || '<p style="font-size:0.7rem; color:var(--text-dim);">Tiada data.</p>';
+            `).join('');
         },
 
-        redoTask(l) { this.currentTask = { ...l, mode: 'surah' }; quranApp.loadData(this.currentTask); this.switchTab('quran'); },
-        deleteLog(type, idx) { if(type === 'saba') this.logs.splice(idx, 1); this.save(); },
-        deleteRank(name) { this.mLogs = this.mLogs.filter(l => l.surahName !== name); this.save(); }
+        redo(l) { this.task = {...l, mode:'surah'}; quran.load(this.task); this.switchTab('quran'); },
+        del(t, i) { if(t==='s') this.sLogs.splice(i, 1); this.save(); },
+        delRank(n) { this.mLogs = this.mLogs.filter(l => l.name !== n); this.save(); }
     };
 
-    const quranApp = {
+    const quran = {
         targets: { tengok: 20, tanpa: 20 },
-        async loadData(task) {
-            const display = document.getElementById('quran-display');
-            display.innerHTML = "<p style='text-align:center; padding:40px; color:#1e293b;'>Memuatkan Mushaf...</p>";
+        async load(t) {
+            const el = document.getElementById('quran-render');
+            el.innerHTML = "<p style='text-align:center; padding:50px; color:#64748b;'>Sediakan jiwa, memuatkan ayat...</p>";
             try {
-                let url = task.mode === 'juzuk' ? `https://api.alquran.cloud/v1/juz/${task.surahId}/quran-uthmani` : `https://api.alquran.cloud/v1/surah/${task.surahId}`;
-                const res = await fetch(url);
-                const json = await res.json();
+                let url = t.mode === 'juzuk' ? `https://api.alquran.cloud/v1/juz/${t.sId}/quran-uthmani` : `https://api.alquran.cloud/v1/surah/${t.sId}`;
+                const res = await fetch(url); const json = await res.json();
                 const ayahs = json.data.ayahs;
                 
-                let startIdx = 0, count = task.count;
-                if(task.mode === 'juzuk') {
-                    // Cari ayat pertama pada muka surat tersebut
-                    const firstAyah = ayahs.find(a => a.page == (parseInt(json.data.ayahs[0].page) + parseInt(task.startAyat) - 1));
-                    startIdx = firstAyah ? ayahs.indexOf(firstAyah) : 0;
-                    count = ayahs.filter(a => a.page == firstAyah?.page).length || 20;
-                } else {
-                    startIdx = task.startAyat - 1;
-                }
+                let startIdx = 0, count = t.count;
+                if(t.mode === 'juzuk') {
+                    const first = ayahs.find(a => a.page == (parseInt(ayahs[0].page) + parseInt(t.start) - 1));
+                    startIdx = first ? ayahs.indexOf(first) : 0;
+                    count = ayahs.filter(a => a.page == first?.page).length || 20;
+                } else { startIdx = t.start - 1; }
 
-                display.innerHTML = ayahs.map((a, i) => {
+                el.innerHTML = ayahs.map((a, i) => {
                     const active = (i >= startIdx && i < startIdx + count);
                     return `
-                        <div id="ayah-${i+1}" class="ayah-box ${active ? 'highlight' : ''}">
-                            <div style="margin-bottom:10px;">${a.text} <span style="font-size:0.9rem; color:#d97706;">(${a.numberInSurah})</span></div>
-                            ${active ? this.renderCounter(i) : ''}
+                        <div class="ayah-card ${active ? 'highlight' : ''}">
+                            <div class="ayah-text"><span class="ayah-num">${a.numberInSurah}</span>${a.text}</div>
+                            ${active ? this.counters(i) : ''}
                         </div>`;
                 }).join('');
-                
-                setTimeout(() => { document.querySelector('.highlight')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 600);
-            } catch(e) { display.innerHTML = "<p style='text-align:center; padding:20px;'>Ralat sambungan internet.</p>"; }
+                setTimeout(() => document.querySelector('.highlight')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 500);
+            } catch(e) { el.innerHTML = "<p style='text-align:center; padding:20px;'>Tiada sambungan internet.</p>"; }
         },
 
-        renderCounter(idx) {
-            return `<div class="counter-section">${['tengok', 'tanpa'].map(key => `
-                <div class="counter-card"><div class="counter-row">
-                    <span class="counter-label">${key}</span>
-                    <div class="counter-controls">
-                        <button class="c-btn" onclick="quranApp.step(${idx}, '${key}', -1)">-</button>
-                        <span class="c-count" onclick="quranApp.setT('${key}')"><span id="v-${idx}-${key}">0</span>/<span id="t-${key}">${this.targets[key]}</span></span>
-                        <button class="c-btn" onclick="quranApp.step(${idx}, '${key}', 1)">+</button>
+        counters(idx) {
+            return `<div class="count-bar">${['tengok', 'tanpa'].map(k => `
+                <div class="count-pill">
+                    <span class="pill-label">${k}</span>
+                    <div class="pill-controls">
+                        <button class="pill-btn" onclick="quran.step(${idx},'${k}',-1)">-</button>
+                        <span class="pill-val" onclick="quran.setT('${k}')"><span id="v-${idx}-${k}">0</span>/<span id="t-${k}">${this.targets[k]}</span></span>
+                        <button class="pill-btn" onclick="quran.step(${idx},'${k}',1)">+</button>
                     </div>
-                </div></div>`).join('')}</div>`;
+                </div>`).join('')}</div>`;
         },
 
-        step(idx, key, d) { app.vibrate(); const el = document.getElementById(`v-${idx}-${key}`); el.innerText = Math.max(0, parseInt(el.innerText) + d); },
-        setT(key) { const v = prompt("Target:", this.targets[key]); if(v) { this.targets[key] = v; document.querySelectorAll(`#t-${key}`).forEach(e => e.innerText = v); } }
+        step(idx, k, d) { if(navigator.vibrate) navigator.vibrate(20); const el = document.getElementById(`v-${idx}-${k}`); el.innerText = Math.max(0, parseInt(el.innerText) + d); },
+        setT(k) { const v = prompt("Set Sasaran:", this.targets[k]); if(v) { this.targets[k]=v; document.querySelectorAll(`#t-${k}`).forEach(e=>e.innerText=v); } }
     };
 
     app.init();
