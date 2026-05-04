@@ -49,6 +49,9 @@
         .quote-author { font-size: 0.75rem; color: var(--accent); font-weight: 700; }
         .btn-link { display: inline-block; margin-top: 10px; padding: 5px 12px; background: var(--accent-soft); color: var(--accent); border-radius: 6px; text-decoration: none; font-size: 0.7rem; font-weight: bold; }
 
+        /* PERUBAHAN 1: Tambah btn-link-success untuk butang "Mula Menghafal Sekarang" */
+        .btn-link-success { display: inline-block; margin-top: 10px; margin-left: 8px; padding: 5px 12px; background: rgba(16, 185, 129, 0.12); color: var(--success); border-radius: 6px; text-decoration: none; font-size: 0.7rem; font-weight: bold; cursor: pointer; border: none; }
+
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; text-align: center; }
         .stat-val { display: block; font-size: 1.3rem; font-weight: 800; color: var(--accent); }
@@ -110,6 +113,93 @@
             padding: 2px 6px; border-radius: 20px; cursor: pointer;
         }
 
+        /* PERUBAHAN 3: Empty state premium fintech untuk tab Al-Quran */
+        .quran-empty-state {
+            direction: ltr;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 24px;
+            background: #0f172a;
+        }
+        .quran-empty-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(251,191,36,0.15) 0%, rgba(251,191,36,0.05) 100%);
+            border: 1px solid rgba(251,191,36,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 2rem;
+        }
+        .quran-empty-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #f8fafc;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+        .quran-empty-sub {
+            font-size: 0.78rem;
+            color: #64748b;
+            text-align: center;
+            max-width: 260px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+        .quran-empty-divider {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(251,191,36,0.4), transparent);
+            margin-bottom: 32px;
+        }
+        .quran-empty-btns {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            max-width: 280px;
+        }
+        .quran-empty-btn-primary {
+            flex: 1;
+            padding: 14px 0;
+            border: none;
+            border-radius: 12px;
+            background: var(--accent);
+            color: #000;
+            font-weight: 800;
+            font-size: 0.78rem;
+            cursor: pointer;
+            letter-spacing: 0.2px;
+        }
+        .quran-empty-btn-secondary {
+            flex: 1;
+            padding: 14px 0;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            background: transparent;
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 0.78rem;
+            cursor: pointer;
+        }
+        .quran-empty-badge {
+            margin-top: 24px;
+            padding: 6px 14px;
+            background: rgba(16,185,129,0.08);
+            border: 1px solid rgba(16,185,129,0.2);
+            border-radius: 20px;
+            font-size: 0.65rem;
+            color: #10b981;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
         .empty-state { text-align: center; padding: 60px 20px; direction: ltr; }
         .list-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -125,8 +215,30 @@
         <div class="card quote-card">
             <p class="quote-text">"Yang dikejar tak dapat, yang dikendung berciciran. Jangan sekadar kejar hafazan baru sehingga abaikan hafazan lama (murajaah)"</p>
             <p class="quote-author">- Nota Wan Hasbullah</p>
+            <!-- PERUBAHAN 1: Tambah butang "Mula Menghafal Sekarang" di sebelah butang Artikel Penuh -->
             <a href="https://nota-wanhasbullah.blogspot.com/2026/05/seni-menjaga-hafazan-utamakan-murajaah.html" target="_blank" class="btn-link">Artikel Penuh</a>
+            <button onclick="app.switchTab('saba-nav')" class="btn-link-success">Mula Menghafal Sekarang</button>
         </div>
+
+        <!-- PERUBAHAN 2: Kad info baru -->
+        <div class="card" style="background: linear-gradient(135deg, #0f2027 0%, #1a2a3a 60%, #1e293b 100%); border: 1px solid rgba(251,191,36,0.18); border-radius: var(--radius); position: relative; overflow: hidden;">
+            <div style="position:absolute; top:-18px; right:-18px; width:80px; height:80px; border-radius:50%; background:rgba(251,191,36,0.06); pointer-events:none;"></div>
+            <div style="position:absolute; bottom:-24px; left:-16px; width:60px; height:60px; border-radius:50%; background:rgba(16,185,129,0.05); pointer-events:none;"></div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                <div style="width:34px; height:34px; border-radius:10px; background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.22); display:flex; align-items:center; justify-content:center; font-size:1rem;">📖</div>
+                <span style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--accent);">Platform Hafazan Anda</span>
+            </div>
+            <p style="font-size:0.82rem; color:#cbd5e1; line-height:1.7; margin-bottom:14px;">Setiap ayat yang anda hafal hari ini adalah pelaburan yang tidak akan pernah hilang. Platform ini membantu anda <strong style="color:var(--text-main);">menghafal dengan sistematik</strong>, menjejak kemajuan, dan memastikan hafazan lama sentiasa segar. Mulakan perjalanan mulia anda sekarang.</p>
+            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+                <div style="display:flex; gap:10px;">
+                    <span style="font-size:0.6rem; padding:3px 8px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); border-radius:20px; color:var(--success); font-weight:600;">✓ Saba'</span>
+                    <span style="font-size:0.6rem; padding:3px 8px; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.2); border-radius:20px; color:var(--accent); font-weight:600;">✓ Murajaah</span>
+                    <span style="font-size:0.6rem; padding:3px 8px; background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.2); border-radius:20px; color:#818cf8; font-weight:600;">✓ Tracker</span>
+                </div>
+                <button onclick="app.switchTab('saba-nav')" style="padding:7px 16px; background:var(--accent); color:#000; border:none; border-radius:8px; font-size:0.7rem; font-weight:800; cursor:pointer; width:auto;">Mula Menghafal →</button>
+            </div>
+        </div>
+
         <div class="stats-grid">
             <div class="stat-box"><span class="stat-label">Saba'</span><span id="stat-total" class="stat-val">0</span></div>
             <div class="stat-box"><span class="stat-label">Murajaah</span><span id="stat-murajaah" class="stat-val">0</span></div>
@@ -187,10 +299,17 @@
     <!-- AL-QURAN TAB -->
     <div id="tab-quran" class="tab-content">
         <div id="quran-display" class="card quran-container">
-            <div class="empty-state">
-                <p style="color: var(--text-dim); margin-bottom: 20px; font-weight:600;">Mulakan hafazan hari ini</p>
-                <button onclick="app.switchTab('saba-nav')" class="btn-success" style="width:120px; margin-right:10px;">Saba'</button>
-                <button onclick="app.switchTab('murajaah-nav')" class="btn-primary" style="width:120px; background:#475569; color:white;">Murajaah</button>
+            <!-- PERUBAHAN 3: Empty state premium fintech, centered -->
+            <div class="quran-empty-state">
+                <div class="quran-empty-icon">📖</div>
+                <p class="quran-empty-title">Mushaf Menanti Anda</p>
+                <p class="quran-empty-sub">Pilih sesi hafazan atau murajaah untuk mula membaca ayat Al-Quran di sini.</p>
+                <div class="quran-empty-divider"></div>
+                <div class="quran-empty-btns">
+                    <button onclick="app.switchTab('saba-nav')" class="quran-empty-btn-primary">Saba'</button>
+                    <button onclick="app.switchTab('murajaah-nav')" class="quran-empty-btn-secondary">Murajaah</button>
+                </div>
+                <div class="quran-empty-badge">Mulakan Hafazan Hari Ini</div>
             </div>
         </div>
     </div>
