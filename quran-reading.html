@@ -258,31 +258,13 @@ body::before {
 }
 .juz-auto-note-btn:hover { background:rgba(0,214,143,.22); }
 
-/* ── Masjid Icon (infaq) ── */
+/* ── Masjid Icon (infaq) — KLIK SEKALI TERUS ── */
 .masjid-infaq-wrap {
   position:relative;
   display:flex; align-items:center; gap:0;
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
-}
-
-/* Label teks 'Infaq Tahfiz AQIL' — hanya muncul bila diketuk (mobile active state) */
-.masjid-infaq-label {
-  font-size:.52rem; color:rgba(180,150,80,.55);
-  white-space:nowrap; opacity:0; pointer-events:none;
-  transition:opacity .35s ease, transform .35s var(--ease);
-  transform:translateX(6px);
-  letter-spacing:.04em;
-  font-family:var(--font);
-  font-weight:500;
-  position:absolute;
-  right:calc(100% + 4px);
-  top:50%; transform:translateY(-50%) translateX(6px);
-}
-.masjid-infaq-wrap.active .masjid-infaq-label,
-.masjid-infaq-wrap:focus .masjid-infaq-label {
-  opacity:1;
-  transform:translateY(-50%) translateX(0);
+  text-decoration:none;
 }
 
 /* Masjid SVG icon */
@@ -313,13 +295,11 @@ body::before {
   0%,100% { opacity:.9; transform:scale(1); box-shadow:0 0 3px rgba(244,201,93,.5); }
   50%     { opacity:.3; transform:scale(.7); box-shadow:none; }
 }
-.masjid-infaq-wrap:hover .masjid-infaq-icon,
-.masjid-infaq-wrap.active .masjid-infaq-icon {
+.masjid-infaq-wrap:hover .masjid-infaq-icon {
   background:rgba(180,150,80,.14);
   border-color:rgba(180,150,80,.5);
 }
-.masjid-infaq-wrap:hover .masjid-infaq-icon svg,
-.masjid-infaq-wrap.active .masjid-infaq-icon svg {
+.masjid-infaq-wrap:hover .masjid-infaq-icon svg {
   fill:rgba(244,201,93,.9);
 }
 
@@ -946,36 +926,6 @@ body::before {
 .btn-jump-sheet:hover { background:rgba(0,214,143,.2); }
 
 /* ═══════════════════════════════════════════════
-   TAB 3: LOG
-═══════════════════════════════════════════════ */
-.input-sub { font-size:.76rem; color:var(--t2); line-height:1.5; margin-bottom:14px; }
-.stepper-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
-.stepper {
-  width:42px; height:42px; background:var(--bg-card2); border:1px solid var(--border);
-  border-radius:var(--r-sm); color:var(--t1); font-size:1.3rem;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; flex-shrink:0; transition:all .2s;
-}
-.stepper:hover { background:var(--green-dim); border-color:var(--green); color:var(--green); }
-.pg-input {
-  flex:1; background:var(--bg-card2); border:1px solid var(--border);
-  border-radius:var(--r-sm); color:var(--t1); font-family:var(--font-mono);
-  font-size:1.5rem; font-weight:500; text-align:center;
-  padding:9px; outline:none; -moz-appearance:textfield;
-  transition:border-color .2s;
-}
-.pg-input::-webkit-inner-spin-button,
-.pg-input::-webkit-outer-spin-button { -webkit-appearance:none; }
-.pg-input:focus { border-color:var(--green); }
-
-/* Session card */
-.sess-row { display:flex; gap:7px; margin-top:10px; }
-.sess-item { flex:1; background:var(--bg-card2); border:1px solid var(--border); border-radius:var(--r-sm); padding:10px; display:flex; align-items:center; gap:8px; }
-.sess-icon { font-size:1rem; flex-shrink:0; }
-.sess-val { font-family:var(--font-mono); font-size:.8rem; font-weight:500; color:var(--t1); line-height:1.2; }
-.sess-lbl { font-size:.58rem; color:var(--t3); text-transform:uppercase; letter-spacing:.06em; }
-
-/* ═══════════════════════════════════════════════
    TAB 4: AL-KAHFI (was Lazim)
 ═══════════════════════════════════════════════ */
 .lazim-card {
@@ -1098,6 +1048,75 @@ body::before {
 }
 .maklumbalas-arrow svg {
   width:13px; height:13px; stroke:var(--blue);
+  fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;
+}
+
+/* ═══════════════════════════════════════════════
+   INFAQ TAHFIZ CARD — GOLD PREMIUM
+═══════════════════════════════════════════════ */
+.infaq-card {
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg, #1a1200 0%, #1f1600 50%, #140f00 100%);
+  border:1px solid rgba(244,201,93,.28);
+  border-radius:var(--r-lg);
+  padding:18px 18px 16px;
+  margin-bottom:10px;
+  animation:fadeUp 0.4s var(--ease) both;
+  animation-delay:.03s;
+  cursor:pointer;
+  transition:all .25s var(--ease);
+  text-decoration:none;
+  display:block;
+}
+.infaq-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(244,201,93,.5), transparent);
+}
+.infaq-card::after {
+  content:'';
+  position:absolute; bottom:-30px; right:-20px;
+  width:100px; height:100px;
+  background:radial-gradient(circle, rgba(244,201,93,.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+.infaq-card:hover {
+  border-color:rgba(244,201,93,.5);
+  box-shadow:0 8px 32px rgba(244,201,93,.12);
+  transform:translateY(-1px);
+}
+.infaq-inner { display:flex; align-items:center; gap:14px; }
+.infaq-icon {
+  width:42px; height:42px; border-radius:12px; flex-shrink:0;
+  background:linear-gradient(135deg, rgba(244,201,93,.2), rgba(244,201,93,.07));
+  border:1px solid rgba(244,201,93,.3);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.3rem;
+}
+.infaq-content { flex:1; min-width:0; }
+.infaq-tag {
+  font-size:.55rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:3px; opacity:.8;
+}
+.infaq-title {
+  font-size:.82rem; font-weight:700; color:var(--t1);
+  margin-bottom:2px; line-height:1.3;
+}
+.infaq-sub {
+  font-size:.65rem; color:var(--t2); line-height:1.4;
+}
+.infaq-arrow {
+  width:28px; height:28px; border-radius:8px; flex-shrink:0;
+  background:rgba(244,201,93,.1); border:1px solid rgba(244,201,93,.25);
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s;
+}
+.infaq-card:hover .infaq-arrow {
+  background:rgba(244,201,93,.22);
+  transform:translateX(2px);
+}
+.infaq-arrow svg {
+  width:13px; height:13px; stroke:var(--gold);
   fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round;
 }
 
@@ -1321,36 +1340,31 @@ body::before {
         </div>
       </div>
       <div class="juz-grid" id="juz-grid"></div>
-      <!-- Auto note with masjid infaq icon -->
+      <!-- Auto note with masjid infaq icon — KLIK SEKALI TERUS -->
       <div class="juz-auto-note">
         <span class="juz-auto-note-txt">Juz akan ditandai secara automatik mengikut bacaan anda</span>
         <div class="juz-baca-row">
           <button class="juz-auto-note-btn" id="btn-juz-baca">Jom Baca Al-Quran</button>
-          <!-- Masjid Infaq Icon -->
-          <div class="masjid-infaq-wrap" id="masjid-infaq-wrap" title="Infaq Tahfiz AQIL">
-            <span class="masjid-infaq-label">Infaq Tahfiz AQIL</span>
-            <div class="masjid-infaq-icon" id="masjid-infaq-icon">
+          <!-- Masjid Infaq Icon — klik sekali terus ke link -->
+          <a class="masjid-infaq-wrap" id="masjid-infaq-wrap"
+             href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html"
+             target="_blank" rel="noopener"
+             title="Infaq Tahfiz AQIL">
+            <div class="masjid-infaq-icon">
               <!-- Minimalist masjid SVG -->
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <!-- Main dome -->
                 <path d="M12 2 C9 2 7 4.5 7 7 L7 8 L17 8 L17 7 C17 4.5 15 2 12 2Z"/>
-                <!-- Small dome top -->
                 <path d="M12 1 C11.2 1 10.5 1.6 10.5 2.5 C10.5 3.1 11 4 12 4 C13 4 13.5 3.1 13.5 2.5 C13.5 1.6 12.8 1 12 1Z"/>
-                <!-- Minaret left -->
                 <rect x="3" y="5" width="2.5" height="11" rx="0.5"/>
                 <path d="M3 5 C3 3.5 4.25 2.5 4.25 2.5 C4.25 2.5 5.5 3.5 5.5 5Z"/>
-                <!-- Minaret right -->
                 <rect x="18.5" y="5" width="2.5" height="11" rx="0.5"/>
                 <path d="M18.5 5 C18.5 3.5 19.75 2.5 19.75 2.5 C19.75 2.5 21 3.5 21 5Z"/>
-                <!-- Main body -->
                 <rect x="5" y="8" width="14" height="8" rx="0.5"/>
-                <!-- Door arch -->
                 <path d="M10 16 L10 12.5 C10 11.1 10.9 10 12 10 C13.1 10 14 11.1 14 12.5 L14 16Z"/>
-                <!-- Base -->
                 <rect x="2" y="16" width="20" height="1.5" rx="0.5"/>
               </svg>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -1382,7 +1396,7 @@ body::before {
       </div>
     </div>
 
-    <!-- Berbaki bar (replaces mark bar — now shows pages remaining) -->
+    <!-- Berbaki bar -->
     <div class="q-berbaki-bar">
       <div class="q-berbaki-info">
         <div>
@@ -1420,7 +1434,7 @@ body::before {
         <div class="mushaf-footer">
           <div class="mushaf-pg-num" id="mushaf-pg-num">١</div>
         </div>
-        <!-- Mark button — moved to bottom of mushaf -->
+        <!-- Mark button -->
         <div class="mushaf-mark-area">
           <button class="q-mark-btn" id="mark-btn">
             <span id="mark-icon">○</span>
@@ -1432,53 +1446,24 @@ body::before {
 
   </div>
 
-  <!-- TAB 3: LOG -->
-  <div class="page" id="pg-log">
-    <div class="page-top"></div>
-
-    <!-- Input card -->
-    <div class="card">
-      <div class="lbl">Log Bacaan</div>
-      <p class="input-sub" style="margin-top:6px">Masukkan bilangan muka surat yang anda baca sesi ini</p>
-      <div class="stepper-row">
-        <button class="stepper" id="btn-minus">−</button>
-        <input type="number" class="pg-input" id="pg-inp" value="1" min="1" max="604"/>
-        <button class="stepper" id="btn-plus">+</button>
-      </div>
-      <button class="btn-primary" id="btn-add">Tambah Muka Surat</button>
-    </div>
-
-    <!-- Session card -->
-    <div class="card">
-      <div class="lbl">Sesi Terakhir</div>
-      <div class="sess-row">
-        <div class="sess-item">
-          <span class="sess-icon">📖</span>
-          <div><div class="sess-val" id="s-pg">—</div><div class="sess-lbl">Muka</div></div>
-        </div>
-        <div class="sess-item">
-          <span class="sess-icon">🕐</span>
-          <div><div class="sess-val" id="s-time">—</div><div class="sess-lbl">Masa</div></div>
-        </div>
-        <div class="sess-item">
-          <span class="sess-icon">📅</span>
-          <div><div class="sess-val" id="s-date">—</div><div class="sess-lbl">Tarikh</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Reset -->
-    <div class="card" style="text-align:center">
-      <div class="lbl" style="margin-bottom:12px">Tetapkan Semula</div>
-      <button class="btn-danger-full" id="btn-reset">Reset Semua Data</button>
-    </div>
-
-    <div class="page-bot"></div>
-  </div>
-
-  <!-- TAB 4: AL-KAHFI -->
+  <!-- TAB 3: AL-KAHFI -->
   <div class="page" id="pg-lazim">
     <div class="page-top"></div>
+
+    <!-- [BAHARU] Infaq Tahfiz AQIL Card -->
+    <a class="infaq-card" href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" target="_blank" rel="noopener">
+      <div class="infaq-inner">
+        <div class="infaq-icon">🕌</div>
+        <div class="infaq-content">
+          <div class="infaq-tag">Amal Jariah</div>
+          <div class="infaq-title">Infaq Tahfiz AQIL</div>
+          <div class="infaq-sub">Sokong program tahfiz — sedekah terbaik untuk akhirat anda</div>
+        </div>
+        <div class="infaq-arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+    </a>
 
     <!-- Maklum Balas Card -->
     <a class="maklumbalas-card" href="https://nota-wanhasbullah.blogspot.com/p/maklum-balas-quran-tracker.html" target="_blank" rel="noopener">
@@ -1538,7 +1523,7 @@ body::before {
     <div class="page-bot"></div>
   </div>
 
-  <!-- ═══════ BOTTOM TAB BAR ═══════ -->
+  <!-- ═══════ BOTTOM TAB BAR — 3 tabs (Log dibuang) ═══════ -->
   <nav class="tabbar">
     <button class="tab-btn active" data-tab="dash">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -1547,10 +1532,6 @@ body::before {
     <button class="tab-btn" data-tab="quran">
       <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       Al-Quran
-    </button>
-    <button class="tab-btn" data-tab="log">
-      <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="3" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
-      Log
     </button>
     <button class="tab-btn" data-tab="kahfi">
       <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -1883,8 +1864,6 @@ const el = {
   btnEditTgt: $('btn-edit-tgt'),
   btnPetikanBaca: $('btn-petikan-baca'),
   btnJuzBaca: $('btn-juz-baca'),
-  // Masjid infaq
-  masjidWrap: $('masjid-infaq-wrap'),
   // Quran tab
   jumpInp:      $('jump-inp'),
   btnJump:      $('btn-jump'),
@@ -1920,15 +1899,6 @@ const el = {
   // Jump sheet
   modalJump:    $('modal-jump'),
   jumpCancel:   $('jump-cancel'),
-  // Log tab
-  pgInp:        $('pg-inp'),
-  btnMinus:     $('btn-minus'),
-  btnPlus:      $('btn-plus'),
-  btnAdd:       $('btn-add'),
-  sPg:          $('s-pg'),
-  sTime:        $('s-time'),
-  sDate:        $('s-date'),
-  btnReset:     $('btn-reset'),
   // Modals
   modalTgt:     $('modal-tgt'),
   tgtInp:       $('tgt-inp'),
@@ -2014,53 +1984,6 @@ function toast(msg) {
 
 const openModal  = m => m.classList.add('open');
 const closeModal = m => m.classList.remove('open');
-
-/* ── MASJID INFAQ ICON (mobile touch / active state) ────────── */
-function initMasjidInfaq() {
-  const wrap = el.masjidWrap;
-  if (!wrap) return;
-
-  let activeTimer = null;
-
-  // Touch: toggle active label on tap
-  wrap.addEventListener('touchstart', e => {
-    e.stopPropagation();
-  }, { passive: true });
-
-  wrap.addEventListener('touchend', e => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (wrap.classList.contains('active')) {
-      // Second tap — navigate
-      window.open('https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html', '_blank', 'noopener');
-      wrap.classList.remove('active');
-      clearTimeout(activeTimer);
-    } else {
-      // First tap — show label
-      wrap.classList.add('active');
-      clearTimeout(activeTimer);
-      activeTimer = setTimeout(() => {
-        wrap.classList.remove('active');
-      }, 3000);
-    }
-  });
-
-  // Desktop: click goes straight
-  wrap.addEventListener('click', e => {
-    // Only fire on non-touch (pointer type)
-    if (e.pointerType === 'touch') return;
-    window.open('https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html', '_blank', 'noopener');
-  });
-
-  // Close on outside tap
-  document.addEventListener('touchend', e => {
-    if (!wrap.contains(e.target)) {
-      wrap.classList.remove('active');
-      clearTimeout(activeTimer);
-    }
-  }, { passive: true });
-}
 
 /* ── 3-DOT DROPDOWN ────────────────────────────────────────── */
 function openDropdown() {
@@ -2200,11 +2123,6 @@ function renderDash() {
   el.juzPg.textContent     = 'Muka ' + jStart + ' – ' + jEnd;
 
   renderJuzGrid(curJuz, pagesRead);
-
-  el.sPg.textContent   = lastSession.pages !== null ? lastSession.pages + ' mk' : '—';
-  el.sTime.textContent = lastSession.time  || '—';
-  el.sDate.textContent = fmtDate(lastSession.date);
-
   renderBerbakiBar();
 }
 
@@ -2486,7 +2404,6 @@ function renderAyahs(page, verses, newSurahs) {
   let html = '';
 
   if (segments.length === 0) {
-    // No verses from API — show surah headers if any
     newSurahs.forEach(s => {
       html += buildSurahHeader(s, BASMALAH_TEXT, page);
     });
@@ -2503,12 +2420,10 @@ function renderAyahs(page, verses, newSurahs) {
     const { surahNum, verses: segVerses } = seg;
     const surahDef = surahStartMap[surahNum];
 
-    // If this surah starts on this page, show its header inline
     if (surahDef) {
       html += buildSurahHeader(surahDef, BASMALAH_TEXT, page);
     }
 
-    // Build arabic text for this segment
     html += `<div class="arabic-segment">`;
     segVerses.forEach(v => {
       const txt = v.text_uthmani || v.text_uthmani_simple || '';
@@ -2526,13 +2441,11 @@ function renderAyahs(page, verses, newSurahs) {
 
 function buildSurahHeader(s, BASMALAH_TEXT, page) {
   let html = '';
-  // Surah header — inline
   html += `
     <div class="surah-header-inline">
       <div class="surah-header-arabic">${s.n}</div>
       <div class="surah-header-info">Surah ${s.num} &nbsp;·&nbsp; ${s.a} Ayat &nbsp;·&nbsp; ${s.t}</div>
     </div>`;
-  // Basmalah (except At-Tawbah and Al-Fatihah header — Fatihah handled separately)
   if (!NO_BASMALAH.has(s.num)) {
     html += `<div class="basmalah">${BASMALAH_TEXT}</div>`;
   }
@@ -2565,35 +2478,6 @@ function showLazim(type) {
 }
 
 /* ── ACTIONS ───────────────────────────────────────────────── */
-function addPages() {
-  const v = parseInt(el.pgInp.value, 10);
-  if (isNaN(v) || v < 1) { toast('Masukkan sekurang-kurangnya 1 muka.'); return; }
-  if (state.pagesRead >= TOTAL) { toast('🎉 Anda telah khatam Al-Quran!'); return; }
-
-  const toAdd = clamp(v, 1, TOTAL - state.pagesRead);
-  state.pagesRead   = clamp(state.pagesRead + toAdd, 0, TOTAL);
-  state.todayPages += toAdd;
-  state.lastDate    = todayStr();
-  state.lastSession = { pages: toAdd, time: timeStr(), date: state.lastDate };
-  saveState();
-
-  renderDash();
-
-  const p = state.currentQuranPage;
-  const isRead = p <= state.pagesRead;
-  el.markBtn.classList.toggle('marked', isRead);
-  el.markIcon.textContent = isRead ? '✓' : '○';
-  el.markTxt.textContent  = isRead ? 'Sudah Dibaca ✓' : 'Tandakan Muka Ini Sudah Dibaca';
-
-  el.pgInp.value = 1;
-
-  const msg = state.pagesRead >= TOTAL
-    ? '🕌 Alhamdulillah! Anda telah khatam Al-Quran!'
-    : `+${toAdd} muka dicatat ✓`;
-  toast(msg);
-  if (navigator.vibrate) navigator.vibrate(40);
-}
-
 function markCurrentPage() {
   const p = state.currentQuranPage;
   if (p <= state.pagesRead) {
@@ -2646,7 +2530,6 @@ function checkDailyReset() {
 const TABS = {
   dash:  { btn: null, page: $('pg-dash')  },
   quran: { btn: null, page: $('pg-quran') },
-  log:   { btn: null, page: $('pg-log')   },
   kahfi: { btn: null, page: $('pg-lazim') }
 };
 
@@ -2671,26 +2554,6 @@ el.btnPetikanBaca.addEventListener('click', () => switchTab('quran'));
 // Dashboard: Juz card "Jom Baca Al-Quran"
 el.btnJuzBaca.addEventListener('click', () => switchTab('quran'));
 
-// Log tab: stepper
-el.btnMinus.addEventListener('click', () => {
-  el.pgInp.value = Math.max(1, (parseInt(el.pgInp.value) || 1) - 1);
-});
-el.btnPlus.addEventListener('click', () => {
-  const max = TOTAL - state.pagesRead;
-  el.pgInp.value = Math.min(max || 1, (parseInt(el.pgInp.value) || 1) + 1);
-});
-el.pgInp.addEventListener('input', () => {
-  const v = parseInt(el.pgInp.value);
-  if (!isNaN(v)) el.pgInp.value = clamp(v, 1, TOTAL - state.pagesRead);
-});
-el.btnAdd.addEventListener('click', addPages);
-el.pgInp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addPages(); } });
-
-// Reset
-el.btnReset.addEventListener('click', () => openModal(el.modalReset));
-el.resetCancel.addEventListener('click',  () => closeModal(el.modalReset));
-el.resetConfirm.addEventListener('click', resetAll);
-
 // Target modal
 el.btnEditTgt.addEventListener('click', () => {
   el.tgtInp.value = state.dailyTarget;
@@ -2704,6 +2567,10 @@ el.tgtInp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventD
 [el.modalTgt, el.modalReset, el.modalJuz, el.modalSurah, el.modalBm, el.modalJump].forEach(m => {
   if (m) m.addEventListener('click', e => { if (e.target === m) closeModal(m); });
 });
+
+// Reset
+el.resetCancel.addEventListener('click',  () => closeModal(el.modalReset));
+el.resetConfirm.addEventListener('click', resetAll);
 
 // Quran nav
 el.btnPrev.addEventListener('click', () => {
@@ -2794,7 +2661,6 @@ function init() {
   renderQuranPage(state.currentQuranPage);
   showLazim('kahfi-awal');
   initSwipe();
-  initMasjidInfaq();
   startReminderCheck();
   console.log('%c☽ Quran Tracker v3', 'color:#00d68f;font-size:13px;font-weight:bold');
 }
