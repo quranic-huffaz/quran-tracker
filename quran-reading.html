@@ -2158,8 +2158,13 @@ function startReminderCheck() {
 
 /* ── RENDER BERBAKI BAR ────────────────────────────────────── */
 function renderBerbakiBar() {
-  const remaining = clamp(TOTAL - state.pagesRead, 0, TOTAL);
-  const pct = Math.min(Math.round((state.pagesRead / TOTAL) * 100), 100);
+  const page = state.currentQuranPage;
+  const juzNum = getJuzForPage(page);
+  const endPg = getJuzEndPage(juzNum);
+  const remaining = clamp(endPg - page, 0, endPg - JUZ_START[juzNum - 1]);
+  const juzTotal = endPg - JUZ_START[juzNum - 1] + 1;
+  const pagesIntoJuz = page - JUZ_START[juzNum - 1];
+  const pct = Math.min(Math.round((pagesIntoJuz / juzTotal) * 100), 100);
   if (el.berbakiNum) el.berbakiNum.textContent = remaining;
   if (el.berbakiProgFill) el.berbakiProgFill.style.width = pct + '%';
 }
