@@ -244,13 +244,84 @@ body::before {
 .juz-auto-note-txt {
   font-size:.6rem; color:var(--t2); line-height:1.4; flex:1;
 }
+
+/* ── Juz baca row (button + masjid icon) ── */
+.juz-baca-row {
+  display:flex; align-items:center; gap:8px; flex-shrink:0;
+}
+
 .juz-auto-note-btn {
   background:var(--green-dim); border:1px solid rgba(0,214,143,.3);
   border-radius:99px; color:var(--green); font-family:var(--font);
   font-size:.6rem; font-weight:700; padding:4px 10px;
-  cursor:pointer; transition:all .2s; white-space:nowrap; flex-shrink:0;
+  cursor:pointer; transition:all .2s; white-space:nowrap;
 }
 .juz-auto-note-btn:hover { background:rgba(0,214,143,.22); }
+
+/* ── Masjid Icon (infaq) ── */
+.masjid-infaq-wrap {
+  position:relative;
+  display:flex; align-items:center; gap:0;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Label teks 'Infaq Tahfiz AQIL' — hanya muncul bila diketuk (mobile active state) */
+.masjid-infaq-label {
+  font-size:.52rem; color:rgba(180,150,80,.55);
+  white-space:nowrap; opacity:0; pointer-events:none;
+  transition:opacity .35s ease, transform .35s var(--ease);
+  transform:translateX(6px);
+  letter-spacing:.04em;
+  font-family:var(--font);
+  font-weight:500;
+  position:absolute;
+  right:calc(100% + 4px);
+  top:50%; transform:translateY(-50%) translateX(6px);
+}
+.masjid-infaq-wrap.active .masjid-infaq-label,
+.masjid-infaq-wrap:focus .masjid-infaq-label {
+  opacity:1;
+  transform:translateY(-50%) translateX(0);
+}
+
+/* Masjid SVG icon */
+.masjid-infaq-icon {
+  width:26px; height:26px;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(180,150,80,.28);
+  border-radius:7px;
+  background:rgba(180,150,80,.07);
+  flex-shrink:0;
+  transition:all .2s var(--ease);
+  position:relative;
+}
+.masjid-infaq-icon svg {
+  width:15px; height:15px;
+  fill:rgba(180,150,80,.65);
+  transition:fill .2s;
+}
+/* blink dot */
+.masjid-infaq-icon::after {
+  content:'';
+  position:absolute; top:3px; right:3px;
+  width:4px; height:4px; border-radius:50%;
+  background:rgba(244,201,93,.8);
+  animation:masjid-blink 2.4s ease-in-out infinite;
+}
+@keyframes masjid-blink {
+  0%,100% { opacity:.9; transform:scale(1); box-shadow:0 0 3px rgba(244,201,93,.5); }
+  50%     { opacity:.3; transform:scale(.7); box-shadow:none; }
+}
+.masjid-infaq-wrap:hover .masjid-infaq-icon,
+.masjid-infaq-wrap.active .masjid-infaq-icon {
+  background:rgba(180,150,80,.14);
+  border-color:rgba(180,150,80,.5);
+}
+.masjid-infaq-wrap:hover .masjid-infaq-icon svg,
+.masjid-infaq-wrap.active .masjid-infaq-icon svg {
+  fill:rgba(244,201,93,.9);
+}
 
 /* ═══════════════════════════════════════════════
    PETIKAN CARD — PREMIUM FINTECH STYLE
@@ -580,22 +651,34 @@ body::before {
   color:var(--t3); padding:8px 16px 4px;
 }
 
-/* Mark button — compact, inside topbar area */
-.q-mark-bar {
-  display:flex; align-items:center; padding:8px 14px;
+/* ── BERBAKI BAR (replacing mark bar) ── */
+.q-berbaki-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 14px;
   flex-shrink:0;
   border-bottom:1px solid var(--border);
   background:rgba(8,13,26,.8);
+  gap:10px;
 }
-.q-mark-btn {
-  flex:1; background:transparent; border:1px solid rgba(0,214,143,.22);
-  border-radius:var(--r-sm); color:var(--green); font-family:var(--font);
-  font-size:.8rem; font-weight:600; padding:9px;
-  cursor:pointer; transition:all .25s var(--ease);
-  display:flex; align-items:center; justify-content:center; gap:6px;
+.q-berbaki-info {
+  display:flex; align-items:center; gap:8px; flex:1;
 }
-.q-mark-btn:hover { background:var(--green-dim); border-color:rgba(0,214,143,.4); }
-.q-mark-btn.marked { background:var(--green); color:#061210; border-color:var(--green); }
+.q-berbaki-num {
+  font-family:var(--font-mono); font-size:1.1rem; font-weight:600;
+  color:var(--t1); line-height:1;
+}
+.q-berbaki-lbl {
+  font-size:.6rem; color:var(--t3); text-transform:uppercase;
+  letter-spacing:.06em; line-height:1.3;
+}
+.q-berbaki-prog {
+  flex:1; height:4px; background:rgba(255,255,255,.05);
+  border-radius:99px; overflow:hidden; max-width:80px;
+}
+.q-berbaki-prog-fill {
+  height:100%; background:linear-gradient(90deg,#00d68f,#00a86b);
+  border-radius:99px; transition:width .8s var(--ease);
+}
 
 /* Quran scroll area — takes remaining space */
 .q-scroll-area {
@@ -618,6 +701,8 @@ body::before {
   overflow:hidden;
   min-height:100%;
   box-shadow:none;
+  display:flex;
+  flex-direction:column;
 }
 
 /* Mushaf header */
@@ -670,6 +755,7 @@ body::before {
   padding:18px 16px 22px;
   position:relative;
   background:transparent;
+  flex:1;
 }
 
 /* Decorative corner borders like Quran pages */
@@ -690,12 +776,14 @@ body::before {
   border-width:0 0 1.5px 1.5px;
 }
 
-/* Surah header (when new surah starts on this page) */
-.surah-header {
+/* Surah header — inline style (appears inline within text flow) */
+.surah-header-inline {
+  display:block;
   background:linear-gradient(90deg, transparent, rgba(180,150,80,.12), transparent);
   border-top:1px solid rgba(180,150,80,.25);
   border-bottom:1px solid rgba(180,150,80,.25);
-  padding:14px 16px; text-align:center; margin-bottom:16px; margin:0 -16px 16px;
+  padding:12px 16px; text-align:center;
+  margin:16px -16px 0px;
 }
 .surah-header-arabic { font-family:var(--font-quran); font-size:1.5rem; color:#5a3e00; direction:rtl; margin-bottom:3px; }
 .surah-header-info { font-size:.62rem; color:#8a7040; letter-spacing:.06em; text-transform:uppercase; }
@@ -703,9 +791,10 @@ body::before {
 /* Basmalah */
 .basmalah {
   font-family:var(--font-quran); font-size:1.5rem; color:#5a3e00;
-  text-align:center; direction:rtl; margin-bottom:18px; padding-bottom:14px;
+  text-align:center; direction:rtl; margin-bottom:18px; padding:10px 0 14px;
   border-bottom:1px solid rgba(180,150,80,.15);
   letter-spacing:.02em;
+  display:block;
 }
 
 /* Arabic text block — mushaf style, dark warm text on cream */
@@ -720,6 +809,19 @@ body::before {
   letter-spacing:.01em;
 }
 
+/* Segment between surahs on same page */
+.arabic-segment {
+  font-family:var(--font-quran);
+  font-size:1.68rem;
+  line-height:2.7;
+  text-align:justify;
+  direction:rtl;
+  color:#1a1008;
+  word-break:break-word;
+  letter-spacing:.01em;
+  display:block;
+}
+
 /* Page number footer */
 .mushaf-footer {
   display:flex; align-items:center; justify-content:center;
@@ -730,6 +832,26 @@ body::before {
 .mushaf-pg-num {
   font-family:var(--font-mono); font-size:.7rem; color:#8a7040;
   border:1px solid rgba(180,150,80,.25); border-radius:99px; padding:2px 12px;
+}
+
+/* ── MARK BUTTON — moved to below page, inside mushaf ── */
+.mushaf-mark-area {
+  padding:10px 16px 12px;
+  border-top:1px solid rgba(180,150,80,.12);
+  background:rgba(180,150,80,.04);
+  display:flex; align-items:center; justify-content:center;
+}
+.q-mark-btn {
+  flex:1; background:transparent; border:1px solid rgba(139,106,16,.3);
+  border-radius:var(--r-sm); color:#7a5800; font-family:var(--font);
+  font-size:.8rem; font-weight:600; padding:9px;
+  cursor:pointer; transition:all .25s var(--ease);
+  display:flex; align-items:center; justify-content:center; gap:6px;
+}
+.q-mark-btn:hover { background:rgba(180,150,80,.1); border-color:rgba(139,106,16,.5); }
+.q-mark-btn.marked {
+  background:linear-gradient(135deg,#5a8a10,#4a7008);
+  color:#f0ffe8; border-color:transparent;
 }
 
 /* Ayah number ornament */
@@ -1199,10 +1321,37 @@ body::before {
         </div>
       </div>
       <div class="juz-grid" id="juz-grid"></div>
-      <!-- Auto note -->
+      <!-- Auto note with masjid infaq icon -->
       <div class="juz-auto-note">
         <span class="juz-auto-note-txt">Juz akan ditandai secara automatik mengikut bacaan anda</span>
-        <button class="juz-auto-note-btn" id="btn-juz-baca">Jom Baca Al-Quran</button>
+        <div class="juz-baca-row">
+          <button class="juz-auto-note-btn" id="btn-juz-baca">Jom Baca Al-Quran</button>
+          <!-- Masjid Infaq Icon -->
+          <div class="masjid-infaq-wrap" id="masjid-infaq-wrap" title="Infaq Tahfiz AQIL">
+            <span class="masjid-infaq-label">Infaq Tahfiz AQIL</span>
+            <div class="masjid-infaq-icon" id="masjid-infaq-icon">
+              <!-- Minimalist masjid SVG -->
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <!-- Main dome -->
+                <path d="M12 2 C9 2 7 4.5 7 7 L7 8 L17 8 L17 7 C17 4.5 15 2 12 2Z"/>
+                <!-- Small dome top -->
+                <path d="M12 1 C11.2 1 10.5 1.6 10.5 2.5 C10.5 3.1 11 4 12 4 C13 4 13.5 3.1 13.5 2.5 C13.5 1.6 12.8 1 12 1Z"/>
+                <!-- Minaret left -->
+                <rect x="3" y="5" width="2.5" height="11" rx="0.5"/>
+                <path d="M3 5 C3 3.5 4.25 2.5 4.25 2.5 C4.25 2.5 5.5 3.5 5.5 5Z"/>
+                <!-- Minaret right -->
+                <rect x="18.5" y="5" width="2.5" height="11" rx="0.5"/>
+                <path d="M18.5 5 C18.5 3.5 19.75 2.5 19.75 2.5 C19.75 2.5 21 3.5 21 5Z"/>
+                <!-- Main body -->
+                <rect x="5" y="8" width="14" height="8" rx="0.5"/>
+                <!-- Door arch -->
+                <path d="M10 16 L10 12.5 C10 11.1 10.9 10 12 10 C13.1 10 14 11.1 14 12.5 L14 16Z"/>
+                <!-- Base -->
+                <rect x="2" y="16" width="20" height="1.5" rx="0.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1233,12 +1382,17 @@ body::before {
       </div>
     </div>
 
-    <!-- Mark button bar -->
-    <div class="q-mark-bar">
-      <button class="q-mark-btn" id="mark-btn">
-        <span id="mark-icon">○</span>
-        <span id="mark-txt">Tandakan Muka Ini Sudah Dibaca</span>
-      </button>
+    <!-- Berbaki bar (replaces mark bar — now shows pages remaining) -->
+    <div class="q-berbaki-bar">
+      <div class="q-berbaki-info">
+        <div>
+          <div class="q-berbaki-num" id="berbaki-num">604</div>
+          <div class="q-berbaki-lbl">muka berbaki</div>
+        </div>
+        <div class="q-berbaki-prog">
+          <div class="q-berbaki-prog-fill" id="berbaki-prog-fill" style="width:0%"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Quran scroll area -->
@@ -1265,6 +1419,13 @@ body::before {
         </div>
         <div class="mushaf-footer">
           <div class="mushaf-pg-num" id="mushaf-pg-num">١</div>
+        </div>
+        <!-- Mark button — moved to bottom of mushaf -->
+        <div class="mushaf-mark-area">
+          <button class="q-mark-btn" id="mark-btn">
+            <span id="mark-icon">○</span>
+            <span id="mark-txt">Tandakan Muka Ini Sudah Dibaca</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1722,6 +1883,8 @@ const el = {
   btnEditTgt: $('btn-edit-tgt'),
   btnPetikanBaca: $('btn-petikan-baca'),
   btnJuzBaca: $('btn-juz-baca'),
+  // Masjid infaq
+  masjidWrap: $('masjid-infaq-wrap'),
   // Quran tab
   jumpInp:      $('jump-inp'),
   btnJump:      $('btn-jump'),
@@ -1736,6 +1899,9 @@ const el = {
   markBtn:      $('mark-btn'),
   markIcon:     $('mark-icon'),
   markTxt:      $('mark-txt'),
+  // Berbaki bar
+  berbakiNum:      $('berbaki-num'),
+  berbakiProgFill: $('berbaki-prog-fill'),
   // Juz strip
   qJuzBadge:    $('q-juz-badge'),
   qJuzArabic:   $('q-juz-arabic'),
@@ -1849,6 +2015,53 @@ function toast(msg) {
 const openModal  = m => m.classList.add('open');
 const closeModal = m => m.classList.remove('open');
 
+/* ── MASJID INFAQ ICON (mobile touch / active state) ────────── */
+function initMasjidInfaq() {
+  const wrap = el.masjidWrap;
+  if (!wrap) return;
+
+  let activeTimer = null;
+
+  // Touch: toggle active label on tap
+  wrap.addEventListener('touchstart', e => {
+    e.stopPropagation();
+  }, { passive: true });
+
+  wrap.addEventListener('touchend', e => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (wrap.classList.contains('active')) {
+      // Second tap — navigate
+      window.open('https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html', '_blank', 'noopener');
+      wrap.classList.remove('active');
+      clearTimeout(activeTimer);
+    } else {
+      // First tap — show label
+      wrap.classList.add('active');
+      clearTimeout(activeTimer);
+      activeTimer = setTimeout(() => {
+        wrap.classList.remove('active');
+      }, 3000);
+    }
+  });
+
+  // Desktop: click goes straight
+  wrap.addEventListener('click', e => {
+    // Only fire on non-touch (pointer type)
+    if (e.pointerType === 'touch') return;
+    window.open('https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html', '_blank', 'noopener');
+  });
+
+  // Close on outside tap
+  document.addEventListener('touchend', e => {
+    if (!wrap.contains(e.target)) {
+      wrap.classList.remove('active');
+      clearTimeout(activeTimer);
+    }
+  }, { passive: true });
+}
+
 /* ── 3-DOT DROPDOWN ────────────────────────────────────────── */
 function openDropdown() {
   el.qDropdown.classList.add('open');
@@ -1885,7 +2098,6 @@ function initSwipe() {
   area.addEventListener('touchmove', e => {
     const dx = e.touches[0].clientX - swipeStartX;
     const dy = e.touches[0].clientY - swipeStartY;
-    // Only detect horizontal swipe if dx dominates
     if (!isSwiping && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
       isSwiping = true;
     }
@@ -1896,10 +2108,8 @@ function initSwipe() {
     const dx = e.changedTouches[0].clientX - swipeStartX;
     const threshold = 60;
     if (dx < -threshold && state.currentQuranPage < TOTAL) {
-      // swipe left = next page
       renderQuranPage(state.currentQuranPage + 1);
     } else if (dx > threshold && state.currentQuranPage > 1) {
-      // swipe right = prev page
       renderQuranPage(state.currentQuranPage - 1);
     }
     isSwiping = false;
@@ -1946,6 +2156,14 @@ function startReminderCheck() {
   reminderInterval = setInterval(checkKahfiReminder, 60000);
 }
 
+/* ── RENDER BERBAKI BAR ────────────────────────────────────── */
+function renderBerbakiBar() {
+  const remaining = clamp(TOTAL - state.pagesRead, 0, TOTAL);
+  const pct = Math.min(Math.round((state.pagesRead / TOTAL) * 100), 100);
+  if (el.berbakiNum) el.berbakiNum.textContent = remaining;
+  if (el.berbakiProgFill) el.berbakiProgFill.style.width = pct + '%';
+}
+
 /* ── RENDER DASHBOARD ──────────────────────────────────────── */
 function renderDash() {
   const { pagesRead, dailyTarget, todayPages, lastSession } = state;
@@ -1981,6 +2199,8 @@ function renderDash() {
   el.sPg.textContent   = lastSession.pages !== null ? lastSession.pages + ' mk' : '—';
   el.sTime.textContent = lastSession.time  || '—';
   el.sDate.textContent = fmtDate(lastSession.date);
+
+  renderBerbakiBar();
 }
 
 function renderJuzGrid(curJuz, pagesRead) {
@@ -2183,6 +2403,9 @@ async function renderQuranPage(page) {
   // Juz strip
   renderJuzStrip(page);
 
+  // Berbaki bar
+  renderBerbakiBar();
+
   // Mark button state
   const isRead = page <= state.pagesRead;
   el.markBtn.classList.toggle('marked', isRead);
@@ -2224,28 +2447,65 @@ async function renderQuranPage(page) {
   }
 }
 
+/* ── RENDER AYAHS — Mushaf layout (surah header inline) ────── */
 function renderAyahs(page, verses, newSurahs) {
-  let html = '';
   const BASMALAH_TEXT = 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
 
-  newSurahs.forEach(s => {
-    html += `
-      <div class="surah-header">
-        <div class="surah-header-arabic">${s.n}</div>
-        <div class="surah-header-info">Surah ${s.num} &nbsp;·&nbsp; ${s.a} Ayat &nbsp;·&nbsp; ${s.t}</div>
-      </div>`;
-    if (!NO_BASMALAH.has(s.num) && s.num !== 1) {
-      html += `<div class="basmalah">${BASMALAH_TEXT}</div>`;
+  // Build a map of surah numbers that start on this page
+  const surahStartMap = {};
+  newSurahs.forEach(s => { surahStartMap[s.num] = s; });
+
+  // Group verses by surah
+  const segments = [];
+  let currentSurahNum = null;
+  let currentGroup = [];
+
+  verses.forEach(v => {
+    const ref = v.verse_key || '';
+    const surahNum = parseInt(ref.split(':')[0], 10);
+
+    if (surahNum !== currentSurahNum) {
+      if (currentGroup.length > 0) {
+        segments.push({ surahNum: currentSurahNum, verses: currentGroup });
+      }
+      currentSurahNum = surahNum;
+      currentGroup = [v];
+    } else {
+      currentGroup.push(v);
     }
   });
-
-  if (page === 1) {
-    html += `<div class="basmalah">${BASMALAH_TEXT}</div>`;
+  if (currentGroup.length > 0) {
+    segments.push({ surahNum: currentSurahNum, verses: currentGroup });
   }
 
-  if (verses.length > 0) {
-    html += `<div class="arabic-block">`;
-    verses.forEach(v => {
+  let html = '';
+
+  if (segments.length === 0) {
+    // No verses from API — show surah headers if any
+    newSurahs.forEach(s => {
+      html += buildSurahHeader(s, BASMALAH_TEXT, page);
+    });
+    html += `
+      <div class="error-wrap">
+        <div class="error-icon">📖</div>
+        <div class="error-msg">Tiada data ayat untuk muka ini.</div>
+      </div>`;
+    el.quranBody.innerHTML = html;
+    return;
+  }
+
+  segments.forEach((seg, segIdx) => {
+    const { surahNum, verses: segVerses } = seg;
+    const surahDef = surahStartMap[surahNum];
+
+    // If this surah starts on this page, show its header inline
+    if (surahDef) {
+      html += buildSurahHeader(surahDef, BASMALAH_TEXT, page);
+    }
+
+    // Build arabic text for this segment
+    html += `<div class="arabic-segment">`;
+    segVerses.forEach(v => {
       const txt = v.text_uthmani || v.text_uthmani_simple || '';
       const ref = v.verse_key || '';
       const ayahNum = ref.split(':')[1] || '';
@@ -2254,15 +2514,24 @@ function renderAyahs(page, verses, newSurahs) {
       }
     });
     html += `</div>`;
-  } else {
-    html += `
-      <div class="error-wrap">
-        <div class="error-icon">📖</div>
-        <div class="error-msg">Tiada data ayat untuk muka ini.</div>
-      </div>`;
-  }
+  });
 
   el.quranBody.innerHTML = html;
+}
+
+function buildSurahHeader(s, BASMALAH_TEXT, page) {
+  let html = '';
+  // Surah header — inline
+  html += `
+    <div class="surah-header-inline">
+      <div class="surah-header-arabic">${s.n}</div>
+      <div class="surah-header-info">Surah ${s.num} &nbsp;·&nbsp; ${s.a} Ayat &nbsp;·&nbsp; ${s.t}</div>
+    </div>`;
+  // Basmalah (except At-Tawbah and Al-Fatihah header — Fatihah handled separately)
+  if (!NO_BASMALAH.has(s.num)) {
+    html += `<div class="basmalah">${BASMALAH_TEXT}</div>`;
+  }
+  return html;
 }
 
 /* ── LAZIM / AL-KAHFI TAB ──────────────────────────────────── */
@@ -2520,6 +2789,7 @@ function init() {
   renderQuranPage(state.currentQuranPage);
   showLazim('kahfi-awal');
   initSwipe();
+  initMasjidInfaq();
   startReminderCheck();
   console.log('%c☽ Quran Tracker v3', 'color:#00d68f;font-size:13px;font-weight:bold');
 }
