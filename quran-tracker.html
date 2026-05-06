@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Tracker - Premium Dashboard</title>
+    
+    <!-- 1. INTEGRASI ONESIGNAL (Berdasarkan image_86ca10.png) -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "f8115133-bc87-4f1c-a080-243566d836ac",
+        });
+      });
+    </script>
+
+    <!-- 2. TAILWIND CSS & FONTS (Gaya Fintech Premium) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0a0f1c; color: #fff; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .premium-gradient { background: linear-gradient(135deg, #800F1C 0%, #9A1A29 50%, #450a0f 100%); }
+    </style>
+</head>
+<body class="max-w-md mx-auto min-h-screen flex flex-col pb-24 border-x border-slate-900 shadow-2xl">
+
+    <!-- HEADER (Inspirasi image_87378d.jpg) -->
+    <div class="premium-gradient pt-10 pb-12 px-6 rounded-b-[2.5rem] shadow-2xl relative">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <span class="text-xs text-red-200/70 tracking-widest block uppercase font-bold">Selamat Beramal,</span>
+                <h1 class="text-2xl font-bold tracking-tight text-white">Wan Hasbullah</h1>
+            </div>
+            <div class="w-12 h-12 rounded-full border-2 border-red-400/30 overflow-hidden shadow-lg">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Wan" alt="Avatar">
+            </div>
+        </div>
+
+        <!-- TARIKH & HIJRI BAR -->
+        <div class="glass rounded-2xl px-4 py-3 flex justify-between items-center text-[11px] font-medium">
+            <div class="flex items-center gap-2">
+                <i class="fa-regular fa-calendar-alt text-red-300"></i>
+                <span>06 Mei 2026</span>
+            </div>
+            <div class="h-3 w-[1px] bg-white/20"></div>
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-moon text-red-300"></i>
+                <span>19 Zulkaedah 1447</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- KANDUNGAN UTAMA -->
+    <div class="px-5 -mt-6 space-y-5">
+        
+        <!-- CARD PRESTASI (Baki & Statistik) -->
+        <div class="bg-white text-slate-800 rounded-3xl p-6 shadow-xl border border-white/20">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Tilawah Hari Ini</p>
+                    <h2 class="text-4xl font-black text-slate-900" id="tilawahDisplay">0</h2>
+                </div>
+                <div class="bg-emerald-50 px-3 py-1 rounded-full flex items-center gap-1">
+                    <span class="text-emerald-600 text-xs font-bold" id="streakDisplay">0</span>
+                    <span class="text-emerald-500 text-[10px]">🔥 Streak</span>
+                </div>
+            </div>
+            <button onclick="addTilawah()" class="w-full bg-[#9A1A29] hover:bg-[#800F1C] text-white font-bold py-4 rounded-2xl shadow-lg shadow-red-900/30 active:scale-95 transition-all">
+                + Tambah Muka Surat
+            </button>
+        </div>
+
+        <!-- MENU MODUL GRID -->
+        <div class="grid grid-cols-2 gap-4">
+            <a href="tilawah.html" class="glass p-5 rounded-3xl flex flex-col gap-3 group transition-all hover:bg-white/10">
+                <div class="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-book-quran text-xl"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm">Tilawah</h4>
+                    <p class="text-[10px] text-slate-500 tracking-tight">Rekod bacaan harian</p>
+                </div>
+            </a>
+            <a href="hafazan.html" class="glass p-5 rounded-3xl flex flex-col gap-3 group transition-all hover:bg-white/10">
+                <div class="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-brain text-xl"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm">Hafazan</h4>
+                    <p class="text-[10px] text-slate-500 tracking-tight">Pantau hafalan surah</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- CARTA PRESTASI MINGGUAN -->
+        <div class="glass rounded-3xl p-5 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Prestasi Mingguan</h3>
+                <div class="flex items-center gap-2 bg-white/5 px-3 py-1 rounded-lg">
+                    <input type="number" id="targetInput" class="w-8 bg-transparent text-center font-bold outline-none text-red-400" placeholder="0">
+                    <button onclick="setTarget()" class="text-[10px] font-bold text-slate-300 uppercase">Set</button>
+                </div>
+            </div>
+            <canvas id="weeklyChart" class="w-full h-40"></canvas>
+        </div>
+    </div>
+
+    <!-- NAVIGASI BAWAH (Gaya Floating image_87378d.jpg) -->
+    <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#0a0f1c]/90 backdrop-blur-xl border-t border-white/5 px-8 py-4 flex justify-between items-center z-50">
+        <button class="text-red-500 flex flex-col items-center gap-1">
+            <i class="fa-solid fa-house-chimney text-lg"></i>
+            <span class="text-[9px] font-bold">Utama</span>
+        </button>
+        <button class="text-slate-500 flex flex-col items-center gap-1 opacity-50">
+            <i class="fa-solid fa-compass text-lg"></i>
+            <span class="text-[9px] font-medium">Kiblat</span>
+        </button>
+        <div class="-mt-12 relative">
+            <button class="w-14 h-14 bg-gradient-to-tr from-[#800F1C] to-[#9A1A29] rounded-full shadow-2xl shadow-red-900/50 flex items-center justify-center text-white text-xl border-4 border-[#0a0f1c]">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+        <button class="text-slate-500 flex flex-col items-center gap-1 opacity-50">
+            <i class="fa-solid fa-chart-simple text-lg"></i>
+            <span class="text-[9px] font-medium">Laporan</span>
+        </button>
+        <button class="text-slate-500 flex flex-col items-center gap-1 opacity-50">
+            <i class="fa-solid fa-user text-lg"></i>
+            <span class="text-[9px] font-medium">Profil</span>
+        </button>
+    </div>
+
+    <script>
+        // === LOGIK APLIKASI ===
+        let today = new Date().toDateString();
+        let tilawah = parseInt(localStorage.getItem('tilawahToday')) || 0;
+        let streak = parseInt(localStorage.getItem('streak')) || 0;
+        let history = JSON.parse(localStorage.getItem('history')) || [];
+
+        // Reset harian otomatis
+        if(localStorage.getItem('lastDate') !== today){
+            localStorage.setItem('tilawahToday', 0);
+            tilawah = 0;
+            updateStreak();
+        }
+
+        function updateUI() {
+            document.getElementById('tilawahDisplay').innerText = tilawah;
+            document.getElementById('streakDisplay').innerText = streak;
+            drawChart();
+        }
+
+        function addTilawah() {
+            tilawah++;
+            localStorage.setItem('tilawahToday', tilawah);
+            localStorage.setItem('lastDate', today);
+            saveHistory();
+            updateUI();
+        }
+
+        function updateStreak() {
+            let lastActive = localStorage.getItem('lastActiveDate');
+            let yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+            
+            if (lastActive === yesterday.toDateString()) {
+                streak++;
+            } else if (lastActive !== today) {
+                streak = 1;
+            }
+            localStorage.setItem('streak', streak);
+            localStorage.setItem('lastActiveDate', today);
+        }
+
+        function setTarget() {
+            let val = document.getElementById('targetInput').value;
+            localStorage.setItem('dailyTarget', val);
+            alert("Sasaran harian dikemas kini!");
+        }
+
+        function saveHistory() {
+            let h = JSON.parse(localStorage.getItem('history')) || [];
+            let entry = h.find(d => d.date === today);
+            if(entry) entry.value = tilawah;
+            else h.push({date: today, value: tilawah});
+            if(h.length > 7) h.shift();
+            localStorage.setItem('history', JSON.stringify(h));
+        }
+
+        function drawChart() {
+            const ctx = document.getElementById('weeklyChart').getContext('2d');
+            if(window.myChart) window.myChart.destroy();
+            
+            window.myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: history.map(d => d.date.split(' ')[0]),
+                    datasets: [{
+                        label: 'Muka Surat',
+                        data: history.map(d => d.value),
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#ef4444'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { display: false },
+                        x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        // Jalankan UI
+        updateUI();
+        document.getElementById('targetInput').value = localStorage.getItem('dailyTarget') || 0;
+    </script>
+</body>
+</html>
