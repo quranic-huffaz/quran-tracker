@@ -20,8 +20,8 @@
                 extend: {
                     colors: {
                         primary: '#0B3C5D',
-                        secondary: '#10B981', // Emerald
-                        accent: '#D4AF37', // Gold
+                        secondary: '#10B981', 
+                        accent: '#D4AF37', 
                         softBg: '#F8FAFC',
                     },
                     fontFamily: {
@@ -68,8 +68,7 @@
                     <a href="#sumbangan" class="hover:text-secondary transition-colors">Saluran Sumbangan</a>
                     <a href="#hubungi" class="hover:text-secondary transition-colors">Hubungi</a>
                 </div>
-                <!-- Auto-update link di navbar -->
-                <a :href="'https://toyyibpay.com/Dana-Bil-Utiliti?amount=' + amount" class="bg-primary hover:bg-opacity-90 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg">
+                <a :href="'https://toyyibpay.com/Dana-Bil-Utiliti?amount=' + (amount * 100)" class="bg-primary hover:bg-opacity-90 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg">
                     INFAQ SEKARANG
                 </a>
             </div>
@@ -184,39 +183,11 @@
         </div>
 
         <div class="space-y-4">
-            <!-- Pautan ini akan auto-hantar jumlah yang dipilih -->
-            <a :href="'https://toyyibpay.com/Dana-Bil-Utiliti?amount=' + amount" class="block text-center bg-primary hover:bg-slate-800 text-white py-5 rounded-2xl font-bold text-xl shadow-xl transition-all transform hover:-translate-y-1">
+            <a :href="'https://toyyibpay.com/Dana-Bil-Utiliti?amount=' + (amount * 100)" class="block text-center bg-primary hover:bg-slate-800 text-white py-5 rounded-2xl font-bold text-xl shadow-xl transition-all transform hover:-translate-y-1">
                 👉 INFAQ RM<span x-text="amount"></span> SEKARANG
             </a>
             <a href="https://www.facebook.com/share/1DZZZtyhRQ/" target="_blank" class="block text-center bg-white border-2 border-slate-200 text-slate-600 py-4 rounded-2xl font-semibold hover:bg-slate-50 transition-all">
                 Maklumat Lanjut Tahfiz AQIL
-            </a>
-        </div>
-    </section>
-
-    <section class="py-16 px-4">
-        <div class="max-w-3xl mx-auto bg-emerald-50/50 border border-emerald-100 rounded-[3rem] p-12 text-center relative overflow-hidden">
-            <div class="absolute -top-10 -left-10 opacity-10">
-                <i data-lucide="heart" class="w-40 h-40"></i>
-            </div>
-            <div class="relative z-10">
-                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm animate-bounce">
-                    <i data-lucide="pray" class="text-emerald-500"></i>
-                </div>
-                <p class="text-2xl font-medium italic text-emerald-800 leading-relaxed">
-                    "Semoga Allah membalas kebaikan RM1 anda, sentiasa memberkatimu dan menggantikan dengan kebaikan yang melimpah ruah."
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section id="hubungi" class="py-20 max-w-xl mx-auto px-4">
-        <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl shadow-slate-200/50 border border-slate-50 flex flex-col items-center text-center">
-            <h3 class="text-2xl font-bold text-primary">Ustazah Imah</h3>
-            <p class="text-slate-500 mb-6 font-medium">Pengusaha Akademi Al-Quran Al-Labeeb</p>
-            <a href="tel:0132174839" class="flex items-center gap-3 bg-slate-50 px-6 py-3 rounded-full border border-slate-100 hover:bg-slate-100 transition-colors">
-                <i data-lucide="phone" class="w-5 h-5 text-primary"></i>
-                <span class="font-bold text-primary">013-217 4839</span>
             </a>
         </div>
     </section>
