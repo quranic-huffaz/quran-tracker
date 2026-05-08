@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al-Hafiz Premium | Fintech Memorization</title>
+    <title>Game Hafazan | Fintech Memorization</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; padding-bottom: 120px; overflow-x: hidden; }
         .arabic { font-family: 'Amiri', serif; direction: rtl; }
@@ -43,9 +44,14 @@
         .word-chip:active { transform: scale(0.95); }
         
         .action-container { margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center; }
-        
-        /* Badge untuk urutan ayat Tahap 1 */
         .order-badge { background: #fbbf24; color: #0f172a; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px; position: absolute; top: -10px; right: 10px; box-shadow: 0 4px 10px rgba(251, 191, 36, 0.3); }
+
+        /* Animation Ucapan */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .congrats-popup { animation: fadeInScale 0.4s ease-out forwards; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 md:p-8">
@@ -53,7 +59,7 @@
     <header class="w-full max-w-4xl flex justify-between items-center mb-8">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500">
-                AL-HAFIZ <span class="font-light text-slate-400">PREMIUM</span>
+                GAME <span class="font-light text-slate-400">HAFAZAN</span>
             </h1>
             <p class="text-xs text-slate-500 uppercase tracking-widest">Elite Quranic Memorization</p>
         </div>
@@ -119,6 +125,15 @@
         </a>
     </nav>
 
+    <div id="congratsOverlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[2000] hidden flex items-center justify-center p-6 text-center">
+        <div class="congrats-popup card-glass p-10 rounded-3xl border-2 border-amber-500/50 max-w-sm w-full">
+            <div class="text-6xl mb-4">🏆</div>
+            <h2 id="congratsTitle" class="text-3xl font-bold text-amber-400 mb-2">Tahniah!</h2>
+            <p id="congratsMsg" class="text-slate-300 mb-8">Ayat disusun dengan sempurna.</p>
+            <button onclick="closeCongrats()" class="w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-950 font-bold rounded-2xl shadow-xl">Teruskan</button>
+        </div>
+    </div>
+
     <script>
         const surahDB = [
             { name: "Ad-Duha", verses: ["وَالضُّحَىٰ", "وَاللَّيْلِ إِذَا سَجَىٰ", "مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ", "وَلَلْآخِرَةُ خَيْرٌ لَّكَ مِنَ الْأُولَىٰ", "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ"] },
@@ -174,15 +189,49 @@
             }
         }
 
+        function triggerGoldenRain() {
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 3000 };
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }, colors: ['#fbbf24', '#f59e0b', '#fef3c7'] }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }, colors: ['#fbbf24', '#f59e0b', '#fef3c7'] }));
+            }, 250);
+        }
+
         function updateStreakUI() {
             const dots = document.querySelectorAll('.streak-dot');
             dots.forEach((dot, index) => {
                 dot.classList.toggle('active', index < streak);
             });
+            
             if (streak >= 10) {
-                alert("Syabas! 10 Streak dicapai! Sedia untuk cabaran seterusnya.");
-                if(currentLevel < 3) startLevel(currentLevel + 1);
-                else backToMenu();
+                triggerGoldenRain();
+                showCongrats("Luar Biasa!", "Anda mencapai Skor Penuh 10/10! Sedia naik ke tahap seterusnya.");
+                streak = 0; // Reset for next stage
+            }
+        }
+
+        function showCongrats(title, msg) {
+            document.getElementById('congratsTitle').innerText = title;
+            document.getElementById('congratsMsg').innerText = msg;
+            document.getElementById('congratsOverlay').classList.remove('hidden');
+        }
+
+        function closeCongrats() {
+            document.getElementById('congratsOverlay').classList.add('hidden');
+            if (streak === 0 && document.querySelectorAll('.streak-dot.active').length === 0) {
+                 // Condition for level up
+                 if(currentLevel < 3) startLevel(currentLevel + 1);
+                 else backToMenu();
+            } else {
+                renderQuestion();
             }
         }
 
@@ -210,7 +259,6 @@
                             div.classList.remove('bg-amber-500/20', 'border-amber-500');
                             const badge = div.querySelector('.order-badge');
                             if(badge) badge.remove();
-                            // Update nombor badge yang tinggal
                             updateBadges();
                         } else {
                             selectedAnswers.push(v);
@@ -236,38 +284,30 @@
                                 newBadge.className = 'order-badge';
                                 newBadge.innerText = `Ayat ${idx + 1}`;
                                 item.appendChild(newBadge);
-                            } else {
-                                badge.innerText = `Ayat ${idx + 1}`;
-                            }
+                            } else { badge.innerText = `Ayat ${idx + 1}`; }
                         }
                     });
                 }
-
                 currentTargetVerse = surah.verses;
             } 
             else if (currentLevel === 2) {
                 document.getElementById('gameTitle').innerText = "Kalimah Hilang";
                 document.getElementById('gameDesc').innerText = "Pilih kalimah yang tepat untuk melengkapkan ayat.";
                 btn.className = "w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg bg-emerald-600 text-white hover:bg-emerald-700";
-                
                 const vIndex = Math.floor(Math.random() * surah.verses.length);
                 const words = surah.verses[vIndex].split(" ");
                 const missingIdx = Math.floor(Math.random() * words.length);
                 const correctWord = words[missingIdx];
-                
                 const qBox = document.createElement('div');
                 qBox.className = "card-glass p-8 rounded-3xl text-center flex flex-col items-center gap-6";
-                
                 const vDisplay = document.createElement('div');
                 vDisplay.className = "arabic text-3xl leading-loose";
                 vDisplay.innerHTML = words.map((w, i) => i === missingIdx ? '<span class="border-b-2 border-slate-500 px-8">____</span>' : w).join(" ");
                 qBox.appendChild(vDisplay);
-
                 const grid = document.createElement('div');
                 grid.className = "grid grid-cols-2 gap-3 w-full";
                 const choices = [correctWord, "قُلْ", "فِي", "الَّذِي", "مِنْ"].sort(() => Math.random() - 0.5).slice(0, 4);
                 if(!choices.includes(correctWord)) choices[0] = correctWord;
-                
                 choices.forEach(c => {
                     const cBtn = document.createElement('button');
                     cBtn.className = "bg-slate-800/50 border border-slate-700 p-4 rounded-xl arabic text-xl hover:bg-emerald-500/20 hover:border-emerald-500 transition-all";
@@ -287,17 +327,14 @@
                 document.getElementById('gameTitle').innerText = "Hafazan Penuh";
                 document.getElementById('gameDesc').innerText = "Ketik perkataan di bawah untuk menyusun ayat.";
                 btn.className = "w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg bg-rose-700 text-white hover:bg-rose-800";
-                
                 const vIndex = Math.floor(Math.random() * surah.verses.length);
                 const fullVerse = surah.verses[vIndex];
                 const words = fullVerse.split(" ");
                 const shuffledWords = [...words].sort(() => Math.random() - 0.5);
-
                 const dropZone = document.createElement('div');
                 dropZone.className = "drop-zone arabic text-2xl bg-slate-900/40";
                 dropZone.innerText = "Ketik perkataan di bawah";
                 wrapper.appendChild(dropZone);
-
                 const pool = document.createElement('div');
                 pool.className = "flex flex-wrap justify-center gap-3 mt-8";
                 shuffledWords.forEach(w => {
@@ -328,8 +365,12 @@
                 streak++;
                 score += (100 * currentLevel);
                 document.getElementById('totalScore').innerText = score;
+                
+                if (streak < 10) {
+                    const phrases = ["MashaAllah!", "Hebat!", "Tahniah!", "Alhamdulillah!", "Tepat sekali!"];
+                    showCongrats(phrases[Math.floor(Math.random()*phrases.length)], "Jawapan anda betul. Teruskan usaha!");
+                }
                 updateStreakUI();
-                renderQuestion();
             } else {
                 streak = 0;
                 updateStreakUI();
