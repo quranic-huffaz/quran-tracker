@@ -574,16 +574,15 @@
         countdownTimer: null,
         showTimer: null,
         countdownVal: 10,
-        sessionKey: 'infaq_shown_session',
+        floatShown: false,
 
         init() {
-            this.checkAndScheduleShow();
-            window.addEventListener('focus', () => this.checkAndScheduleShow());
+            this.checkIfShownBefore();
         },
 
-        checkAndScheduleShow() {
-            const shownInSession = sessionStorage.getItem(this.sessionKey);
-            if (!shownInSession) {
+        checkIfShownBefore() {
+            const shownBefore = localStorage.getItem('infaq_float_shown');
+            if (!shownBefore) {
                 this.scheduleShow();
             }
         },
@@ -597,6 +596,7 @@
             const btn = document.getElementById('infaq-float-btn');
             const pill = document.getElementById('infaq-countdown');
             btn.classList.remove('hidden');
+            this.floatShown = true;
             this.countdownVal = 10;
             pill.textContent = this.countdownVal;
             clearInterval(this.countdownTimer);
@@ -614,7 +614,10 @@
             const btn = document.getElementById('infaq-float-btn');
             btn.classList.add('hidden');
             clearInterval(this.countdownTimer);
-            sessionStorage.setItem(this.sessionKey, 'true');
+            if (this.floatShown) {
+                localStorage.setItem('infaq_float_shown', 'true');
+                this.floatShown = false;
+            }
         },
 
         open() {
@@ -709,7 +712,7 @@
                     surahName = `Juzuk ${surahId} (M/S ${startAyat})`;
                     count = 20; mode = 'juzuk';
                 }
-                this.mLogs.push({ surahId, surahName, startAyat, count, date });
+                this.mLogs.push({ surahId, surahName, startAyat, count, date, mode });
             }
             this.save();
             this.currentTask = { surahId, startAyat, count, mode };
@@ -748,7 +751,9 @@
             const counts = {};
             this.mLogs.forEach(l => counts[l.surahName] = (counts[l.surahName] || 0) + 1);
             const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
-            document.getElementById('ranking-list').innerHTML = sorted.map(([name, count]) => `
+            document.getElementById('ranking-list').innerHTML = sorted.map(([name, count]) => {
+                const entry = this.mLogs.find(l => l.surahName === name);
+                return `
                 <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:10px 0; border-bottom:1px solid #334155;">
                     <span>${name} <b style="color:var(--accent); margin-left:5px;">${count}x</b></span>
                     <div>
@@ -756,7 +761,7 @@
                         <button class="btn-small btn-del" style="font-size:0.5rem; padding:2px 6px;" onclick="app.deleteRank('${name}')">Padam</button>
                     </div>
                 </div>
-            `).join('') || '<p style="font-size:0.7rem; color:var(--text-dim);">Tiada data.</p>';
+            `}).join('') || '<p style="font-size:0.7rem; color:var(--text-dim);">Tiada data.</p>';
         },
 
         redoTask(l) { this.currentTask = { ...l, mode: 'surah' }; quranApp.loadData(this.currentTask); this.switchTab('quran'); },
@@ -764,11 +769,12 @@
         quickMurajaahFromRank(name) {
             const entry = this.mLogs.find(l => l.surahName === name);
             if(entry) {
-                this.currentTask = { ...entry, mode: entry.mode || 'surah' };
+                this.currentTask = { surahId: entry.surahId, startAyat: entry.startAyat, count: entry.count, mode: entry.mode || 'surah' };
                 quranApp.loadData(this.currentTask);
                 this.switchTab('quran');
                 // Record additional murajaah
-                this.mLogs.push(entry);
+                const newEntry = { ...entry };
+                this.mLogs.push(newEntry);
                 this.save();
             }
         },
