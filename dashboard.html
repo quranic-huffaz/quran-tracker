@@ -62,7 +62,6 @@
             background: linear-gradient(90deg, transparent, rgba(59,130,246,0.5), rgba(34,211,238,0.4), transparent);
         }
 
-        /* Glowing orb */
         .header-orb {
             position: absolute;
             width: 260px; height: 260px;
@@ -86,7 +85,6 @@
             margin-top: 20px;
         }
 
-        /* Top row: day badge centered */
         .date-day-row {
             display: flex;
             justify-content: center;
@@ -104,7 +102,6 @@
             text-transform: uppercase;
         }
 
-        /* Bottom row: Masihi | divider | Hijriah */
         .date-dates-row {
             display: flex;
             align-items: center;
@@ -154,10 +151,11 @@
         .menu-card:hover { transform: scale(0.96); box-shadow: 0 8px 30px -4px rgba(15,24,41,0.12); }
         .menu-card:hover::before { opacity: 1; }
 
-        .card-blue::before   { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-        .card-emerald::before{ background: linear-gradient(90deg, #10b981, #34d399); }
-        .card-amber::before  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-        .card-purple::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .card-blue::before    { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .card-emerald::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .card-amber::before   { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .card-purple::before  { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .card-rose::before    { background: linear-gradient(90deg, #f43f5e, #fb7185); }
 
         .icon-wrap {
             width: 50px; height: 50px;
@@ -167,10 +165,11 @@
             font-size: 20px;
         }
 
-        .icon-blue   { background: linear-gradient(135deg,#eff6ff,#dbeafe); color:#3b82f6; }
-        .icon-emerald{ background: linear-gradient(135deg,#ecfdf5,#d1fae5); color:#10b981; }
-        .icon-amber  { background: linear-gradient(135deg,#fffbeb,#fef3c7); color:#f59e0b; }
-        .icon-purple { background: linear-gradient(135deg,#f5f3ff,#ede9fe); color:#8b5cf6; }
+        .icon-blue    { background: linear-gradient(135deg,#eff6ff,#dbeafe); color:#3b82f6; }
+        .icon-emerald { background: linear-gradient(135deg,#ecfdf5,#d1fae5); color:#10b981; }
+        .icon-amber   { background: linear-gradient(135deg,#fffbeb,#fef3c7); color:#f59e0b; }
+        .icon-purple  { background: linear-gradient(135deg,#f5f3ff,#ede9fe); color:#8b5cf6; }
+        .icon-rose    { background: linear-gradient(135deg,#fff1f2,#ffe4e6); color:#f43f5e; }
 
         .menu-label {
             font-size: 13px;
@@ -341,6 +340,7 @@
         .sheet-item:hover { background: #eef2ff; }
         .sheet-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
         .sheet-label { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .sheet-sublabel { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
 
         /* ── SHARE MODAL ─────────────────────────────── */
         .share-btn {
@@ -354,6 +354,14 @@
         /* ── WELCOME TEXT ────────────────────────────── */
         .welcome-sub { font-size: 12px; font-weight: 400; opacity: 0.55; letter-spacing: 0.01em; }
         .welcome-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: #fff; margin-top: 2px; line-height: 1.15; }
+
+        /* ── SHEET ITEM ARROW ────────────────────────── */
+        .sheet-arrow {
+            margin-left: auto;
+            color: var(--text-muted);
+            font-size: 11px;
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body class="pb-24">
@@ -365,17 +373,11 @@
             <p class="welcome-sub">Assalamualaikum Warahmatullahi Wabarakatuh</p>
             <h1 class="welcome-title">Selamat datang 🌙</h1>
 
-            <!-- Date Card: Masihi + Hijriah -->
             <div class="date-card">
-
-                <!-- Row 1: Hari di tengah -->
                 <div class="date-day-row">
                     <div class="day-badge text-white" id="day-name"></div>
                 </div>
-
-                <!-- Row 2: Masihi | Hijriah -->
                 <div class="date-dates-row">
-                    <!-- Masihi -->
                     <div class="date-col flex items-center gap-3">
                         <div class="w-8 h-8 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
                             <i class="fa-regular fa-calendar text-blue-400 text-sm"></i>
@@ -385,10 +387,7 @@
                             <p id="date-masihi" class="font-bold text-white leading-snug" style="font-size:clamp(9px,2.6vw,12px);white-space:normal;word-break:break-word;"></p>
                         </div>
                     </div>
-
                     <div class="date-divider"></div>
-
-                    <!-- Hijriah -->
                     <div class="date-col flex items-center gap-3">
                         <div class="w-8 h-8 rounded-xl bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
                             <i class="fa-solid fa-moon text-cyan-400 text-sm"></i>
@@ -399,7 +398,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </header>
@@ -417,7 +415,7 @@
 
             <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="menu-card card-emerald">
                 <div class="icon-wrap icon-emerald">
-                    <i class="fa-solid fa-heart-pulse"></i>
+                    <i class="fa-solid fa-brain"></i>
                 </div>
                 <span class="menu-label">Hafazan</span>
             </a>
@@ -436,25 +434,35 @@
                 <span class="menu-label">Kad Cerita</span>
             </a>
 
+            <a href="https://quranic-huffaz.github.io/quran-tracker/game-hafazan.html" class="menu-card card-rose" style="grid-column: span 2;">
+                <div style="display:flex;align-items:center;gap:14px;width:100%;">
+                    <div class="icon-wrap icon-rose" style="margin-bottom:0;flex-shrink:0;">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <div style="text-align:left;">
+                        <span class="menu-label" style="display:block;">Game Hafazan</span>
+                        <span style="font-size:11px;color:var(--text-muted);font-weight:500;">Uji ingatan ayat Al-Quran</span>
+                    </div>
+                    <div style="margin-left:auto;width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,#fff1f2,#ffe4e6);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa-solid fa-chevron-right" style="font-size:10px;color:#f43f5e;"></i>
+                    </div>
+                </div>
+            </a>
+
         </div>
     </main>
 
     <!-- ═══════════════ INFAQ POPUP ═══════════════ -->
     <div id="infaq-btn-container" class="infaq-popup">
         <button class="infaq-pill" onclick="openInfaqModal()">
-            <!-- Live dot -->
             <span class="live-dot">
                 <span class="live-dot-inner"></span>
                 <span class="live-dot-ring"></span>
             </span>
-
-            <!-- Text -->
             <div class="flex-1">
                 <div class="infaq-pill-text">Infaq RM1 ke Tahfiz AQIL</div>
                 <div class="infaq-pill-sub">Amal jariah paling mudah</div>
             </div>
-
-            <!-- Countdown -->
             <div class="countdown-badge">
                 <span id="countdown-timer" class="countdown-num">10</span>
                 <span class="countdown-label">saat</span>
@@ -468,19 +476,16 @@
             <button onclick="closeInfaqModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
-
             <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5"
                  style="background:linear-gradient(135deg,#eff6ff,#dbeafe)">
                 <i class="fa-solid fa-circle-info text-blue-500 text-2xl"></i>
             </div>
-
             <h2 class="text-xl font-bold text-slate-800 mb-3 leading-tight" style="font-family:'DM Serif Display',serif">Mengenai Aplikasi Ini</h2>
             <p class="text-sm text-slate-500 leading-relaxed mb-6">
                 Aplikasi Quran Tracker ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah <strong class="text-slate-700">100% percuma</strong> tanpa sebarang caj tersembunyi.
                 <br><br>
                 Walau bagaimanapun, bagi anda yang ingin menyumbang, saya amat mengesyorkan agar sumbangan atau infaq disalurkan terus kepada Akademi al-Quran al-Labeeb.
             </p>
-
             <a href="https://quranic-huffaz.github.io/quran-tracker/kempen-infaq-rm1-tahfiz-aqil.html"
                class="block w-full py-4 rounded-2xl font-bold text-sm text-white transition"
                style="background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 4px 16px rgba(59,130,246,0.4)">
@@ -501,7 +506,7 @@
                 <span class="nav-item-label">Tilawah</span>
             </a>
             <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="nav-item">
-                <i class="fa-solid fa-medal text-xl"></i>
+                <i class="fa-solid fa-brain text-xl"></i>
                 <span class="nav-item-label">Hafazan</span>
             </a>
             <button onclick="toggleFeedbackMenu()" class="nav-item">
@@ -517,22 +522,47 @@
             <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 px-2 pb-1">Pilihan</p>
 
             <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="sheet-item">
-                <div class="sheet-icon" style="background:#eff6ff; color:#3b82f6;">
+                <div class="sheet-icon" style="background:linear-gradient(135deg,#eff6ff,#dbeafe); color:#3b82f6;">
                     <i class="fa-solid fa-hand-holding-heart"></i>
                 </div>
-                <span class="sheet-label">Infaq Tahfiz AQIL</span>
-            </a>
-            <a href="https://nota-wanhasbullah.blogspot.com/p/maklum-balas-quran-tracker.html" class="sheet-item">
-                <div class="sheet-icon" style="background:#fffbeb; color:#f59e0b;">
-                    <i class="fa-solid fa-message-pen"></i>
+                <div>
+                    <div class="sheet-label">Infaq Tahfiz AQIL</div>
+                    <div class="sheet-sublabel">Amal jariah berterusan</div>
                 </div>
-                <span class="sheet-label">Beri Maklum Balas</span>
+                <i class="fa-solid fa-chevron-right sheet-arrow"></i>
             </a>
+
+            <a href="https://quranic-huffaz.github.io/quran-tracker/akses-pantas.html" class="sheet-item">
+                <div class="sheet-icon" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); color:#16a34a;">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <div>
+                    <div class="sheet-label">Pasang Aplikasi Ini</div>
+                    <div class="sheet-sublabel">Akses pantas di skrin utama</div>
+                </div>
+                <i class="fa-solid fa-chevron-right sheet-arrow"></i>
+            </a>
+
+            <a href="https://nota-wanhasbullah.blogspot.com/p/maklum-balas-quran-tracker.html" class="sheet-item">
+                <div class="sheet-icon" style="background:linear-gradient(135deg,#fffbeb,#fef3c7); color:#d97706;">
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <div>
+                    <div class="sheet-label">Beri Maklum Balas</div>
+                    <div class="sheet-sublabel">Bantu kami penambahbaikan</div>
+                </div>
+                <i class="fa-solid fa-chevron-right sheet-arrow"></i>
+            </a>
+
             <button onclick="openShareOptions()" class="sheet-item w-full text-left">
-                <div class="sheet-icon" style="background:#ecfdf5; color:#10b981;">
+                <div class="sheet-icon" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5); color:#10b981;">
                     <i class="fa-solid fa-share-nodes"></i>
                 </div>
-                <span class="sheet-label">Jemput Kongsi Quran Tracker</span>
+                <div>
+                    <div class="sheet-label">Jemput Kongsi Quran Tracker</div>
+                    <div class="sheet-sublabel">Sebar manfaat kepada sahabat</div>
+                </div>
+                <i class="fa-solid fa-chevron-right sheet-arrow"></i>
             </button>
 
             <button onclick="toggleFeedbackMenu()" class="w-full py-3 text-slate-400 font-bold text-sm text-center">Tutup</button>
@@ -559,19 +589,12 @@
 
     <!-- ═══════════════ SCRIPT ═══════════════ -->
     <script>
-        // 1. Tarikh Masihi & Hijriah
         function updateDate() {
             const now = new Date();
-
-            // Masihi — contoh: 8 Mei 2026
             const masihiOpts = { day: 'numeric', month: 'long', year: 'numeric' };
             document.getElementById('date-masihi').innerText = now.toLocaleDateString('ms-MY', masihiOpts);
-
-            // Day name
             document.getElementById('day-name').innerText = now.toLocaleDateString('ms-MY', { weekday: 'long' });
 
-            // Hijriah — format: "21 Zulkaedah 1447 H"
-            // Nama bulan Hijriah dalam Bahasa Melayu
             const bulanHijriah = [
                 'Muharram','Safar','Rabiulawal','Rabiulakhir',
                 'Jamadilawal','Jamadilakhir','Rejab','Syaaban',
@@ -579,23 +602,17 @@
             ];
 
             try {
-                // Ambil hari, bulan, tahun Hijriah berasingan
                 const getHijriPart = (part) => {
                     return parseInt(
-                        new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { [part]: 'numeric' }).format(now),
-                        10
+                        new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { [part]: 'numeric' }).format(now), 10
                     );
                 };
-
                 const hDay   = getHijriPart('day');
-                const hMonth = getHijriPart('month'); // 1-based
+                const hMonth = getHijriPart('month');
                 const hYear  = getHijriPart('year');
-
                 const namaBulan = bulanHijriah[hMonth - 1] || '';
                 document.getElementById('date-hijrah').innerText = `${hDay} ${namaBulan} ${hYear} H`;
-
             } catch (e) {
-                // Fallback ringkas
                 try {
                     const hijrahDate = new Intl.DateTimeFormat('ms-MY-u-ca-islamic-umalqura', {
                         day: 'numeric', month: 'long', year: 'numeric'
@@ -607,13 +624,11 @@
             }
         }
 
-        // 2. Infaq Popup — muncul selepas 5 saat, countdown 10 saat
         function handleInfaqPopup() {
             const popup = document.getElementById('infaq-btn-container');
             const timerEl = document.getElementById('countdown-timer');
 
             setTimeout(() => {
-                // Show popup
                 popup.style.display = 'block';
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
@@ -621,21 +636,18 @@
                     });
                 });
 
-                // Countdown 10 → 0
                 let timeLeft = 10;
                 timerEl.innerText = timeLeft;
 
                 const tick = setInterval(() => {
                     timeLeft--;
                     timerEl.innerText = timeLeft;
-
                     if (timeLeft <= 0) {
                         clearInterval(tick);
                         hideInfaqBtn();
                     }
                 }, 1000);
-
-            }, 5000); // 5 saat sebelum popup
+            }, 5000);
         }
 
         function hideInfaqBtn() {
@@ -676,7 +688,6 @@
             closeShareOptions();
         }
 
-        // Init
         updateDate();
         handleInfaqPopup();
     </script>
