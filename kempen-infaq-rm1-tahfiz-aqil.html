@@ -64,10 +64,11 @@
                 </div>
                 <div class="hidden md:flex space-x-8 font-medium text-sm">
                     <a href="#" class="hover:text-secondary transition-colors">Utama</a>
+                    <a href="#misi" class="hover:text-secondary transition-colors">Misi Kami</a>
                     <a href="#sumbangan" class="hover:text-secondary transition-colors">Saluran Sumbangan</a>
                     <a href="#hubungi" class="hover:text-secondary transition-colors">Hubungi</a>
                 </div>
-                <a href="https://toyyibpay.com/Dana-Bil-Utiliti" target="_blank" class="bg-primary hover:bg-opacity-90 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg">
+                <a :href="'https://toyyibpay.com/Dana-Bil-Utiliti?amount=' + (amount * 100)" class="bg-primary hover:bg-opacity-90 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg">
                     INFAQ SEKARANG
                 </a>
             </div>
@@ -91,7 +92,7 @@
                     </p>
                     <div class="flex flex-wrap gap-4">
                         <a href="#sumbangan" class="bg-secondary hover:bg-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-xl shadow-emerald-200 transition-all">
-                            Pilih Jumlah Infaq
+                            Infaq RM1 Sekarang
                         </a>
                     </div>
                 </div>
@@ -100,11 +101,11 @@
                     <div class="absolute -top-10 -right-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl"></div>
                     <div class="relative bg-white p-8 rounded-[2rem] shadow-2xl border border-slate-100 transform rotate-2 hover:rotate-0 transition-transform duration-500">
                         <div class="bg-slate-50 p-6 rounded-2xl mb-4 border-2 border-dashed border-slate-200">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://toyyibpay.com/Dana-Bil-Utiliti" alt="QR Code Infaq" class="w-full h-auto rounded-lg">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=AQIL-DONATION" alt="QR Code Infaq" class="w-full h-auto rounded-lg">
                         </div>
                         <div class="text-center">
                             <h3 class="font-bold text-primary text-xl">Akademi Al-Quran Al-Labeeb</h3>
-                            <p class="text-sm text-slate-400">Scan QR untuk Infaq Pantas</p>
+                            <p class="text-sm text-slate-400">Scan QR untuk Infaq RM1</p>
                         </div>
                     </div>
                 </div>
@@ -144,11 +145,24 @@
         </div>
     </div>
 
+    <section class="py-20 bg-primary text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <img src="https://www.transparenttextures.com/patterns/islamic-art.png" class="object-cover w-full h-full" alt="pattern">
+        </div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <h2 class="text-accent font-heading font-bold text-2xl mb-4 tracking-[0.2em]">KEMPEN RM1 SAHAJA</h2>
+            <p class="text-3xl md:text-4xl font-light leading-relaxed mb-8">
+                "Infaq Bil Utiliti, bantu kami walaupun hanya <span class="text-accent font-bold">RM1</span> seminggu."
+            </p>
+            <p class="text-slate-300">Sumbangan boleh terus disalurkan menerusi no akaun atau pilihan di bawah.</p>
+        </div>
+    </section>
+
     <section id="sumbangan" class="py-24 max-w-4xl mx-auto px-4">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-heading font-bold text-primary mb-2">Pilih Jumlah Infaq</h2>
             <div class="w-20 h-1.5 bg-accent mx-auto rounded-full"></div>
-            <p class="mt-4 text-slate-500 font-medium italic">Nota: Sila masukkan jumlah yang dipilih di halaman ToyyibPay nanti.</p>
+            <p class="mt-4 text-slate-500 font-medium">Kecil bagi kita, besar nilainya buat mereka.</p>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
@@ -163,16 +177,18 @@
             </template>
         </div>
 
-        <div class="bg-white p-6 rounded-2xl shadow-inner border border-slate-100 mb-10 text-center">
-            <p class="text-sm font-semibold text-slate-500 mb-1 uppercase">Jumlah Pilihan Anda</p>
-            <div class="text-4xl font-bold text-primary">RM <span x-text="amount"></span></div>
+        <div class="bg-white p-6 rounded-2xl shadow-inner border border-slate-100 mb-10">
+            <label class="block text-sm font-semibold text-slate-500 mb-2 uppercase tracking-wider">Jumlah Kustom (RM)</label>
+            <input type="number" x-model="amount" class="w-full bg-transparent text-3xl font-bold text-primary focus:outline-none" placeholder="Masukkan jumlah...">
         </div>
 
         <div class="space-y-4">
-            <a href="https://toyyibpay.com/Dana-Bil-Utiliti" target="_blank" class="block text-center bg-primary hover:bg-slate-800 text-white py-5 rounded-2xl font-bold text-xl shadow-xl transition-all transform hover:-translate-y-1">
-                KLIK UNTUK BAYAR RM<span x-text="amount"></span>
+            <a :href="'https://toyyibpay.com/Dana-Bil-Utiliti" class="block text-center bg-primary hover:bg-slate-800 text-white py-5 rounded-2xl font-bold text-xl shadow-xl transition-all transform hover:-translate-y-1">
+                👉 INFAQ RM<span x-text="amount"></span> SEKARANG
             </a>
-            <p class="text-center text-xs text-slate-400">Anda akan dibawa ke laman ToyyibPay yang selamat.</p>
+            <a href="https://www.facebook.com/share/1DZZZtyhRQ/" target="_blank" class="block text-center bg-white border-2 border-slate-200 text-slate-600 py-4 rounded-2xl font-semibold hover:bg-slate-50 transition-all">
+                Maklumat Lanjut Tahfiz AQIL
+            </a>
         </div>
     </section>
 
@@ -206,6 +222,16 @@
 
     <script>
         lucide.createIcons();
+        window.addEventListener('scroll', () => {
+            const elements = document.querySelectorAll('[data-aos="fade-up"]');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 100) {
+                    el.classList.add('opacity-100', 'translate-y-0');
+                    el.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        });
     </script>
 </body>
 </html>
