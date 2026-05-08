@@ -216,178 +216,6 @@
         .list-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ── INFAQ FLOATING BUTTON (bottom-left) ── */
-        #infaq-float-btn {
-            position: fixed;
-            bottom: 78px;
-            left: 14px;
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
-            border: 1px solid rgba(16,185,129,0.45);
-            border-radius: 50px;
-            padding: 9px 10px 9px 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(16,185,129,0.28), 0 2px 6px rgba(0,0,0,0.3);
-            animation: floatFadeIn 0.4s ease both;
-            transition: opacity 0.35s ease, transform 0.35s ease;
-        }
-        #infaq-float-btn.hidden {
-            opacity: 0;
-            transform: translateX(-30px);
-            pointer-events: none;
-        }
-        @keyframes floatFadeIn {
-            from { opacity: 0; transform: translateX(-30px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-        .infaq-live-dot {
-            width: 9px; height: 9px; border-radius: 50%;
-            background: #4ade80; flex-shrink: 0;
-            animation: dot-pulse 1.5s ease-in-out infinite;
-        }
-        .infaq-float-label {
-            font-size: 0.65rem; font-weight: 700; color: #ecfdf5;
-            letter-spacing: 0.2px; white-space: nowrap;
-        }
-        .infaq-countdown-pill {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 6px;
-            padding: 1px 6px;
-            font-size: 0.6rem;
-            font-weight: 800;
-            color: #d1fae5;
-            min-width: 22px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        /* ── INFAQ MODAL (PREMIUM FINTECH) ── */
-        #infaq-modal-overlay {
-            position: fixed; inset: 0; z-index: 3000;
-            background: rgba(0,0,0,0.72);
-            backdrop-filter: blur(8px);
-            display: flex; align-items: center; justify-content: center;
-            padding: 24px;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.32s cubic-bezier(0.4,0,0.2,1);
-        }
-        #infaq-modal-overlay.visible {
-            opacity: 1; pointer-events: all;
-        }
-        #infaq-modal {
-            background: linear-gradient(160deg, #1a2537 0%, #0d1a2e 100%);
-            border: 1px solid rgba(251,191,36,0.18);
-            border-radius: 24px;
-            padding: 0;
-            width: 100%; max-width: 360px;
-            position: relative;
-            box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06);
-            transform: translateY(16px) scale(0.96);
-            transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1);
-            overflow: hidden;
-        }
-        #infaq-modal-overlay.visible #infaq-modal {
-            transform: translateY(0) scale(1);
-        }
-
-        /* Modal header strip */
-        .modal-header-strip {
-            background: linear-gradient(135deg, rgba(251,191,36,0.12) 0%, rgba(251,191,36,0.04) 100%);
-            border-bottom: 1px solid rgba(251,191,36,0.12);
-            padding: 22px 22px 18px;
-            position: relative;
-        }
-        .modal-header-strip::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent 0%, #fbbf24 40%, #f59e0b 60%, transparent 100%);
-        }
-        .modal-close-btn {
-            position: absolute; top: 14px; right: 14px;
-            width: 28px; height: 28px; border-radius: 8px;
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-            color: #94a3b8; font-size: 1rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            line-height: 1; font-weight: 300; transition: all 0.18s ease;
-        }
-        .modal-close-btn:hover { background: rgba(255,255,255,0.12); color: #f8fafc; }
-        .modal-badge {
-            display: inline-flex; align-items: center; gap: 6px;
-            background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25);
-            border-radius: 20px; padding: 4px 12px;
-            font-size: 0.58rem; font-weight: 700; color: var(--accent);
-            text-transform: uppercase; letter-spacing: 0.8px;
-            margin-bottom: 12px;
-        }
-        .modal-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #fbbf24; animation: dot-pulse 1.5s ease-in-out infinite; }
-        .modal-title {
-            font-size: 1.08rem; font-weight: 800; color: #f1f5f9;
-            letter-spacing: -0.3px; line-height: 1.3; padding-right: 36px;
-        }
-        .modal-title span { color: var(--accent); }
-
-        /* Modal body */
-        .modal-body-wrap { padding: 18px 22px 22px; }
-
-        /* Amount highlight box */
-        .modal-amount-box {
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(251,191,36,0.06);
-            border: 1px solid rgba(251,191,36,0.15);
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 16px;
-        }
-        .modal-amount-left { display: flex; flex-direction: column; gap: 3px; }
-        .modal-amount-label { font-size: 0.58rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.6px; }
-        .modal-amount-value { font-size: 1.5rem; font-weight: 800; color: var(--accent); letter-spacing: -1px; line-height: 1; }
-        .modal-amount-sub { font-size: 0.6rem; color: #475569; margin-top: 1px; }
-        .modal-amount-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
-
-        .modal-desc {
-            font-size: 0.76rem; color: #94a3b8; line-height: 1.7; margin-bottom: 18px;
-        }
-        .modal-desc strong { color: #cbd5e1; font-weight: 600; }
-
-        /* Trust badges row */
-        .modal-trust-row {
-            display: flex; gap: 8px; margin-bottom: 20px;
-        }
-        .modal-trust-badge {
-            flex: 1; display: flex; align-items: center; gap: 5px;
-            background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15);
-            border-radius: 8px; padding: 7px 8px;
-            font-size: 0.58rem; font-weight: 600; color: #6ee7b7; letter-spacing: 0.2px;
-        }
-        .modal-trust-badge span { font-size: 0.85rem; }
-
-        .modal-cta {
-            width: 100%; padding: 15px 0;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #0f172a; border: none; border-radius: 14px;
-            font-size: 0.86rem; font-weight: 800; cursor: pointer;
-            letter-spacing: 0.3px;
-            box-shadow: 0 6px 20px rgba(251,191,36,0.32), 0 1px 3px rgba(0,0,0,0.2);
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-            position: relative; overflow: hidden;
-        }
-        .modal-cta::before {
-            content: '';
-            position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
-            animation: shimmer 2.4s ease-in-out infinite;
-        }
-        @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
-        .modal-cta:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(251,191,36,0.2); }
-        .modal-footer-note {
-            text-align: center; margin-top: 12px;
-            font-size: 0.6rem; color: #334155; letter-spacing: 0.2px;
-        }
 
         /* ── GAME HAFAZAN CARD ── */
         .game-card {
@@ -457,8 +285,8 @@
             <div style="position:absolute; top:-18px; right:-18px; width:80px; height:80px; border-radius:50%; background:rgba(251,191,36,0.06); pointer-events:none;"></div>
             <div style="position:absolute; bottom:-24px; left:-16px; width:60px; height:60px; border-radius:50%; background:rgba(16,185,129,0.05); pointer-events:none;"></div>
 
-            <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" target="_blank" id="masjid-btn" class="masjid-icon-wrap">
-                <span class="masjid-label" id="masjid-label">Infaq Tahfiz AQIL</span>
+            <a href="https://quranic-huffaz.github.io/quran-tracker/info-quran-tracker.html" target="_blank" id="masjid-btn" class="masjid-icon-wrap">
+                <span class="masjid-label" id="masjid-label">🕌 Infaq RM1 ke...</span>
                 <div class="masjid-icon-btn" style="position:relative;">
                     <div class="masjid-ping" id="masjid-ping" style="display:none;"></div>
                     <span class="masjid-live-dot"></span>
@@ -630,141 +458,27 @@
     </nav>
 </div>
 
-<!-- INFAQ FLOATING BUTTON -->
-<div id="infaq-float-btn" class="hidden" onclick="infaqModal.open()">
-    <span class="infaq-live-dot"></span>
-    <span class="infaq-float-label">Kempen Infaq RM1</span>
-    <span class="infaq-countdown-pill" id="infaq-countdown">10</span>
-</div>
 
-<!-- INFAQ MODAL (PREMIUM FINTECH) -->
-<div id="infaq-modal-overlay" onclick="infaqModal.handleOverlayClick(event)">
-    <div id="infaq-modal">
-        <div class="modal-header-strip">
-            <button class="modal-close-btn" onclick="infaqModal.close()">✕</button>
-            <div class="modal-badge">
-                <span class="modal-badge-dot"></span>
-                Kempen Aktif
-            </div>
-            <p class="modal-title">Infaq <span>RM1</span> ke Tahfiz AQIL</p>
-        </div>
-        <div class="modal-body-wrap">
-            <div class="modal-amount-box">
-                <div class="modal-amount-left">
-                    <span class="modal-amount-label">Jumlah Minima</span>
-                    <span class="modal-amount-value">RM 1</span>
-                    <span class="modal-amount-sub">Seringgit, pahala berlipat ganda</span>
-                </div>
-                <div class="modal-amount-icon">🕌</div>
-            </div>
-            <p class="modal-desc">
-                Aplikasi <strong>Quran Tracker</strong> ini adalah inisiatif individu, <strong>100% percuma</strong> untuk ummah. Jika anda ingin menyumbang, salurkan terus kepada <strong>Akademi al-Quran al-Labeeb</strong> — pusat tahfiz wanita yang memerlukan sokongan anda.
-            </p>
-            <div class="modal-trust-row">
-                <div class="modal-trust-badge"><span>✅</span> Amanah</div>
-                <div class="modal-trust-badge"><span>🤲</span> Sadaqah</div>
-                <div class="modal-trust-badge"><span>📖</span> Fisabilillah</div>
-            </div>
-            <button class="modal-cta" onclick="window.open('https://quranic-huffaz.github.io/quran-tracker/info-quran-tracker.html','_blank'); infaqModal.close();">
-                🕌 &nbsp;Jom Infaq Sekarang
-            </button>
-            <p class="modal-footer-note">Jazakallahu khairan atas sokongan anda 🤍</p>
-        </div>
-    </div>
-</div>
 
 <script>
-    // ── Masjid icon: mobile tap = show label first, second tap = navigate ──
+    // ── Masjid icon: bubble "Infaq RM1 ke .." keluar setiap 5 saat ──
     (function () {
-        const btn = document.getElementById('masjid-btn');
         const label = document.getElementById('masjid-label');
-        const isMobile = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-        let activated = false;
-        let timer = null;
 
-        btn.addEventListener('click', function (e) {
-            if (!isMobile()) return;
-            if (!activated) {
-                e.preventDefault();
-                activated = true;
-                btn.classList.add('tapped');
-                label.classList.add('visible');
-                clearTimeout(timer);
-                timer = setTimeout(() => {
-                    activated = false;
-                    btn.classList.remove('tapped');
-                    label.classList.remove('visible');
-                }, 2800);
-            }
-        });
+        function showBubble() {
+            label.classList.add('visible');
+            setTimeout(() => {
+                label.classList.remove('visible');
+            }, 2500); // tunjuk selama 2.5s
+        }
+
+        // Mula selepas 1 saat, kemudian setiap 5 saat
+        setTimeout(() => {
+            showBubble();
+            setInterval(showBubble, 5000);
+        }, 1000);
     })();
 
-    // ── Infaq Floating Button + Modal ──
-    // Popup hanya muncul sekali per sesi browser (sessionStorage).
-    // Jika tutup browser dan buka semula, popup muncul semula.
-    const infaqModal = {
-        countdownTimer: null,
-        showTimer: null,
-        countdownVal: 10,
-
-        init() {
-            // Semak session — jika sudah ditunjuk dalam sesi ini, jangan tunjuk lagi
-            if (!sessionStorage.getItem('infaq_shown')) {
-                this.scheduleShow();
-            }
-        },
-
-        scheduleShow() {
-            clearTimeout(this.showTimer);
-            this.showTimer = setTimeout(() => this.showFloat(), 3000);
-        },
-
-        showFloat() {
-            const btn = document.getElementById('infaq-float-btn');
-            const pill = document.getElementById('infaq-countdown');
-            btn.classList.remove('hidden');
-            this.countdownVal = 10;
-            pill.textContent = this.countdownVal;
-            clearInterval(this.countdownTimer);
-            this.countdownTimer = setInterval(() => {
-                this.countdownVal--;
-                pill.textContent = this.countdownVal;
-                if (this.countdownVal <= 0) {
-                    clearInterval(this.countdownTimer);
-                    this.hideFloat(true); // auto-hide, mark as shown for session
-                }
-            }, 1000);
-        },
-
-        hideFloat(markShown) {
-            const btn = document.getElementById('infaq-float-btn');
-            btn.classList.add('hidden');
-            clearInterval(this.countdownTimer);
-            if (markShown) {
-                // Tamat countdown — simpan dalam sessionStorage supaya tidak muncul lagi dalam sesi ini
-                sessionStorage.setItem('infaq_shown', '1');
-            }
-        },
-
-        open() {
-            // Jika klik, buka terus ke link infaq
-            window.open('https://quranic-huffaz.github.io/quran-tracker/info-quran-tracker.html', '_blank');
-            clearInterval(this.countdownTimer);
-            this.hideFloat(true);
-            // Juga tunjuk modal sebagai maklumat tambahan
-            document.getElementById('infaq-modal-overlay').classList.add('visible');
-        },
-
-        close() {
-            document.getElementById('infaq-modal-overlay').classList.remove('visible');
-        },
-
-        handleOverlayClick(e) {
-            if (e.target === document.getElementById('infaq-modal-overlay')) this.close();
-        }
-    };
-
-    infaqModal.init();
 
     // ── Main app ──
     const app = {
