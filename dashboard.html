@@ -39,17 +39,17 @@
     <header class="fintech-gradient text-white p-6 pb-20 rounded-b-[40px]">
         <div class="max-w-md mx-auto">
             <p class="text-sm opacity-80">Assalamualaikum Warahmatullahi Wabarakatuh</p>
-            <h1 class="text-2xl font-bold mt-1">Selamat datang</h1>
+            <h1 class="text-2xl font-bold mt-1 text-white">Selamat datang</h1>
             
             <div class="mt-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex justify-between items-center text-sm">
                 <div class="flex items-center gap-3">
                     <i class="fa-regular fa-calendar text-blue-400"></i>
                     <div>
-                        <p id="date-masihi" class="font-bold"></p>
-                        <p id="date-hijrah" class="opacity-80"></p>
+                        <p id="date-masihi" class="font-bold text-white"></p>
+                        <p id="date-hijrah" class="opacity-80 text-white"></p>
                     </div>
                 </div>
-                <div id="day-name" class="bg-blue-600 px-3 py-1 rounded-full font-medium text-xs"></div>
+                <div id="day-name" class="bg-blue-600 px-3 py-1 rounded-full font-medium text-xs text-white"></div>
             </div>
         </div>
     </header>
@@ -87,40 +87,35 @@
     </main>
 
     <div id="infaq-btn-container" class="fixed bottom-24 left-6 z-40 hidden opacity-0 popup-fade">
-        <button onclick="openInfaqModal()" class="bg-white px-4 py-3 rounded-2xl shadow-xl border border-slate-200 flex items-center gap-3 relative">
+        <button onclick="openInfaqModal()" class="bg-white p-3 rounded-2xl shadow-xl border border-slate-200 flex items-center gap-3 relative">
             <span class="relative flex h-3 w-3">
                 <span class="dot-active absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
             </span>
-            <div class="flex flex-col items-start leading-none">
-                <div class="flex items-center gap-2 mb-1">
-                    <i class="fa-solid fa-hand-holding-heart text-blue-600 text-sm"></i>
-                    <span class="text-xs font-bold text-slate-800 tracking-tight">Infaq RM1 ke Tahfiz AQIL</span>
-                </div>
-                <span id="countdown-timer" class="text-[10px] text-slate-400 font-medium italic">Tutup dalam 10s...</span>
+            <span class="text-xs font-bold text-slate-800 tracking-tight">Infaq RM1 ke Tahfiz AQIL</span>
+            <div class="bg-slate-100 px-2 py-1 rounded-lg">
+                <span id="countdown-timer" class="text-[10px] font-bold text-slate-500">10s</span>
             </div>
         </button>
     </div>
 
     <div id="infaq-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 hidden px-6">
-        <div class="bg-white rounded-[32px] w-full max-w-sm p-8 relative overflow-hidden">
+        <div class="bg-white rounded-[32px] w-full max-w-sm p-8 relative overflow-hidden text-center">
             <button onclick="closeInfaqModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
-            <div class="text-center">
-                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fa-solid fa-circle-info text-2xl"></i>
-                </div>
-                <h2 class="text-xl font-bold text-slate-800 mb-4 tracking-tight">Mengenai Aplikasi Ini</h2>
-                <p class="text-sm text-slate-600 leading-relaxed mb-6">
-                    Aplikasi Quran Tracker ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah 100% percuma tanpa sebarang caj tersembunyi.
-                    <br><br>
-                    Walau bagaimanapun, bagi anda yang ingin menyumbang, saya amat mengesyorkan agar sumbangan atau infaq disalurkan terus kepada Akademi al-Quran al-Labeeb.
-                </p>
-                <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="block w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition shadow-lg shadow-blue-200">
-                    Jom Sumbang
-                </a>
+            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-circle-info text-2xl"></i>
             </div>
+            <h2 class="text-xl font-bold text-slate-800 mb-4 tracking-tight text-center">Mengenai Aplikasi Ini</h2>
+            <p class="text-sm text-slate-600 leading-relaxed mb-6 text-center">
+                Aplikasi Quran Tracker ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah 100% percuma tanpa sebarang caj tersembunyi.
+                <br><br>
+                Walau bagaimanapun, bagi anda yang ingin menyumbang, saya amat mengesyorkan agar sumbangan atau infaq disalurkan terus kepada Akademi al-Quran al-Labeeb.
+            </p>
+            <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="block w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition shadow-lg">
+                Jom Sumbang
+            </a>
         </div>
     </div>
 
@@ -165,7 +160,7 @@
                 </div>
                 <span class="text-sm font-semibold">Jemput Kongsi Quran Tracker</span>
             </button>
-            <button onclick="toggleFeedbackMenu()" class="w-full py-3 text-slate-400 font-bold text-sm">Tutup</button>
+            <button onclick="toggleFeedbackMenu()" class="w-full py-3 text-slate-400 font-bold text-sm text-center">Tutup</button>
         </div>
     </div>
 
@@ -173,16 +168,16 @@
         <div class="bg-white rounded-[32px] w-full max-w-sm p-6">
             <h3 class="text-lg font-bold text-center mb-6 text-slate-800">Kongsi Quran Tracker</h3>
             <div class="grid grid-cols-2 gap-4">
-                <button onclick="shareViaWhatsapp()" class="flex flex-col items-center justify-center p-4 bg-emerald-50 border border-emerald-100 rounded-2xl hover:bg-emerald-100 transition">
+                <button onclick="shareViaWhatsapp()" class="flex flex-col items-center justify-center p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
                     <i class="fa-brands fa-whatsapp text-3xl text-emerald-600 mb-2"></i>
                     <span class="text-xs font-bold text-emerald-800">WhatsApp</span>
                 </button>
-                <button onclick="copyLink()" class="flex flex-col items-center justify-center p-4 bg-blue-50 border border-blue-100 rounded-2xl hover:bg-blue-100 transition">
+                <button onclick="copyLink()" class="flex flex-col items-center justify-center p-4 bg-blue-50 border border-blue-100 rounded-2xl">
                     <i class="fa-solid fa-link text-3xl text-blue-600 mb-2"></i>
-                    <span class="text-xs font-bold text-blue-800">Copy Link</span>
+                    <span class="text-xs font-bold text-blue-800">Salin Link</span>
                 </button>
             </div>
-            <button onclick="closeShareOptions()" class="w-full mt-6 py-2 text-slate-400 font-bold text-sm">Batal</button>
+            <button onclick="closeShareOptions()" class="w-full mt-6 py-2 text-slate-400 font-bold text-sm text-center">Batal</button>
         </div>
     </div>
 
@@ -196,12 +191,11 @@
             document.getElementById('date-masihi').innerText = now.toLocaleDateString('ms-MY', optionsMasihi);
             document.getElementById('day-name').innerText = now.toLocaleDateString('ms-MY', optionsDay);
             
-            // Tarikh Hijrah menggunakan Intl
             const hijrahDate = new Intl.DateTimeFormat('ms-TN-u-ca-islamic-uma', {day:'numeric', month:'long', year:'numeric'}).format(now);
             document.getElementById('date-hijrah').innerText = hijrahDate;
         }
 
-        // 2. Infaq Popup Logik (5s Delay + 10s Countdown)
+        // 2. Infaq Popup (3s Delay & 10s Countdown)
         function handleInfaqPopup() {
             const btnContainer = document.getElementById('infaq-btn-container');
             const timerLabel = document.getElementById('countdown-timer');
@@ -214,7 +208,7 @@
                     let timeLeft = 10;
                     const countdown = setInterval(() => {
                         timeLeft--;
-                        timerLabel.innerText = `Tutup dalam ${timeLeft}s...`;
+                        timerLabel.innerText = `${timeLeft}s`;
                         
                         if (timeLeft <= 0) {
                             clearInterval(countdown);
@@ -222,7 +216,7 @@
                         }
                     }, 1000);
                 }, 100);
-            }, 5000);
+            }, 3000); // Popup selepas 3 saat
         }
 
         function hideInfaqBtn() {
@@ -239,7 +233,6 @@
             document.getElementById('infaq-modal').classList.add('hidden');
         }
 
-        // 3. Maklum Balas & Kongsi
         function toggleFeedbackMenu() {
             document.getElementById('feedback-menu').classList.toggle('hidden');
         }
@@ -254,7 +247,7 @@
         }
 
         function shareViaWhatsapp() {
-            const text = encodeURIComponent("Mari jejaki bacaan Al-Quran kita dengan Quran Tracker: " + window.location.href);
+            const text = encodeURIComponent("Jom jejaki bacaan Al-Quran kita: " + window.location.href);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
@@ -264,7 +257,6 @@
             closeShareOptions();
         }
 
-        // Init
         updateDate();
         handleInfaqPopup();
     </script>
