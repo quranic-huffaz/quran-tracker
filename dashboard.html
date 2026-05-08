@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Tracker Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .fintech-gradient {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.05);
+        }
+        .nav-active {
+            color: #3b82f6;
+        }
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .dot-active {
+            animation: pulse-green 2s infinite;
+        }
+        .popup-fade {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="pb-24">
+
+    <header class="fintech-gradient text-white p-6 pb-20 rounded-b-[40px]">
+        <div class="max-w-md mx-auto">
+            <p class="text-sm opacity-80">Assalamualaikum Warahmatullahi Wabarakatuh</p>
+            <h1 class="text-2xl font-bold mt-1">Selamat datang</h1>
+            
+            <div class="mt-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <i class="fa-regular fa-calendar text-blue-400"></i>
+                    <div>
+                        <p id="date-masihi" class="text-xs font-semibold uppercase tracking-wider opacity-70"></p>
+                        <p id="date-hijrah" class="text-sm font-bold"></p>
+                    </div>
+                </div>
+                <div id="day-name" class="text-xs bg-blue-600 px-3 py-1 rounded-full font-medium"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto px-6 -mt-12">
+        <div class="grid grid-cols-2 gap-4">
+            <a href="https://quranic-huffaz.github.io/quran-tracker/tilawah.html" class="bg-white p-5 rounded-3xl card-shadow border border-slate-100 flex flex-col items-center text-center hover:scale-95 transition">
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-3">
+                    <i class="fa-solid fa-book-open text-xl"></i>
+                </div>
+                <span class="text-sm font-semibold text-slate-700">Tilawah</span>
+            </a>
+
+            <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="bg-white p-5 rounded-3xl card-shadow border border-slate-100 flex flex-col items-center text-center hover:scale-95 transition">
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-3">
+                    <i class="fa-solid fa-heart-pulse text-xl"></i>
+                </div>
+                <span class="text-sm font-semibold text-slate-700">Hafazan</span>
+            </a>
+
+            <a href="https://nota-wanhasbullah.blogspot.com/search/label/Al-Quran" class="bg-white p-5 rounded-3xl card-shadow border border-slate-100 flex flex-col items-center text-center hover:scale-95 transition">
+                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-3">
+                    <i class="fa-solid fa-pen-to-square text-xl"></i>
+                </div>
+                <span class="text-sm font-semibold text-slate-700">Nota Quran</span>
+            </a>
+
+            <a href="https://nota-wanhasbullah.blogspot.com/p/kad-cerita.html" class="bg-white p-5 rounded-3xl card-shadow border border-slate-100 flex flex-col items-center text-center hover:scale-95 transition">
+                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-3">
+                    <i class="fa-solid fa-clapperboard text-xl"></i>
+                </div>
+                <span class="text-sm font-semibold text-slate-700">Kad Cerita</span>
+            </a>
+        </div>
+    </main>
+
+    <div id="infaq-btn-container" class="fixed bottom-24 left-6 z-40 hidden opacity-0 popup-fade">
+        <button onclick="openInfaqModal()" class="bg-white px-4 py-2 rounded-full shadow-lg border border-slate-200 flex items-center gap-2 relative">
+            <span class="relative flex h-2 w-2">
+                <span class="dot-active absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span class="text-xs font-bold text-slate-700">Infaq RM1 ke Tahfiz AQIL</span>
+        </button>
+    </div>
+
+    <div id="infaq-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 hidden px-6">
+        <div class="bg-white rounded-[32px] w-full max-w-sm p-8 relative overflow-hidden">
+            <button onclick="closeInfaqModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-circle-info text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-slate-800 mb-4">Mengenai Aplikasi Ini</h2>
+                <p class="text-sm text-slate-600 leading-relaxed mb-6">
+                    Aplikasi Quran Tracker ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah 100% percuma.
+                    <br><br>
+                    Bagi anda yang ingin menyumbang, saya amat mengesyorkan agar infaq disalurkan terus kepada <strong>Akademi al-Quran al-Labeeb</strong> (Tahfiz Pelajar Wanita).
+                </p>
+                <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="block w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition">
+                    Jom Sumbang
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-3 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center text-slate-400">
+            <a href="#" class="flex flex-col items-center nav-active">
+                <i class="fa-solid fa-house text-xl"></i>
+                <span class="text-[10px] mt-1 font-medium">Home</span>
+            </a>
+            <a href="https://quranic-huffaz.github.io/quran-tracker/tilawah.html" class="flex flex-col items-center">
+                <i class="fa-solid fa-book-quran text-xl"></i>
+                <span class="text-[10px] mt-1 font-medium">Tilawah</span>
+            </a>
+            <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="flex flex-col items-center">
+                <i class="fa-solid fa-medal text-xl"></i>
+                <span class="text-[10px] mt-1 font-medium">Hafazan</span>
+            </a>
+            <button onclick="toggleFeedbackMenu()" class="flex flex-col items-center">
+                <i class="fa-solid fa-comment-dots text-xl"></i>
+                <span class="text-[10px] mt-1 font-medium">Maklum Balas</span>
+            </button>
+        </div>
+    </nav>
+
+    <div id="feedback-menu" class="fixed inset-0 bg-black/40 z-[45] hidden flex items-end justify-center px-4 pb-24">
+        <div class="bg-white w-full max-w-md rounded-[30px] p-6 space-y-3">
+            <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                <i class="fa-solid fa-hand-holding-heart text-blue-600"></i>
+                <span class="text-sm font-semibold">Infaq Tahfiz AQIL</span>
+            </a>
+            <a href="https://nota-wanhasbullah.blogspot.com/p/maklum-balas-quran-tracker.html" class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                <i class="fa-solid fa-message-pen text-amber-600"></i>
+                <span class="text-sm font-semibold">Beri Maklum Balas</span>
+            </a>
+            <button onclick="shareApp()" class="w-full flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+                <i class="fa-solid fa-share-nodes text-emerald-600"></i>
+                <span class="text-sm font-semibold">Jemput Kongsi Quran Tracker</span>
+            </button>
+            <button onclick="toggleFeedbackMenu()" class="w-full py-3 text-slate-400 font-bold text-sm">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Tarikh & Hari
+        function updateDate() {
+            const now = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const hariOptions = { weekday: 'long' };
+            
+            document.getElementById('date-masihi').innerText = now.toLocaleDateString('ms-MY', options);
+            document.getElementById('day-name').innerText = now.toLocaleDateString('ms-MY', hariOptions);
+            
+            // Similasi Tarikh Hijrah (Untuk paparan tepat, gunakan library Intl.DateTimeFormat)
+            const hijrahDate = new Intl.DateTimeFormat('ms-TN-u-ca-islamic-uma', {day:'numeric', month:'long', year:'numeric'}).format(now);
+            document.getElementById('date-hijrah').innerText = hijrahDate;
+        }
+
+        // 2. Logik Popup Infaq
+        function handleInfaqPopup() {
+            const btn = document.getElementById('infaq-btn-container');
+            
+            setTimeout(() => {
+                btn.classList.remove('hidden');
+                setTimeout(() => {
+                    btn.classList.add('opacity-100');
+                    
+                    // Auto hide selepas 10 saat
+                    setTimeout(() => {
+                        hideInfaqBtn();
+                    }, 10000);
+                }, 100);
+            }, 5000);
+        }
+
+        function hideInfaqBtn() {
+            const btn = document.getElementById('infaq-btn-container');
+            btn.classList.add('opacity-0');
+            setTimeout(() => btn.classList.add('hidden'), 500);
+        }
+
+        function openInfaqModal() {
+            document.getElementById('infaq-modal').classList.remove('hidden');
+        }
+
+        function closeInfaqModal() {
+            document.getElementById('infaq-modal').classList.add('hidden');
+        }
+
+        // 3. Maklum Balas Menu
+        function toggleFeedbackMenu() {
+            const menu = document.getElementById('feedback-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // 4. Share Function
+        function shareApp() {
+            const shareData = {
+                title: 'Quran Tracker',
+                text: 'Mari jejaki bacaan Al-Quran kita dengan Quran Tracker.',
+                url: window.location.href
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData);
+            } else {
+                // Fallback copy link
+                navigator.clipboard.writeText(window.location.href);
+                alert("Link telah disalin! Jom kongsi ke WhatsApp.");
+            }
+        }
+
+        // Initialize
+        updateDate();
+        handleInfaqPopup();
+    </script>
+</body>
+</html>
