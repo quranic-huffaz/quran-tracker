@@ -90,7 +90,7 @@
         .btn-primary { background: var(--accent); color: #000; }
         .btn-small { padding: 4px 10px; font-size: 0.65rem; border-radius: 4px; width: auto; font-weight: bold; }
         .btn-del { background: var(--danger); color: white; margin-left: 5px; }
-        .btn-mur { background: var(--success); color: white; }
+        .btn-mur { background: var(--success); color: white; margin-left: 5px; }
 
         /* MASJID ICON */
         .masjid-icon-wrap {
@@ -574,9 +574,18 @@
         countdownTimer: null,
         showTimer: null,
         countdownVal: 10,
+        sessionKey: 'infaq_shown_session',
 
         init() {
-            this.scheduleShow();
+            this.checkAndScheduleShow();
+            window.addEventListener('focus', () => this.checkAndScheduleShow());
+        },
+
+        checkAndScheduleShow() {
+            const shownInSession = sessionStorage.getItem(this.sessionKey);
+            if (!shownInSession) {
+                this.scheduleShow();
+            }
         },
 
         scheduleShow() {
@@ -605,6 +614,7 @@
             const btn = document.getElementById('infaq-float-btn');
             btn.classList.add('hidden');
             clearInterval(this.countdownTimer);
+            sessionStorage.setItem(this.sessionKey, 'true');
         },
 
         open() {
@@ -741,12 +751,28 @@
             document.getElementById('ranking-list').innerHTML = sorted.map(([name, count]) => `
                 <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:10px 0; border-bottom:1px solid #334155;">
                     <span>${name} <b style="color:var(--accent); margin-left:5px;">${count}x</b></span>
-                    <button class="btn-small btn-del" style="font-size:0.5rem; padding:2px 6px;" onclick="app.deleteRank('${name}')">Padam</button>
+                    <div>
+                        <button class="btn-small btn-mur" onclick="app.quickMurajaahFromRank('${name}')">Murajaah</button>
+                        <button class="btn-small btn-del" style="font-size:0.5rem; padding:2px 6px;" onclick="app.deleteRank('${name}')">Padam</button>
+                    </div>
                 </div>
             `).join('') || '<p style="font-size:0.7rem; color:var(--text-dim);">Tiada data.</p>';
         },
 
         redoTask(l) { this.currentTask = { ...l, mode: 'surah' }; quranApp.loadData(this.currentTask); this.switchTab('quran'); },
+        
+        quickMurajaahFromRank(name) {
+            const entry = this.mLogs.find(l => l.surahName === name);
+            if(entry) {
+                this.currentTask = { ...entry, mode: entry.mode || 'surah' };
+                quranApp.loadData(this.currentTask);
+                this.switchTab('quran');
+                // Record additional murajaah
+                this.mLogs.push(entry);
+                this.save();
+            }
+        },
+        
         deleteLog(type, idx) { if(type === 'saba') this.logs.splice(idx, 1); this.save(); },
         deleteRank(name) { this.mLogs = this.mLogs.filter(l => l.surahName !== name); this.save(); }
     };
