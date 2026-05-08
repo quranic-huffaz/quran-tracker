@@ -68,7 +68,8 @@
                     <a href="#sumbangan" class="hover:text-secondary transition-colors">Saluran Sumbangan</a>
                     <a href="#hubungi" class="hover:text-secondary transition-colors">Hubungi</a>
                 </div>
-                <a href="https://toyyibpay.com/Dana-Bil-Utiliti" class="bg-primary hover:bg-opacity-90 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg">
+                <!-- Auto-update link di navbar -->
+                <a :href="'https://toyyibpay.com/Dana-Bil-Utiliti?amount=' + amount" class="bg-primary hover:bg-opacity-90 text-white px-6 py-3 rounded-full font-semibold text-sm transition-all transform hover:scale-105 shadow-lg">
                     INFAQ SEKARANG
                 </a>
             </div>
@@ -183,7 +184,8 @@
         </div>
 
         <div class="space-y-4">
-            <a href="https://toyyibpay.com/Dana-Bil-Utiliti" class="block text-center bg-primary hover:bg-slate-800 text-white py-5 rounded-2xl font-bold text-xl shadow-xl transition-all transform hover:-translate-y-1">
+            <!-- Pautan ini akan auto-hantar jumlah yang dipilih -->
+            <a :href="'https://toyyibpay.com/Dana-Bil-Utiliti?amount=' + amount" class="block text-center bg-primary hover:bg-slate-800 text-white py-5 rounded-2xl font-bold text-xl shadow-xl transition-all transform hover:-translate-y-1">
                 👉 INFAQ RM<span x-text="amount"></span> SEKARANG
             </a>
             <a href="https://www.facebook.com/share/1DZZZtyhRQ/" target="_blank" class="block text-center bg-white border-2 border-slate-200 text-slate-600 py-4 rounded-2xl font-semibold hover:bg-slate-50 transition-all">
@@ -248,10 +250,7 @@
     </a>
 
     <script>
-        // Initialize Lucide icons
         lucide.createIcons();
-        
-        // Simple scroll reveal effect
         window.addEventListener('scroll', () => {
             const elements = document.querySelectorAll('[data-aos="fade-up"]');
             elements.forEach(el => {
