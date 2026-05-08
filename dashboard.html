@@ -382,7 +382,7 @@
                         </div>
                         <div class="min-w-0">
                             <p class="text-[9px] font-semibold uppercase tracking-widest text-white/40 mb-0.5">Masihi</p>
-                            <p id="date-masihi" class="font-bold text-white leading-tight" style="font-size:clamp(10px,2.8vw,13px);word-break:break-word;white-space:normal;"></p>
+                            <p id="date-masihi" class="font-bold text-white leading-snug" style="font-size:clamp(9px,2.6vw,12px);white-space:normal;word-break:break-word;"></p>
                         </div>
                     </div>
 
@@ -395,7 +395,7 @@
                         </div>
                         <div class="min-w-0">
                             <p class="text-[9px] font-semibold uppercase tracking-widest text-white/40 mb-0.5">Hijriah</p>
-                            <p id="date-hijrah" class="font-bold text-white leading-tight" style="font-size:clamp(10px,2.8vw,13px);word-break:break-word;white-space:normal;"></p>
+                            <p id="date-hijrah" class="font-bold text-white leading-snug" style="font-size:clamp(9px,2.6vw,12px);white-space:normal;word-break:break-word;"></p>
                         </div>
                     </div>
                 </div>
@@ -563,24 +563,44 @@
         function updateDate() {
             const now = new Date();
 
-            // Masihi
+            // Masihi — contoh: 8 Mei 2026
             const masihiOpts = { day: 'numeric', month: 'long', year: 'numeric' };
             document.getElementById('date-masihi').innerText = now.toLocaleDateString('ms-MY', masihiOpts);
 
             // Day name
-            const dayOpts = { weekday: 'long' };
-            document.getElementById('day-name').innerText = now.toLocaleDateString('ms-MY', dayOpts);
+            document.getElementById('day-name').innerText = now.toLocaleDateString('ms-MY', { weekday: 'long' });
 
-            // Hijriah (Islamic calendar)
+            // Hijriah — format: "21 Zulkaedah 1447 H"
+            // Nama bulan Hijriah dalam Bahasa Melayu
+            const bulanHijriah = [
+                'Muharram','Safar','Rabiulawal','Rabiulakhir',
+                'Jamadilawal','Jamadilakhir','Rejab','Syaaban',
+                'Ramadan','Syawal','Zulkaedah','Zulhijah'
+            ];
+
             try {
-                const hijrahOpts = { day: 'numeric', month: 'long', year: 'numeric' };
-                const hijrahDate = new Intl.DateTimeFormat('ms-MY-u-ca-islamic-umalqura', hijrahOpts).format(now);
-                document.getElementById('date-hijrah').innerText = hijrahDate;
+                // Ambil hari, bulan, tahun Hijriah berasingan
+                const getHijriPart = (part) => {
+                    return parseInt(
+                        new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { [part]: 'numeric' }).format(now),
+                        10
+                    );
+                };
+
+                const hDay   = getHijriPart('day');
+                const hMonth = getHijriPart('month'); // 1-based
+                const hYear  = getHijriPart('year');
+
+                const namaBulan = bulanHijriah[hMonth - 1] || '';
+                document.getElementById('date-hijrah').innerText = `${hDay} ${namaBulan} ${hYear} H`;
+
             } catch (e) {
-                // Fallback jika browser tidak sokong
+                // Fallback ringkas
                 try {
-                    const hijrahDate = new Intl.DateTimeFormat('ms-TN-u-ca-islamic-uma', { day:'numeric', month:'long', year:'numeric' }).format(now);
-                    document.getElementById('date-hijrah').innerText = hijrahDate;
+                    const hijrahDate = new Intl.DateTimeFormat('ms-MY-u-ca-islamic-umalqura', {
+                        day: 'numeric', month: 'long', year: 'numeric'
+                    }).format(now);
+                    document.getElementById('date-hijrah').innerText = hijrahDate + ' H';
                 } catch (e2) {
                     document.getElementById('date-hijrah').innerText = '—';
                 }
