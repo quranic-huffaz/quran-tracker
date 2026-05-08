@@ -72,26 +72,35 @@
             pointer-events: none;
         }
 
-        /* ── DATE CARD ───────────────────────────────── */
+        /* ── DATE CARD (OPTIMIZED) ───────────────────── */
         .date-card {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 18px;
-            padding: 14px 16px;
+            border-radius: 22px;
+            padding: 16px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            gap: 8px;
         }
 
-        .date-divider {
-            width: 1px;
-            height: 24px;
-            background: rgba(255,255,255,0.15);
-            margin: 0 4px;
-            flex-shrink: 0;
+        .date-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .day-divider-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 10px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
 
         .day-badge {
@@ -99,12 +108,11 @@
             border-radius: 8px;
             padding: 4px 10px;
             font-size: 10px;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 0.05em;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(59,130,246,0.3);
             text-transform: uppercase;
-            box-shadow: 0 2px 12px rgba(59,130,246,0.4);
-            display: inline-block;
-            width: fit-content;
         }
 
         /* ── CARDS ───────────────────────────────────── */
@@ -347,39 +355,23 @@
             <p class="welcome-sub">Assalamualaikum Warahmatullahi Wabarakatuh</p>
             <h1 class="welcome-title">Selamat datang 🌙</h1>
 
-            <!-- Date Card: Masihi + Hijriah -->
+            <!-- Date Card: Modern & Symmetrical -->
             <div class="date-card">
-                <!-- Baris Atas: Hari -->
-                <div class="flex items-center justify-between">
-                    <div id="day-name" class="day-badge"></div>
-                    <div class="h-[1px] flex-1 bg-white/10 ml-4"></div>
+                <!-- Masihi -->
+                <div class="date-section text-left">
+                    <p class="text-[9px] font-bold uppercase tracking-[0.15em] text-white/30 mb-1">Masihi</p>
+                    <p id="date-masihi" class="font-bold text-white text-[13px] leading-tight truncate"></p>
                 </div>
 
-                <!-- Baris Bawah: Tarikh (Split 2) -->
-                <div class="flex items-center justify-between gap-2">
-                    <!-- Masihi -->
-                    <div class="flex items-center gap-3 flex-1 min-w-0">
-                        <div class="w-8 h-8 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                            <i class="fa-regular fa-calendar text-blue-400 text-sm"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <p class="text-[9px] font-semibold uppercase tracking-widest text-white/40 mb-0.5">Masihi</p>
-                            <p id="date-masihi" class="font-bold text-white text-xs leading-tight truncate"></p>
-                        </div>
-                    </div>
+                <!-- Center Divider with Day Badge -->
+                <div class="day-divider-wrap">
+                    <div id="day-name" class="day-badge">HARI</div>
+                </div>
 
-                    <div class="date-divider"></div>
-
-                    <!-- Hijriah -->
-                    <div class="flex items-center gap-3 flex-[1.2] min-w-0">
-                        <div class="w-8 h-8 rounded-xl bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
-                            <i class="fa-solid fa-moon text-cyan-400 text-sm"></i>
-                        </div>
-                        <div class="min-w-0">
-                            <p class="text-[9px] font-semibold uppercase tracking-widest text-white/40 mb-0.5">Hijriah</p>
-                            <p id="date-hijrah" class="font-bold text-white text-xs leading-tight"></p>
-                        </div>
-                    </div>
+                <!-- Hijriah -->
+                <div class="date-section text-right">
+                    <p class="text-[9px] font-bold uppercase tracking-[0.15em] text-white/30 mb-1 text-right">Hijriah</p>
+                    <p id="date-hijrah" class="font-bold text-cyan-400 text-[13px] leading-tight truncate"></p>
                 </div>
             </div>
         </div>
@@ -554,13 +546,12 @@
 
             // Hijriah (Islamic calendar)
             try {
-                const hijrahOpts = { day: 'numeric', month: 'long', year: 'numeric' };
+                const hijrahOpts = { day: 'numeric', month: 'short', year: 'numeric' };
                 const hijrahDate = new Intl.DateTimeFormat('ms-MY-u-ca-islamic-umalqura', hijrahOpts).format(now);
                 document.getElementById('date-hijrah').innerText = hijrahDate;
             } catch (e) {
-                // Fallback jika browser tidak sokong
                 try {
-                    const hijrahDate = new Intl.DateTimeFormat('ms-TN-u-ca-islamic-uma', { day:'numeric', month:'long', year:'numeric' }).format(now);
+                    const hijrahDate = new Intl.DateTimeFormat('ms-TN-u-ca-islamic-uma', { day:'numeric', month:'short', year:'numeric' }).format(now);
                     document.getElementById('date-hijrah').innerText = hijrahDate;
                 } catch (e2) {
                     document.getElementById('date-hijrah').innerText = '—';
@@ -568,13 +559,12 @@
             }
         }
 
-        // 2. Infaq Popup — muncul selepas 5 saat, countdown 10 saat
+        // 2. Infaq Popup
         function handleInfaqPopup() {
             const popup = document.getElementById('infaq-btn-container');
             const timerEl = document.getElementById('countdown-timer');
 
             setTimeout(() => {
-                // Show popup
                 popup.style.display = 'block';
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
@@ -582,7 +572,6 @@
                     });
                 });
 
-                // Countdown 10 → 0
                 let timeLeft = 10;
                 timerEl.innerText = timeLeft;
 
@@ -596,7 +585,7 @@
                     }
                 }, 1000);
 
-            }, 5000); // 5 saat sebelum popup
+            }, 5000); 
         }
 
         function hideInfaqBtn() {
