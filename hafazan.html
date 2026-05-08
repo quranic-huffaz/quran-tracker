@@ -534,7 +534,7 @@
             </div>
             <p class="game-card-title">Game Hafazan</p>
             <p class="game-card-sub">Uji kekuatan hafazan anda dengan cara yang menyeronokkan. Latih ingatan ayat Al-Quran melalui permainan interaktif.</p>
-            <a href="https://quranic-huffaz.github.io/quran-tracker/game-hafazan.html" target="_blank" class="game-card-btn">
+            <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" target="_blank" class="game-card-btn">
                 🕹️ &nbsp;Main Sekarang
             </a>
         </div>
@@ -716,7 +716,7 @@
 
         scheduleShow() {
             clearTimeout(this.showTimer);
-            this.showTimer = setTimeout(() => this.showFloat(), 5000);
+            this.showTimer = setTimeout(() => this.showFloat(), 3000);
         },
 
         showFloat() {
@@ -855,13 +855,31 @@
             this.renderAll();
         },
 
-        // Tambah murajaah dari sejarah saba' (butang "Murajaah Lagi")
+        // Tambah murajaah dari sejarah saba'
         addMurajaahFromSaba(l) {
             const date = new Date().toLocaleDateString();
             this.mLogs.push({ surahId: l.surahId, surahName: l.surahName, startAyat: l.startAyat, count: l.count, date });
             this.save();
-            // Beri feedback ringkas
             this.vibrate();
+        },
+
+        // Butang "+Murajaah" dalam Tab Murajaah — tambah kiraan + auto scroll ke ayat
+        addMurajaahFromRanking(name) {
+            const found = [...this.mLogs].reverse().find(l => l.surahName === name && l.surahId)
+                       || [...this.logs].reverse().find(l => l.surahName === name && l.surahId);
+            const date = new Date().toLocaleDateString();
+            if (found) {
+                this.mLogs.push({ surahId: found.surahId, surahName: found.surahName, startAyat: found.startAyat, count: found.count, date });
+                this.save();
+                this.vibrate();
+                this.currentTask = { surahId: found.surahId, startAyat: found.startAyat, count: found.count, mode: 'surah' };
+                quranApp.loadData(this.currentTask);
+                this.switchTab('quran');
+            } else {
+                this.mLogs.push({ surahId: null, surahName: name, startAyat: 1, count: 1, date });
+                this.save();
+                this.vibrate();
+            }
         },
 
         renderAll() {
@@ -883,7 +901,6 @@
                         <div><strong>${l.surahName}</strong><br><small>${l.date} • ${l.count} Ayat</small></div>
                         <div style="display:flex; align-items:center; gap:0;">
                             <button class="btn-small btn-mur" onclick="app.redoTask(${lJson})">Murajaah</button>
-                            <button class="btn-small btn-mur-again" onclick="app.addMurajaahFromSaba(${lJson})" title="Tambah ke Ranking Murajaah">+Murajaah</button>
                             <button class="btn-small btn-del" onclick="app.deleteLog('saba', ${origIdx})">Padam</button>
                         </div>
                     </div>
@@ -896,7 +913,10 @@
             document.getElementById('ranking-list').innerHTML = sorted.map(([name, count]) => `
                 <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8rem; padding:10px 0; border-bottom:1px solid #334155;">
                     <span>${name} <b style="color:var(--accent); margin-left:5px;">${count}x</b></span>
-                    <button class="btn-small btn-del" style="font-size:0.5rem; padding:2px 6px;" onclick="app.deleteRank('${name}')">Padam</button>
+                    <div style="display:flex; align-items:center; gap:0;">
+                        <button class="btn-small btn-mur-again" onclick="app.addMurajaahFromRanking('${name}')" title="Tambah Murajaah">+Murajaah</button>
+                        <button class="btn-small btn-del" style="font-size:0.5rem; padding:2px 6px;" onclick="app.deleteRank('${name}')">Padam</button>
+                    </div>
                 </div>
             `).join('') || '<p style="font-size:0.7rem; color:var(--text-dim);">Tiada data.</p>';
         },
