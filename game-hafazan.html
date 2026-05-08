@@ -11,7 +11,6 @@
         .arabic { font-family: 'Amiri', serif; direction: rtl; }
         .card-glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* Navigation Styles with Animation */
         .nav-bar { 
             position: fixed; 
             bottom: 20px; 
@@ -36,17 +35,17 @@
         .nav-item.active { color: #fbbf24; }
         .nav-home { background: linear-gradient(135deg, #fbbf24, #d97706); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: -35px; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); color: #0f172a !important; border: 4px solid #0f172a; }
 
-        /* Streak Dots */
         .streak-dot { width: 12px; height: 6px; border-radius: 3px; background: #334155; transition: all 0.3s; }
         .streak-dot.active { background: #10b981; box-shadow: 0 0 8px #10b981; }
 
-        /* Game Elements */
         .drop-zone { min-height: 80px; border: 2px dashed #334155; border-radius: 16px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; padding: 12px; transition: all 0.3s; }
         .word-chip { background: #1e293b; border: 1px solid #334155; padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.25rem; }
         .word-chip:active { transform: scale(0.95); }
         
-        /* Action Button Fix */
         .action-container { margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center; }
+        
+        /* Badge untuk urutan ayat Tahap 1 */
+        .order-badge { background: #fbbf24; color: #0f172a; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px; position: absolute; top: -10px; right: 10px; box-shadow: 0 4px 10px rgba(251, 191, 36, 0.3); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 md:p-8">
@@ -85,17 +84,16 @@
                 <button onclick="backToMenu()" class="text-slate-400 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 </button>
-                <div id="surahBadge" class="px-4 py-1 rounded-full border border-amber-500/50 text-amber-500 text-sm font-bold bg-amber-500/10">Surah An-Nas</div>
+                <div id="surahBadge" class="px-4 py-1 rounded-full border border-amber-500/50 text-amber-500 text-sm font-bold bg-amber-500/10">Surah</div>
                 <div id="timer" class="bg-slate-800 px-3 py-1 rounded-lg text-amber-400 font-mono text-sm border border-slate-700">00:00</div>
             </div>
 
             <div class="mb-4">
-                <h2 id="gameTitle" class="text-2xl font-bold">Susun Ayat</h2>
-                <p id="gameDesc" class="text-slate-400 text-sm">Ketik pada ayat mengikut turutan yang betul.</p>
+                <h2 id="gameTitle" class="text-2xl font-bold">Permainan</h2>
+                <p id="gameDesc" class="text-slate-400 text-sm">Sila selesaikan tugasan di bawah.</p>
             </div>
 
             <div class="flex gap-1 mb-8" id="streakContainer"></div>
-
             <div id="questionWrapper" class="space-y-6"></div>
 
             <div class="action-container">
@@ -123,9 +121,28 @@
 
     <script>
         const surahDB = [
-            { name: "An-Nas", verses: ["قُلْ أَعُوذُ بِرَبِّ النَّاسِ", "مَلِكِ النَّاسِ", "إِلَٰهِ النَّاسِ", "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ"] },
-            { name: "Al-Asr", verses: ["وَالْعَصْرِ", "إِنَّ الْإِنسَانَ لَفِي خُسْرٍ", "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ", "وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ"] },
-            { name: "Al-Ikhlas", verses: ["قُلْ هُوَ اللَّهُ أَحَدٌ", "اللَّهُ الصَّمَدُ", "لَمْ يَلِدْ وَلَمْ يُولَدْ", "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ"] }
+            { name: "Ad-Duha", verses: ["وَالضُّحَىٰ", "وَاللَّيْلِ إِذَا سَجَىٰ", "مَا وَدَّعَكَ رَبُّكَ وَمَا قَلَىٰ", "وَلَلْآخِرَةُ خَيْرٌ لَّكَ مِنَ الْأُولَىٰ", "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ"] },
+            { name: "Al-Inshirah", verses: ["أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ", "وَوَضَعْنَا عَنكَ وِزْرَكَ", "الَّذِي أَنقَضَ ظَهْرَكَ", "وَرَفَعْنَا لَكَ ذِكْرَكَ", "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا", "إِنَّ مَعَ الْعُسْرِ يُسْرًا"] },
+            { name: "At-Tin", verses: ["وَالتِّينِ وَالZَّيْتُونِ", "وَطُورِ سِينِينَ", "وَهَٰذَا الْبَلَدِ الْأَمِينِ", "لَقَدْ خَلَقْنَا الْإِنسَانَ فِي أَحْسَنِ تَقْوِيمٍ"] },
+            { name: "Al-Alaq", verses: ["اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ", "خَلَقَ الْإِنسَانَ مِنْ عَلَقٍ", "اقْرَأْ وَرَبُّكَ الْأَكْرَمُ", "الَّذِي عَلَّمَ بِالْقَلَمِ"] },
+            { name: "Al-Qadr", verses: ["إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ", "وَمَا أَدْرَاكَ مَا لَيْلَةُ الْقَدْرِ", "لَيْلَةُ الْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ"] },
+            { name: "Al-Bayyinah", verses: ["لَمْ يَكُنِ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ", "رَسُولٌ مِّنَ اللَّهِ يَتْلُو صُحُفًا مُّطَهَّرَةً", "فِيهَا كُتُبٌ قَيِّمَةٌ"] },
+            { name: "Az-Zalzalah", verses: ["إِذَا زُلْزِلَتِ الْأَرْضُ زِلْزَالَهَا", "وَأَخْرَجَتِ الْأَرْضُ أَثْقَالَهَا", "وَقَالَ الْإِنسَانُ مَا لَهَا"] },
+            { name: "Al-Adiyat", verses: ["وَالْعَادِيَاتِ ضَبْحًا", "فَالْمُورِيَاتِ قَدْحًا", "فَالْمُغِيرَاتِ صُبْحًا", "فَأَثَرْنَ بِهِ نَقْعًا"] },
+            { name: "Al-Qari'ah", verses: ["الْقَارِعَةُ", "مَا الْقَارِعَةُ", "وَمَا أَدْرَاكَ مَا الْقَارِعَةُ", "يَوْمَ يَكُونُ النَّاسُ كَالْفَرَاشِ الْمَبْثُوثِ"] },
+            { name: "At-Takathur", verses: ["أَلْهَاكُمُ التَّكَاثُرُ", "حَتَّىٰ زُرْتُمُ الْمَقَابِرَ", "كَلَّا سَوْفَ تَعْلَمُونَ", "ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ"] },
+            { name: "Al-Asr", verses: ["وَالْعَصْرِ", "إِنَّ الْإِنسَانَ لَفِي خُسْرٍ", "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ", "وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ"] },
+            { name: "Al-Humazah", verses: ["وَيْلٌ لِّكُلِّ هُمَزَةٍ لُّمَزَةٍ", "الَّذِي جَمَعَ مَالًا وَعَدَّدَهُ", "يَحْسَبُ أَنَّ مَالَهُ أَخْلَدَهُ"] },
+            { name: "Al-Fil", verses: ["أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَابِ الْفِيلِ", "أَلَمْ يَجْعَلْ كَيْدَهُمْ فِي تَضْلِيلٍ", "وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ"] },
+            { name: "Quraish", verses: ["لِإِيلَافِ قُرَيْشٍ", "إِيلَافِهِمْ رِحْلَةَ الشِّتَاءِ وَالصَّيْفِ", "فَلْيَعْبُدُوا رَبَّ هَٰذَا الْبَيْتِ"] },
+            { name: "Al-Ma'un", verses: ["أَرَأَيْتَ الَّذِي يُكَذِّبُ بِالدِّينِ", "فَذَٰلِكَ الَّذِي يَدُعُّ الْيَتِيمَ", "وَلَا يَحُضُّ عَلَىٰ طَعَامِ الْمِسْكِينِ"] },
+            { name: "Al-Kauthar", verses: ["إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ", "فَصَلِّ لِرَبِّكَ وَانْحَرْ", "إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ"] },
+            { name: "Al-Kafirun", verses: ["قُلْ يَا أَيُّهَا الْكَافِرُونَ", "لَا أَعْبُدُ مَا تَعْبُدُونَ", "وَلَا أَنتُمْ عَابِدُونَ مَا أَعْبُدُ"] },
+            { name: "An-Nasr", verses: ["إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ", "وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا", "فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ"] },
+            { name: "Al-Masad", verses: ["تَبَّتْ يَدَا أَبِي لَهَبٍ وَتَبَّ", "مَا أَغْنَىٰ عَنْهُ مَالُهُ وَمَا كَسَبَ", "سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ"] },
+            { name: "Al-Ikhlas", verses: ["قُلْ هُوَ اللَّهُ أَحَدٌ", "اللَّهُ الصَّمَدُ", "لَمْ يَلِدْ وَلَمْ يُولَدْ", "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ"] },
+            { name: "Al-Falaq", verses: ["قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ", "مِن شَرِّ مَا خَلَقَ", "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ", "وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ", "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ"] },
+            { name: "An-Nas", verses: ["قُلْ أَعُوذُ بِرَبِّ النَّاسِ", "مَلِكِ النَّاسِ", "إِلَٰهِ النَّاسِ", "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ", "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ", "مِنَ الْجِنَّةِ وَالنَّاسِ"] }
         ];
 
         let currentLevel = 1;
@@ -139,10 +156,7 @@
         function startLevel(level) {
             currentLevel = level;
             streak = 0;
-            
-            // Hide navigation bar with fade animation
             document.getElementById('bottomNav').classList.add('nav-hidden');
-            
             document.getElementById('levelSelection').classList.add('hidden');
             document.getElementById('gameArea').classList.remove('hidden');
             resetTimer();
@@ -188,16 +202,47 @@
                 let shuffled = [...surah.verses].sort(() => Math.random() - 0.5);
                 shuffled.forEach(v => {
                     const div = document.createElement('div');
-                    div.className = "card-glass p-5 rounded-2xl text-center arabic text-xl cursor-pointer border border-transparent transition-all";
+                    div.className = "card-glass p-5 rounded-2xl text-center arabic text-xl cursor-pointer border border-transparent transition-all relative";
                     div.innerText = v;
                     div.onclick = () => {
-                        div.classList.toggle('bg-amber-500/20');
-                        div.classList.toggle('border-amber-500');
-                        if(selectedAnswers.includes(v)) selectedAnswers = selectedAnswers.filter(a => a !== v);
-                        else selectedAnswers.push(v);
+                        if(selectedAnswers.includes(v)) {
+                            selectedAnswers = selectedAnswers.filter(a => a !== v);
+                            div.classList.remove('bg-amber-500/20', 'border-amber-500');
+                            const badge = div.querySelector('.order-badge');
+                            if(badge) badge.remove();
+                            // Update nombor badge yang tinggal
+                            updateBadges();
+                        } else {
+                            selectedAnswers.push(v);
+                            div.classList.add('bg-amber-500/20', 'border-amber-500');
+                            const badge = document.createElement('span');
+                            badge.className = 'order-badge';
+                            badge.innerText = `Ayat ${selectedAnswers.length}`;
+                            div.appendChild(badge);
+                        }
                     };
                     wrapper.appendChild(div);
                 });
+
+                function updateBadges() {
+                    const allItems = wrapper.querySelectorAll('.card-glass');
+                    allItems.forEach(item => {
+                        const txt = item.innerText.replace(/Ayat \d+/, '').trim();
+                        const idx = selectedAnswers.indexOf(txt);
+                        const badge = item.querySelector('.order-badge');
+                        if (idx !== -1) {
+                            if (!badge) {
+                                const newBadge = document.createElement('span');
+                                newBadge.className = 'order-badge';
+                                newBadge.innerText = `Ayat ${idx + 1}`;
+                                item.appendChild(newBadge);
+                            } else {
+                                badge.innerText = `Ayat ${idx + 1}`;
+                            }
+                        }
+                    });
+                }
+
                 currentTargetVerse = surah.verses;
             } 
             else if (currentLevel === 2) {
@@ -220,7 +265,7 @@
 
                 const grid = document.createElement('div');
                 grid.className = "grid grid-cols-2 gap-3 w-full";
-                const choices = [correctWord, "قُلْ", "فِي", "الَّذِي", "مِنْ"].sort(() => Math.random() - 0.5).slice(0, 4);
+                const choices = [correctWord, "قُلْ", "فِي", "الَّذِي", "مِنْ"].sort(() => Math.random() - 0.5).slice(0, 4);
                 if(!choices.includes(correctWord)) choices[0] = correctWord;
                 
                 choices.forEach(c => {
@@ -306,9 +351,7 @@
 
         function backToMenu() {
             clearInterval(timerInterval);
-            // Show navigation bar with fade animation
             document.getElementById('bottomNav').classList.remove('nav-hidden');
-            
             document.getElementById('levelSelection').classList.remove('hidden');
             document.getElementById('gameArea').classList.add('hidden');
         }
