@@ -7,51 +7,51 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; padding-bottom: 80px; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; padding-bottom: 120px; overflow-x: hidden; }
         .arabic { font-family: 'Amiri', serif; direction: rtl; }
-        .premium-gradient { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
-        .gold-border { border: 1px solid #94a3b833; border-top: 1px solid #fbbf244d; }
         .card-glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         
-        /* Navigation Styles */
-        .nav-bar {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 12px 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        /* Navigation Styles with Animation */
+        .nav-bar { 
+            position: fixed; 
+            bottom: 20px; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 90%; 
+            max-width: 400px; 
+            background: rgba(30, 41, 59, 0.9); 
+            backdrop-filter: blur(20px); 
+            border-radius: 25px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center; 
+            padding: 12px 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
             z-index: 1000;
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
+        .nav-hidden { transform: translate(-50%, 150%); opacity: 0; pointer-events: none; }
         .nav-item { text-align: center; color: #94a3b8; transition: all 0.3s; }
         .nav-item.active { color: #fbbf24; }
-        .nav-home {
-            background: linear-gradient(135deg, #fbbf24, #d97706);
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: -35px;
-            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
-            color: #0f172a !important;
-            border: 4px solid #0f172a;
-        }
+        .nav-home { background: linear-gradient(135deg, #fbbf24, #d97706); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: -35px; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); color: #0f172a !important; border: 4px solid #0f172a; }
+
+        /* Streak Dots */
+        .streak-dot { width: 12px; height: 6px; border-radius: 3px; background: #334155; transition: all 0.3s; }
+        .streak-dot.active { background: #10b981; box-shadow: 0 0 8px #10b981; }
+
+        /* Game Elements */
+        .drop-zone { min-height: 80px; border: 2px dashed #334155; border-radius: 16px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; padding: 12px; transition: all 0.3s; }
+        .word-chip { background: #1e293b; border: 1px solid #334155; padding: 8px 16px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.25rem; }
+        .word-chip:active { transform: scale(0.95); }
+        
+        /* Action Button Fix */
+        .action-container { margin-top: 40px; margin-bottom: 20px; width: 100%; display: flex; justify-content: center; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 md:p-8">
 
-    <header class="w-full max-w-4xl flex justify-between items-center mb-12">
+    <header class="w-full max-w-4xl flex justify-between items-center mb-8">
         <div>
             <h1 class="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500">
                 AL-HAFIZ <span class="font-light text-slate-400">PREMIUM</span>
@@ -59,209 +59,259 @@
             <p class="text-xs text-slate-500 uppercase tracking-widest">Elite Quranic Memorization</p>
         </div>
         <div class="text-right">
-            <div class="text-sm text-slate-400">Skor Keseluruhan</div>
+            <div class="text-sm text-slate-400">Skor</div>
             <div id="totalScore" class="text-xl font-semibold text-amber-400">0</div>
         </div>
     </header>
 
     <main class="w-full max-w-4xl">
         <div id="levelSelection" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div onclick="startLevel(1)" class="card-glass p-6 rounded-2xl cursor-pointer hover:border-amber-500/50 transition-all group">
-                <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-4 text-amber-500 group-hover:scale-110 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold mb-2">Tahap 1: Asas</h3>
-                <p class="text-sm text-slate-400 mb-4">Susun potongan ayat mengikut turutan yang betul.</p>
-                <span class="text-xs font-bold text-amber-500 tracking-tighter uppercase">Mula Cabaran →</span>
+            <div onclick="startLevel(1)" class="card-glass p-6 rounded-2xl cursor-pointer border-t-4 border-amber-500 hover:scale-105 transition-all">
+                <h3 class="text-lg font-bold mb-1">Tahap 1: Asas</h3>
+                <p class="text-sm text-slate-400">Susun potongan ayat.</p>
             </div>
-
-            <div onclick="startLevel(2)" class="card-glass p-6 rounded-2xl cursor-pointer hover:border-emerald-500/50 transition-all group">
-                <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-4 text-emerald-500 group-hover:scale-110 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold mb-2">Tahap 2: Pro</h3>
-                <p class="text-sm text-slate-400 mb-4">Pilih kalimah yang tepat untuk mengisi tempat kosong.</p>
-                <span class="text-xs font-bold text-emerald-500 tracking-tighter uppercase">Mula Cabaran →</span>
+            <div onclick="startLevel(2)" class="card-glass p-6 rounded-2xl cursor-pointer border-t-4 border-emerald-500 hover:scale-105 transition-all">
+                <h3 class="text-lg font-bold mb-1">Tahap 2: Pro</h3>
+                <p class="text-sm text-slate-400">Kalimah Hilang.</p>
             </div>
-
-            <div onclick="startLevel(3)" class="card-glass p-6 rounded-2xl cursor-pointer hover:border-rose-500/50 transition-all group">
-                <div class="w-12 h-12 bg-rose-500/10 rounded-xl flex items-center justify-center mb-4 text-rose-500 group-hover:scale-110 transition-transform">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                </div>
-                <h3 class="text-lg font-semibold mb-2">Tahap 3: Elit</h3>
-                <p class="text-sm text-slate-400 mb-4">Ujian sambungan ayat secara interaktif.</p>
-                <span class="text-xs font-bold text-rose-500 tracking-tighter uppercase">Mula Cabaran →</span>
+            <div onclick="startLevel(3)" class="card-glass p-6 rounded-2xl cursor-pointer border-t-4 border-rose-500 hover:scale-105 transition-all">
+                <h3 class="text-lg font-bold mb-1">Tahap 3: Elit</h3>
+                <p class="text-sm text-slate-400">Hafazan Penuh.</p>
             </div>
         </div>
 
-        <div id="gameArea" class="hidden">
-            <div class="mb-6 flex items-center gap-4">
-                <button onclick="backToMenu()" class="p-2 hover:bg-slate-800 rounded-full transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
+        <div id="gameArea" class="hidden w-full max-w-lg mx-auto pb-20">
+            <div class="flex justify-between items-center mb-6">
+                <button onclick="backToMenu()" class="text-slate-400 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
                 </button>
-                <h2 id="gameTitle" class="text-xl font-bold">Tahap 1: Susunan Ayat</h2>
+                <div id="surahBadge" class="px-4 py-1 rounded-full border border-amber-500/50 text-amber-500 text-sm font-bold bg-amber-500/10">Surah An-Nas</div>
+                <div id="timer" class="bg-slate-800 px-3 py-1 rounded-lg text-amber-400 font-mono text-sm border border-slate-700">00:00</div>
             </div>
 
-            <div class="card-glass p-8 rounded-3xl">
-                <div class="flex justify-between items-center mb-8">
-                    <span id="surahName" class="px-4 py-1 bg-amber-500/20 text-amber-400 rounded-full text-sm font-semibold">Surah Al-Ikhlas</span>
-                    <div class="text-sm text-slate-400">Masa: <span id="timer" class="font-mono text-white">00:00</span></div>
-                </div>
+            <div class="mb-4">
+                <h2 id="gameTitle" class="text-2xl font-bold">Susun Ayat</h2>
+                <p id="gameDesc" class="text-slate-400 text-sm">Ketik pada ayat mengikut turutan yang betul.</p>
+            </div>
 
-                <div id="questionContainer" class="flex flex-col items-center gap-6">
-                </div>
+            <div class="flex gap-1 mb-8" id="streakContainer"></div>
 
-                <div class="mt-10 flex justify-center">
-                    <button id="actionBtn" class="px-8 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-xl font-bold text-slate-900 hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all">
-                        Semak Jawapan
-                    </button>
-                </div>
+            <div id="questionWrapper" class="space-y-6"></div>
+
+            <div class="action-container">
+                <button id="actionBtn" class="w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg">
+                    Semak Jawapan
+                </button>
             </div>
         </div>
     </main>
 
-    <!-- Navigation Bar -->
-    <nav class="nav-bar">
+    <nav id="bottomNav" class="nav-bar">
         <a href="https://quranic-huffaz.github.io/quran-tracker/tilawah.html" class="nav-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-            <span class="text-[10px] uppercase font-bold mt-1 block">Tilawah</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
         </a>
-        
         <a href="https://quranic-huffaz.github.io/quran-tracker/dashboard.html" class="nav-item nav-home">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
         </a>
-
         <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="nav-item active">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.674a1 1 0 00.922-.617l2.108-4.742A4 4 0 1011.16 7.127l-4.713 1.178a1 1 0 00-.747.97v3.424a1 1 0 00.293.707l2.828 2.828a1 1 0 00.707.293z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2z" />
             </svg>
-            <span class="text-[10px] uppercase font-bold mt-1 block">Hafazan</span>
         </a>
     </nav>
 
     <script>
-        const surahs = [
-            { name: "An-Nas", verses: ["قُلْ أَعُوذُ بِرَبِّ النَّاسِ", "مَلِكِ النَّاسِ", "إِلَٰهِ النَّاسِ"] },
-            { name: "Al-Ikhlas", verses: ["قُلْ هُوَ اللَّهُ أَحَدٌ", "اللَّهُ الصَّمَدُ", "لَمْ يَلِدْ وَلَمْ يُولَدْ", "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ"] },
-            { name: "Al-Kauthar", verses: ["إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ", "فَصَلِّ لِرَبِّكَ وَانْحَرْ", "إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ"] }
+        const surahDB = [
+            { name: "An-Nas", verses: ["قُلْ أَعُوذُ بِرَبِّ النَّاسِ", "مَلِكِ النَّاسِ", "إِلَٰهِ النَّاسِ", "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ"] },
+            { name: "Al-Asr", verses: ["وَالْعَصْرِ", "إِنَّ الْإِنسَانَ لَفِي خُسْرٍ", "إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ", "وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ"] },
+            { name: "Al-Ikhlas", verses: ["قُلْ هُوَ اللَّهُ أَحَدٌ", "اللَّهُ الصَّمَدُ", "لَمْ يَلِدْ وَلَمْ يُولَدْ", "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ"] }
         ];
 
         let currentLevel = 1;
         let score = 0;
+        let streak = 0;
+        let timerInterval;
+        let seconds = 0;
+        let selectedAnswers = [];
+        let currentTargetVerse = "";
 
         function startLevel(level) {
             currentLevel = level;
+            streak = 0;
+            
+            // Hide navigation bar with fade animation
+            document.getElementById('bottomNav').classList.add('nav-hidden');
+            
             document.getElementById('levelSelection').classList.add('hidden');
             document.getElementById('gameArea').classList.remove('hidden');
-            
-            const titles = ["", "Tahap 1: Susun Ayat", "Tahap 2: Kalimah Hilang", "Tahap 3: Hafazan Penuh"];
-            document.getElementById('gameTitle').innerText = titles[level];
-            
-            setupGame();
+            resetTimer();
+            setupStreakDots();
+            renderQuestion();
         }
 
-        function backToMenu() {
-            document.getElementById('levelSelection').classList.remove('hidden');
-            document.getElementById('gameArea').classList.add('hidden');
+        function setupStreakDots() {
+            const container = document.getElementById('streakContainer');
+            container.innerHTML = '';
+            for(let i=0; i<10; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'streak-dot';
+                container.appendChild(dot);
+            }
         }
 
-        function setupGame() {
-            const container = document.getElementById('questionContainer');
-            const surah = surahs[Math.floor(Math.random() * surahs.length)];
-            document.getElementById('surahName').innerText = `Surah ${surah.name}`;
-            container.innerHTML = "";
+        function updateStreakUI() {
+            const dots = document.querySelectorAll('.streak-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index < streak);
+            });
+            if (streak >= 10) {
+                alert("Syabas! 10 Streak dicapai! Sedia untuk cabaran seterusnya.");
+                if(currentLevel < 3) startLevel(currentLevel + 1);
+                else backToMenu();
+            }
+        }
+
+        function renderQuestion() {
+            const wrapper = document.getElementById('questionWrapper');
+            const btn = document.getElementById('actionBtn');
+            const surah = surahDB[Math.floor(Math.random() * surahDB.length)];
+            document.getElementById('surahBadge').innerText = `Surah ${surah.name}`;
+            wrapper.innerHTML = "";
+            selectedAnswers = [];
 
             if (currentLevel === 1) {
+                document.getElementById('gameTitle').innerText = "Susun Ayat";
+                document.getElementById('gameDesc').innerText = "Ketik pada ayat mengikut turutan yang betul.";
+                btn.className = "w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg bg-amber-600 text-white hover:bg-amber-700";
+                
                 let shuffled = [...surah.verses].sort(() => Math.random() - 0.5);
-                shuffled.forEach((v) => {
-                    const btn = document.createElement('div');
-                    btn.className = "arabic text-2xl p-4 bg-slate-800/50 w-full text-center rounded-xl border border-slate-700 cursor-pointer hover:bg-slate-700 transition-colors";
-                    btn.innerText = v;
-                    btn.onclick = () => btn.classList.toggle('border-amber-500');
-                    container.appendChild(btn);
+                shuffled.forEach(v => {
+                    const div = document.createElement('div');
+                    div.className = "card-glass p-5 rounded-2xl text-center arabic text-xl cursor-pointer border border-transparent transition-all";
+                    div.innerText = v;
+                    div.onclick = () => {
+                        div.classList.toggle('bg-amber-500/20');
+                        div.classList.toggle('border-amber-500');
+                        if(selectedAnswers.includes(v)) selectedAnswers = selectedAnswers.filter(a => a !== v);
+                        else selectedAnswers.push(v);
+                    };
+                    wrapper.appendChild(div);
                 });
+                currentTargetVerse = surah.verses;
             } 
             else if (currentLevel === 2) {
-                // TAHAP 2: MCQ style (Think Quran style)
-                const randomVerse = surah.verses[Math.floor(Math.random() * surah.verses.length)];
-                const words = randomVerse.split(" ");
+                document.getElementById('gameTitle').innerText = "Kalimah Hilang";
+                document.getElementById('gameDesc').innerText = "Pilih kalimah yang tepat untuk melengkapkan ayat.";
+                btn.className = "w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg bg-emerald-600 text-white hover:bg-emerald-700";
+                
+                const vIndex = Math.floor(Math.random() * surah.verses.length);
+                const words = surah.verses[vIndex].split(" ");
                 const missingIdx = Math.floor(Math.random() * words.length);
-                const correctAnswer = words[missingIdx];
+                const correctWord = words[missingIdx];
                 
-                const questionText = words.map((w, i) => i === missingIdx ? "_____" : w).join(" ");
+                const qBox = document.createElement('div');
+                qBox.className = "card-glass p-8 rounded-3xl text-center flex flex-col items-center gap-6";
                 
-                const qDiv = document.createElement('div');
-                qDiv.className = "arabic text-3xl mb-8 text-center leading-loose";
-                qDiv.innerText = questionText;
-                container.appendChild(qDiv);
+                const vDisplay = document.createElement('div');
+                vDisplay.className = "arabic text-3xl leading-loose";
+                vDisplay.innerHTML = words.map((w, i) => i === missingIdx ? '<span class="border-b-2 border-slate-500 px-8">____</span>' : w).join(" ");
+                qBox.appendChild(vDisplay);
 
-                // Options
-                const optionsGrid = document.createElement('div');
-                optionsGrid.className = "grid grid-cols-2 gap-4 w-full";
+                const grid = document.createElement('div');
+                grid.className = "grid grid-cols-2 gap-3 w-full";
+                const choices = [correctWord, "قُلْ", "فِي", "الَّذِي", "مِنْ"].sort(() => Math.random() - 0.5).slice(0, 4);
+                if(!choices.includes(correctWord)) choices[0] = correctWord;
                 
-                const choices = [correctAnswer, "الرحيم", "العالمين", "الرحمن"]; // Dummy choices
-                choices.sort(() => Math.random() - 0.5);
-
-                choices.forEach(choice => {
-                    const opt = document.createElement('button');
-                    opt.className = "arabic text-xl p-4 bg-slate-800 rounded-xl border border-slate-700 hover:border-emerald-500 transition-all";
-                    opt.innerText = choice;
-                    opt.onclick = () => {
-                        document.querySelectorAll('#questionContainer button').forEach(b => b.classList.remove('border-emerald-500', 'bg-emerald-500/20'));
-                        opt.classList.add('border-emerald-500', 'bg-emerald-500/20');
+                choices.forEach(c => {
+                    const cBtn = document.createElement('button');
+                    cBtn.className = "bg-slate-800/50 border border-slate-700 p-4 rounded-xl arabic text-xl hover:bg-emerald-500/20 hover:border-emerald-500 transition-all";
+                    cBtn.innerText = c;
+                    cBtn.onclick = () => {
+                        selectedAnswers = [c];
+                        document.querySelectorAll('#questionWrapper button').forEach(b => b.classList.remove('border-emerald-500', 'bg-emerald-500/20'));
+                        cBtn.classList.add('border-emerald-500', 'bg-emerald-500/20');
                     };
-                    optionsGrid.appendChild(opt);
+                    grid.appendChild(cBtn);
                 });
-                container.appendChild(optionsGrid);
+                qBox.appendChild(grid);
+                wrapper.appendChild(qBox);
+                currentTargetVerse = correctWord;
             } 
             else if (currentLevel === 3) {
-                // TAHAP 3: Sambungan Ayat (Think Quran style)
-                const firstVerse = surah.verses[0];
-                const qDiv = document.createElement('div');
-                qDiv.className = "text-center mb-6";
-                qDiv.innerHTML = `<p class="text-slate-400 mb-2">Sambungkan ayat selepas:</p><p class="arabic text-2xl">${firstVerse}</p>`;
-                container.appendChild(qDiv);
-
-                const optionsGrid = document.createElement('div');
-                optionsGrid.className = "flex flex-col gap-3 w-full";
+                document.getElementById('gameTitle').innerText = "Hafazan Penuh";
+                document.getElementById('gameDesc').innerText = "Ketik perkataan di bawah untuk menyusun ayat.";
+                btn.className = "w-full py-4 rounded-2xl font-bold text-lg transition-all shadow-lg bg-rose-700 text-white hover:bg-rose-800";
                 
-                const nextVerse = surah.verses[1];
-                const wrongVerse = "مَالِكِ يَوْمِ الدِّينِ"; 
-                
-                let choices = [nextVerse, wrongVerse].sort(() => Math.random() - 0.5);
+                const vIndex = Math.floor(Math.random() * surah.verses.length);
+                const fullVerse = surah.verses[vIndex];
+                const words = fullVerse.split(" ");
+                const shuffledWords = [...words].sort(() => Math.random() - 0.5);
 
-                choices.forEach(choice => {
-                    const opt = document.createElement('button');
-                    opt.className = "arabic text-xl p-5 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-rose-500 transition-all text-right pr-6";
-                    opt.innerText = choice;
-                    opt.onclick = () => {
-                        document.querySelectorAll('#questionContainer button').forEach(b => b.classList.remove('border-rose-500', 'bg-rose-500/20'));
-                        opt.classList.add('border-rose-500', 'bg-rose-500/20');
+                const dropZone = document.createElement('div');
+                dropZone.className = "drop-zone arabic text-2xl bg-slate-900/40";
+                dropZone.innerText = "Ketik perkataan di bawah";
+                wrapper.appendChild(dropZone);
+
+                const pool = document.createElement('div');
+                pool.className = "flex flex-wrap justify-center gap-3 mt-8";
+                shuffledWords.forEach(w => {
+                    const chip = document.createElement('div');
+                    chip.className = "word-chip arabic";
+                    chip.innerText = w;
+                    chip.onclick = () => {
+                        if(dropZone.innerText.includes("Ketik")) dropZone.innerText = "";
+                        const newChip = chip.cloneNode(true);
+                        newChip.onclick = () => { newChip.remove(); selectedAnswers = selectedAnswers.filter(a => a !== w); };
+                        dropZone.appendChild(newChip);
+                        selectedAnswers.push(w);
                     };
-                    optionsGrid.appendChild(opt);
+                    pool.appendChild(chip);
                 });
-                container.appendChild(optionsGrid);
+                wrapper.appendChild(pool);
+                currentTargetVerse = fullVerse;
             }
         }
 
         document.getElementById('actionBtn').onclick = () => {
-            alert("Syabas! Jawapan anda tepat. (Sistem Demo)");
-            score += 100 * currentLevel;
-            document.getElementById('totalScore').innerText = score;
-            backToMenu();
+            let isCorrect = false;
+            if(currentLevel === 1) isCorrect = JSON.stringify(selectedAnswers) === JSON.stringify(currentTargetVerse);
+            else if (currentLevel === 2) isCorrect = selectedAnswers[0] === currentTargetVerse;
+            else isCorrect = selectedAnswers.join(" ") === currentTargetVerse;
+
+            if(isCorrect) {
+                streak++;
+                score += (100 * currentLevel);
+                document.getElementById('totalScore').innerText = score;
+                updateStreakUI();
+                renderQuestion();
+            } else {
+                streak = 0;
+                updateStreakUI();
+                alert("Cuba lagi!");
+                renderQuestion();
+            }
         };
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            seconds = 0;
+            timerInterval = setInterval(() => {
+                seconds++;
+                const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const s = (seconds % 60).toString().padStart(2, '0');
+                document.getElementById('timer').innerText = `${m}:${s}`;
+            }, 1000);
+        }
+
+        function backToMenu() {
+            clearInterval(timerInterval);
+            // Show navigation bar with fade animation
+            document.getElementById('bottomNav').classList.remove('nav-hidden');
+            
+            document.getElementById('levelSelection').classList.remove('hidden');
+            document.getElementById('gameArea').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
