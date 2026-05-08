@@ -32,10 +32,37 @@
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             width: 100%; max-width: 500px; background: var(--bg-card);
             border-top: 1px solid var(--border); display: flex;
-            justify-content: space-around; padding: 12px 0; z-index: 1000;
+            justify-content: space-around; align-items: center; padding: 10px 0; z-index: 1000;
         }
-        .nav-btn { background: none; border: none; color: var(--text-dim); font-weight: 600; font-size: 0.7rem; cursor: pointer; flex: 1; text-transform: uppercase; }
+        .nav-btn { background: none; border: none; color: var(--text-dim); font-weight: 600; font-size: 0.7rem; cursor: pointer; flex: 1; text-transform: uppercase; padding: 4px 0; }
         .nav-btn.active { color: var(--accent); }
+
+        /* HOME CENTER BUTTON */
+        .nav-home-btn {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .home-center-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border: 3px solid var(--bg-card);
+            outline: 2px solid rgba(251,191,36,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 18px rgba(251,191,36,0.38), 0 2px 6px rgba(0,0,0,0.3);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+            margin-top: -18px;
+            position: relative;
+        }
+        .home-center-icon:active { transform: scale(0.93); }
+        .home-center-icon svg { width: 22px; height: 22px; }
+
         .tab-content { display: none; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
 
@@ -96,7 +123,6 @@
             opacity: 1;
             transform: translateX(0);
         }
-        /* Masjid icon container with glow ring */
         .masjid-icon-btn {
             width: 38px;
             height: 38px;
@@ -108,6 +134,7 @@
             justify-content: center;
             transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
             flex-shrink: 0;
+            position: relative;
         }
         .masjid-icon-wrap:hover .masjid-icon-btn,
         .masjid-icon-wrap.tapped .masjid-icon-btn {
@@ -121,7 +148,6 @@
             transition: filter 0.22s ease;
         }
         .masjid-icon-wrap.tapped .masjid-svg { filter: drop-shadow(0 0 3px rgba(201,168,76,0.6)); }
-        /* Pulse ring on tapped */
         @keyframes masjid-ping {
             0%   { transform: scale(1);   opacity: 0.5; }
             80%  { transform: scale(1.6); opacity: 0; }
@@ -135,6 +161,24 @@
             animation: masjid-ping 1.2s ease-out infinite;
             pointer-events: none;
         }
+
+        /* MASJID DOT LIVE */
+        .masjid-live-dot {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #10b981;
+            border: 1.5px solid var(--bg-card);
+            z-index: 2;
+        }
+        @keyframes dot-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.75); }
+        }
+        .masjid-live-dot { animation: dot-pulse 1.6s ease-in-out infinite; }
 
         /* QURAN DISPLAY */
         .quran-container { text-align: right; direction: rtl; background: var(--bg-quran); color: var(--text-quran); padding: 0 !important; border: none; }
@@ -170,6 +214,127 @@
         .empty-state { text-align: center; padding: 60px 20px; direction: ltr; }
         .list-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── INFAQ FLOATING BUTTON (bottom-left) ── */
+        #infaq-float-btn {
+            position: fixed;
+            bottom: 78px;
+            left: 14px;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            border: 1px solid rgba(16,185,129,0.45);
+            border-radius: 50px;
+            padding: 9px 14px 9px 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(16,185,129,0.28), 0 2px 6px rgba(0,0,0,0.3);
+            animation: floatFadeIn 0.4s ease both;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            max-width: 220px;
+        }
+        #infaq-float-btn.hidden {
+            opacity: 0;
+            transform: translateX(-30px);
+            pointer-events: none;
+        }
+        @keyframes floatFadeIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .infaq-live-dot {
+            width: 9px; height: 9px; border-radius: 50%;
+            background: #4ade80; flex-shrink: 0;
+            animation: dot-pulse 1.5s ease-in-out infinite;
+        }
+        .infaq-float-label {
+            font-size: 0.65rem; font-weight: 700; color: #ecfdf5;
+            letter-spacing: 0.2px; white-space: nowrap;
+        }
+        .infaq-countdown-pill {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            padding: 1px 5px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: #d1fae5;
+            min-width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* ── INFAQ MODAL ── */
+        #infaq-modal-overlay {
+            position: fixed; inset: 0; z-index: 3000;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #infaq-modal-overlay.visible {
+            opacity: 1; pointer-events: all;
+        }
+        #infaq-modal {
+            background: linear-gradient(160deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(251,191,36,0.2);
+            border-radius: 20px;
+            padding: 28px 24px 24px;
+            width: 100%; max-width: 360px;
+            position: relative;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+            transform: translateY(12px) scale(0.97);
+            transition: transform 0.3s ease;
+        }
+        #infaq-modal-overlay.visible #infaq-modal {
+            transform: translateY(0) scale(1);
+        }
+        .modal-close-btn {
+            position: absolute; top: 14px; right: 14px;
+            width: 28px; height: 28px; border-radius: 8px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8; font-size: 1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            line-height: 1; font-weight: 300;
+        }
+        .modal-close-btn:hover { background: rgba(255,255,255,0.12); color: #f8fafc; }
+        .modal-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.22);
+            border-radius: 20px; padding: 4px 12px;
+            font-size: 0.6rem; font-weight: 700; color: var(--accent);
+            text-transform: uppercase; letter-spacing: 0.6px;
+            margin-bottom: 16px;
+        }
+        .modal-title {
+            font-size: 1.1rem; font-weight: 800; color: #f8fafc;
+            margin-bottom: 14px; letter-spacing: -0.3px; line-height: 1.3;
+        }
+        .modal-divider {
+            height: 1px; background: linear-gradient(90deg, transparent, rgba(251,191,36,0.25), transparent);
+            margin: 16px 0;
+        }
+        .modal-body {
+            font-size: 0.78rem; color: #94a3b8; line-height: 1.75; margin-bottom: 20px;
+        }
+        .modal-body strong { color: #cbd5e1; font-weight: 600; }
+        .modal-cta {
+            width: 100%; padding: 14px 0;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #0f172a; border: none; border-radius: 12px;
+            font-size: 0.84rem; font-weight: 800; cursor: pointer;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 16px rgba(251,191,36,0.28);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .modal-cta:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(251,191,36,0.2); }
+        .modal-footer-note {
+            text-align: center; margin-top: 12px;
+            font-size: 0.62rem; color: #475569; letter-spacing: 0.2px;
+        }
     </style>
 </head>
 <body>
@@ -186,34 +351,28 @@
             <div style="position:absolute; top:-18px; right:-18px; width:80px; height:80px; border-radius:50%; background:rgba(251,191,36,0.06); pointer-events:none;"></div>
             <div style="position:absolute; bottom:-24px; left:-16px; width:60px; height:60px; border-radius:50%; background:rgba(16,185,129,0.05); pointer-events:none;"></div>
 
-            <!-- Masjid icon — top right -->
+            <!-- Masjid icon — top right (with live dot) -->
             <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" target="_blank" id="masjid-btn" class="masjid-icon-wrap">
                 <span class="masjid-label" id="masjid-label">Infaq Tahfiz AQIL</span>
                 <div class="masjid-icon-btn" style="position:relative;">
                     <div class="masjid-ping" id="masjid-ping" style="display:none;"></div>
+                    <!-- Live green dot -->
+                    <span class="masjid-live-dot"></span>
                 <svg class="masjid-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Minaret left -->
                     <rect x="7" y="22" width="5" height="16" rx="1.5" fill="none" stroke="#c9a84c" stroke-width="1.4"/>
                     <ellipse cx="9.5" cy="22" rx="3" ry="2" fill="none" stroke="#c9a84c" stroke-width="1.2"/>
                     <line x1="9.5" y1="16" x2="9.5" y2="20" stroke="#c9a84c" stroke-width="1.2"/>
                     <polygon points="9.5,13 11.2,16 7.8,16" fill="#c9a84c" opacity="0.75"/>
-                    <!-- Minaret right -->
                     <rect x="36" y="22" width="5" height="16" rx="1.5" fill="none" stroke="#c9a84c" stroke-width="1.4"/>
                     <ellipse cx="38.5" cy="22" rx="3" ry="2" fill="none" stroke="#c9a84c" stroke-width="1.2"/>
                     <line x1="38.5" y1="16" x2="38.5" y2="20" stroke="#c9a84c" stroke-width="1.2"/>
                     <polygon points="38.5,13 40.2,16 36.8,16" fill="#c9a84c" opacity="0.75"/>
-                    <!-- Main dome -->
                     <path d="M15 22 Q15 12 24 12 Q33 12 33 22" fill="none" stroke="#c9a84c" stroke-width="1.6"/>
-                    <!-- Crescent on dome -->
                     <line x1="24" y1="8" x2="24" y2="12" stroke="#c9a84c" stroke-width="1.2"/>
                     <path d="M22.2 9.5 a2 2 0 0 1 3.6 0" fill="none" stroke="#c9a84c" stroke-width="1.1"/>
-                    <!-- Body wall -->
                     <rect x="15" y="22" width="18" height="16" rx="0" fill="none" stroke="#c9a84c" stroke-width="1.4"/>
-                    <!-- Base -->
                     <line x1="7" y1="38" x2="41" y2="38" stroke="#c9a84c" stroke-width="1.4"/>
-                    <!-- Door arch -->
                     <path d="M21 38 V33 Q24 30 27 33 V38" fill="none" stroke="#c9a84c" stroke-width="1.2"/>
-                    <!-- Side windows -->
                     <rect x="17" y="25" width="4" height="5" rx="2" fill="none" stroke="#c9a84c" stroke-width="1"/>
                     <rect x="27" y="25" width="4" height="5" rx="2" fill="none" stroke="#c9a84c" stroke-width="1"/>
                 </svg>
@@ -223,12 +382,11 @@
             <!-- Card content — fully centred -->
             <div style="text-align:center; padding: 8px 0 4px;">
                 <div style="display:inline-flex; align-items:center; gap:8px; margin-bottom:14px;">
-                    <div style="width:30px; height:30px; border-radius:9px; background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.22); display:flex; align-items:center; justify-content:center; font-size:0.9rem;">📖</div>
                     <span style="font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.9px; color:var(--accent);">Platform Hafazan Anda</span>
                 </div>
                 <p style="font-size:0.82rem; color:#94a3b8; line-height:1.75; margin-bottom:22px; max-width:240px; margin-left:auto; margin-right:auto;">Sematkan hafazan, jejak kemajuan secara sistematik. Mulakan langkah anda hari ini.</p>
 
-                <!-- Premium fintech primary CTA -->
+                <!-- Primary CTA -->
                 <button onclick="app.switchTab('saba-nav')" style="
                     display:block; width:100%; padding:14px 0;
                     background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
@@ -241,35 +399,17 @@
                     📖 &nbsp;Mula Menghafal
                 </button>
 
-                <!-- Premium fintech secondary — Infaq with masjid icon -->
-                <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" target="_blank" style="
+                <!-- Secondary — Cara Menghafal Bagi Pemula -->
+                <a href="https://nota-wanhasbullah.blogspot.com/search/label/Al-Quran?m=1" target="_blank" style="
                     display:flex; align-items:center; justify-content:center; gap:8px;
                     width:100%; padding:12px 0;
-                    background: rgba(201,168,76,0.07);
-                    border: 1px solid rgba(201,168,76,0.3);
+                    background: rgba(16,185,129,0.07);
+                    border: 1px solid rgba(16,185,129,0.3);
                     border-radius:12px;
-                    font-size:0.78rem; font-weight:700; color:#c9a84c;
+                    font-size:0.78rem; font-weight:700; color:#10b981;
                     text-decoration:none; letter-spacing:0.3px;
-                " onmouseover="this.style.background='rgba(201,168,76,0.14)'" onmouseout="this.style.background='rgba(201,168,76,0.07)'">
-                    <svg width="16" height="16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="7" y="22" width="5" height="16" rx="1.5" fill="none" stroke="#c9a84c" stroke-width="1.4"/>
-                        <ellipse cx="9.5" cy="22" rx="3" ry="2" fill="none" stroke="#c9a84c" stroke-width="1.2"/>
-                        <line x1="9.5" y1="16" x2="9.5" y2="20" stroke="#c9a84c" stroke-width="1.2"/>
-                        <polygon points="9.5,13 11.2,16 7.8,16" fill="#c9a84c" opacity="0.85"/>
-                        <rect x="36" y="22" width="5" height="16" rx="1.5" fill="none" stroke="#c9a84c" stroke-width="1.4"/>
-                        <ellipse cx="38.5" cy="22" rx="3" ry="2" fill="none" stroke="#c9a84c" stroke-width="1.2"/>
-                        <line x1="38.5" y1="16" x2="38.5" y2="20" stroke="#c9a84c" stroke-width="1.2"/>
-                        <polygon points="38.5,13 40.2,16 36.8,16" fill="#c9a84c" opacity="0.85"/>
-                        <path d="M15 22 Q15 12 24 12 Q33 12 33 22" fill="none" stroke="#c9a84c" stroke-width="1.6"/>
-                        <line x1="24" y1="8" x2="24" y2="12" stroke="#c9a84c" stroke-width="1.2"/>
-                        <path d="M22.2 9.5 a2 2 0 0 1 3.6 0" fill="none" stroke="#c9a84c" stroke-width="1.1"/>
-                        <rect x="15" y="22" width="18" height="16" rx="0" fill="none" stroke="#c9a84c" stroke-width="1.4"/>
-                        <line x1="7" y1="38" x2="41" y2="38" stroke="#c9a84c" stroke-width="1.4"/>
-                        <path d="M21 38 V33 Q24 30 27 33 V38" fill="none" stroke="#c9a84c" stroke-width="1.2"/>
-                        <rect x="17" y="25" width="4" height="5" rx="2" fill="none" stroke="#c9a84c" stroke-width="1"/>
-                        <rect x="27" y="25" width="4" height="5" rx="2" fill="none" stroke="#c9a84c" stroke-width="1"/>
-                    </svg>
-                    Infaq Tahfiz AQIL
+                " onmouseover="this.style.background='rgba(16,185,129,0.14)'" onmouseout="this.style.background='rgba(16,185,129,0.07)'">
+                    📚 &nbsp;Cara Menghafal Bagi Pemula
                 </a>
             </div>
         </div>
@@ -357,12 +497,50 @@
         </div>
     </div>
 
+    <!-- BOTTOM NAV: Utama | Saba' | [HOME] | Murajaah | Al-Quran -->
     <nav class="bottom-nav">
         <button id="nav-dashboard" class="nav-btn active" onclick="app.switchTab('dashboard')">Utama</button>
         <button id="nav-saba" class="nav-btn" onclick="app.switchTab('saba-nav')">Saba'</button>
+        <div class="nav-home-btn">
+            <div class="home-center-icon" onclick="window.location.href='https://quranic-huffaz.github.io/quran-tracker/dashboard.html'" title="Laman Utama">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 9.5L12 3L21 9.5V20C21 20.5523 20.5523 21 20 21H15V15H9V21H4C3.44772 21 3 20.5523 3 20V9.5Z" fill="#0f172a" stroke="#0f172a" stroke-width="0.5"/>
+                    <path d="M3 10L12 3L21 10" stroke="#0f172a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
         <button id="nav-murajaah" class="nav-btn" onclick="app.switchTab('murajaah-nav')">Murajaah</button>
         <button id="nav-quran" class="nav-btn" onclick="app.switchTab('quran')">Al-Quran</button>
     </nav>
+</div>
+
+<!-- INFAQ FLOATING BUTTON -->
+<div id="infaq-float-btn" class="hidden" onclick="infaqModal.open()">
+    <span class="infaq-live-dot"></span>
+    <span class="infaq-float-label">Infaq RM1 ke Tahfiz AQIL</span>
+    <span class="infaq-countdown-pill" id="infaq-countdown">10</span>
+</div>
+
+<!-- INFAQ MODAL -->
+<div id="infaq-modal-overlay" onclick="infaqModal.handleOverlayClick(event)">
+    <div id="infaq-modal">
+        <button class="modal-close-btn" onclick="infaqModal.close()">✕</button>
+        <div class="modal-badge">
+            <span style="width:6px;height:6px;border-radius:50%;background:#fbbf24;display:inline-block;"></span>
+            Tentang Aplikasi
+        </div>
+        <p class="modal-title">Mengenai Aplikasi Ini</p>
+        <div class="modal-divider"></div>
+        <div class="modal-body">
+            <p style="margin-bottom:10px;">Aplikasi <strong>Quran Tracker</strong> ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah <strong>100% percuma</strong> tanpa sebarang caj tersembunyi.</p>
+            <p style="margin-bottom:10px;">Walau bagaimanapun, bagi anda yang ingin menyumbang, saya amat mengesyorkan agar sumbangan atau infaq disalurkan terus kepada <strong>Akademi al-Quran al-Labeeb</strong>.</p>
+            <p>Institusi ini merupakan pusat tahfiz buat pelajar wanita yang memerlukan dana bagi tujuan pengurusan dan pembangunan pendidikan al-Quran.</p>
+        </div>
+        <button class="modal-cta" onclick="window.open('https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html','_blank'); infaqModal.close();">
+            🕌 &nbsp;Jom Sumbang
+        </button>
+        <p class="modal-footer-note">Jazakallahu khairan atas sokongan anda</p>
+    </div>
 </div>
 
 <script>
@@ -375,10 +553,9 @@
         let timer = null;
 
         btn.addEventListener('click', function (e) {
-            if (!isMobile()) return; // desktop: follow link normally
-
+            if (!isMobile()) return;
             if (!activated) {
-                e.preventDefault(); // first tap: reveal label
+                e.preventDefault();
                 activated = true;
                 btn.classList.add('tapped');
                 label.classList.add('visible');
@@ -389,9 +566,63 @@
                     label.classList.remove('visible');
                 }, 2800);
             }
-            // second tap within window: href fires naturally (link opens)
         });
     })();
+
+    // ── Infaq Floating Button + Modal ──
+    const infaqModal = {
+        countdownTimer: null,
+        showTimer: null,
+        countdownVal: 10,
+
+        init() {
+            this.scheduleShow();
+        },
+
+        scheduleShow() {
+            clearTimeout(this.showTimer);
+            this.showTimer = setTimeout(() => this.showFloat(), 5000);
+        },
+
+        showFloat() {
+            const btn = document.getElementById('infaq-float-btn');
+            const pill = document.getElementById('infaq-countdown');
+            btn.classList.remove('hidden');
+            this.countdownVal = 10;
+            pill.textContent = this.countdownVal;
+            clearInterval(this.countdownTimer);
+            this.countdownTimer = setInterval(() => {
+                this.countdownVal--;
+                pill.textContent = this.countdownVal;
+                if (this.countdownVal <= 0) {
+                    clearInterval(this.countdownTimer);
+                    this.hideFloat();
+                }
+            }, 1000);
+        },
+
+        hideFloat() {
+            const btn = document.getElementById('infaq-float-btn');
+            btn.classList.add('hidden');
+            clearInterval(this.countdownTimer);
+        },
+
+        open() {
+            clearInterval(this.countdownTimer);
+            this.hideFloat();
+            document.getElementById('infaq-modal-overlay').classList.add('visible');
+        },
+
+        close() {
+            document.getElementById('infaq-modal-overlay').classList.remove('visible');
+        },
+
+        handleOverlayClick(e) {
+            if (e.target === document.getElementById('infaq-modal-overlay')) this.close();
+        }
+    };
+
+    infaqModal.init();
 
     // ── Main app ──
     const app = {
@@ -440,7 +671,9 @@
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
-            document.getElementById('nav-' + tabId.split('-')[0]).classList.add('active');
+            const navKey = tabId.split('-')[0];
+            const navEl = document.getElementById('nav-' + navKey);
+            if (navEl) navEl.classList.add('active');
         },
 
         setAndHafal(type) {
