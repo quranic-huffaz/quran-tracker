@@ -619,38 +619,30 @@
       <div class="field-row">
         <!-- Nama -->
         <div class="field-group">
-          <label for="nama">Nama Penuh <span class="req">*</span></label>
-          <input class="inp" type="text" id="nama" name="nama" placeholder="cth. Ahmad Faris" required />
+          <label for="nama">Nama <span style="font-weight:400;text-transform:none;font-size:11px;color:var(--muted);letter-spacing:0">(pilihan — kosong = Anonim)</span></label>
+          <input class="inp" type="text" id="nama" name="nama" placeholder="Tinggalkan kosong untuk Anonim" />
         </div>
 
         <!-- E-mel -->
         <div class="field-group">
-          <label for="emel">Alamat E-mel <span class="req">*</span></label>
-          <input class="inp" type="email" id="emel" name="emel" placeholder="cth. ahmad@email.com" required />
+          <label for="emel">E-mel <span style="font-weight:400;text-transform:none;font-size:11px;color:var(--muted);letter-spacing:0">(pilihan)</span></label>
+          <input class="inp" type="email" id="emel" name="emel" placeholder="Tinggalkan kosong jika tidak mahu" />
         </div>
       </div>
 
-      <div class="field-row">
-        <!-- Jenis Maklum Balas -->
-        <div class="field-group">
-          <label for="jenis">Jenis Maklum Balas <span class="req">*</span></label>
-          <div class="select-wrap">
-            <select class="inp" id="jenis" name="jenis" required>
-              <option value="" disabled selected>Pilih jenis…</option>
-              <option value="Laporan Bugs">🐛 Laporan Bugs / Ralat</option>
-              <option value="Cadangan Fungsi">💡 Cadangan Fungsi Baru</option>
-              <option value="Prestasi">⚡ Isu Prestasi / Kelambatan</option>
-              <option value="Antara Muka">🎨 Antara Muka / UI</option>
-              <option value="Kandungan">📖 Kandungan / Data</option>
-              <option value="Lain-lain">📌 Lain-lain</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Versi -->
-        <div class="field-group">
-          <label for="versi">Versi Aplikasi</label>
-          <input class="inp" type="text" id="versi" name="versi" placeholder="cth. v1.2.3" />
+      <!-- Jenis Maklum Balas — full width -->
+      <div class="field-group">
+        <label for="jenis">Jenis Maklum Balas <span class="req">*</span></label>
+        <div class="select-wrap">
+          <select class="inp" id="jenis" name="jenis" required>
+            <option value="" disabled selected>Pilih jenis…</option>
+            <option value="Laporan Bugs">🐛 Laporan Bugs / Ralat</option>
+            <option value="Cadangan Fungsi">💡 Cadangan Fungsi Baru</option>
+            <option value="Prestasi">⚡ Isu Prestasi / Kelambatan</option>
+            <option value="Antara Muka">🎨 Antara Muka / UI</option>
+            <option value="Kandungan">📖 Kandungan / Data</option>
+            <option value="Lain-lain">📌 Lain-lain</option>
+          </select>
         </div>
       </div>
 
@@ -720,7 +712,7 @@
   // ═══════════════════════════════════════════════════
   //  !! PENTING: Ganti URL ini dengan URL Apps Script anda !!
   // ═══════════════════════════════════════════════════
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybCnm9Hop27pZt-B-GHZ4NeQYrcLJog3u5yUEnugjOG1lFAfTypvWkL_OiJHsJhxk5FA/exec";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw2ly-aBTSz_AjaDhCGK9voupeUc74qijJLrN_7Thfqhp1UGbtX3Zc_MPpJyNv_G0wsOg/exec";
 
   // ── Char Counter ──────────────────────────────────
   const mesejEl   = document.getElementById("mesej");
@@ -753,9 +745,6 @@
 
   // ── Validation ────────────────────────────────────
   function validate(data) {
-    if (!data.nama.trim())    return "Sila masukkan nama penuh anda.";
-    if (!data.emel.trim() || !data.emel.includes("@"))
-                              return "Sila masukkan alamat e-mel yang sah.";
     if (!data.jenis)          return "Sila pilih jenis maklum balas.";
     if (!data.keutamaan)      return "Sila pilih tahap keutamaan.";
     if (!data.mesej.trim())   return "Sila isi ruangan penerangan.";
@@ -768,12 +757,11 @@
 
     const form = e.target;
     const data = {
-      nama:      form.nama.value,
-      emel:      form.emel.value,
+      nama:      form.nama.value.trim() || "Anonim",
+      emel:      form.emel.value.trim() || "–",
       jenis:     form.jenis.value,
       keutamaan: form.keutamaan.value,
       peranti:   form.peranti.value,
-      versi:     form.versi.value,
       mesej:     form.mesej.value
     };
 
