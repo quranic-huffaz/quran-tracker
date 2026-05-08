@@ -6,223 +6,595 @@
     <title>Quran Tracker Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --midnight: #080d1a;
+            --navy: #0f1829;
+            --navy-light: #162036;
+            --accent-blue: #3b82f6;
+            --accent-blue-glow: rgba(59,130,246,0.35);
+            --accent-cyan: #22d3ee;
+            --gold: #f0c040;
+            --surface: #ffffff;
+            --surface-2: #f6f8fc;
+            --border: rgba(15,24,41,0.08);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+        }
+
+        * { -webkit-tap-highlight-color: transparent; }
+
         body {
-            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-            background-color: #f8fafc;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--surface-2);
+            background-image:
+                radial-gradient(ellipse 80% 40% at 50% -10%, rgba(59,130,246,0.06) 0%, transparent 70%);
+            min-height: 100vh;
         }
-        .fintech-gradient {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+
+        /* ── HEADER ─────────────────────────────────── */
+        .fintech-header {
+            background:
+                radial-gradient(ellipse 120% 80% at 60% -20%, rgba(59,130,246,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 100% 80%, rgba(34,211,238,0.1) 0%, transparent 60%),
+                linear-gradient(160deg, #0f1829 0%, #080d1a 60%, #0a1120 100%);
+            position: relative;
+            overflow: hidden;
         }
-        .card-shadow {
-            box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.05);
+
+        .fintech-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
         }
-        .nav-active {
-            color: #3b82f6;
+
+        .fintech-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(59,130,246,0.5), rgba(34,211,238,0.4), transparent);
         }
-        @keyframes pulse-green {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+
+        /* Glowing orb */
+        .header-orb {
+            position: absolute;
+            width: 260px; height: 260px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+            top: -80px; right: -60px;
+            pointer-events: none;
         }
-        .dot-active {
-            animation: pulse-green 2s infinite;
+
+        /* ── DATE CARD ───────────────────────────────── */
+        .date-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
         }
-        .popup-fade {
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+
+        .date-divider {
+            width: 1px;
+            height: 36px;
+            background: rgba(255,255,255,0.15);
+            margin: 0 14px;
+            flex-shrink: 0;
         }
+
+        .day-badge {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-radius: 10px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            box-shadow: 0 2px 12px rgba(59,130,246,0.4);
+        }
+
+        /* ── CARDS ───────────────────────────────────── */
+        .menu-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 22px 16px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+            box-shadow: 0 2px 16px -2px rgba(15,24,41,0.06);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .menu-card:hover { transform: scale(0.96); box-shadow: 0 8px 30px -4px rgba(15,24,41,0.12); }
+        .menu-card:hover::before { opacity: 1; }
+
+        .card-blue::before   { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .card-emerald::before{ background: linear-gradient(90deg, #10b981, #34d399); }
+        .card-amber::before  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .card-purple::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+        .icon-wrap {
+            width: 50px; height: 50px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 12px;
+            font-size: 20px;
+        }
+
+        .icon-blue   { background: linear-gradient(135deg,#eff6ff,#dbeafe); color:#3b82f6; }
+        .icon-emerald{ background: linear-gradient(135deg,#ecfdf5,#d1fae5); color:#10b981; }
+        .icon-amber  { background: linear-gradient(135deg,#fffbeb,#fef3c7); color:#f59e0b; }
+        .icon-purple { background: linear-gradient(135deg,#f5f3ff,#ede9fe); color:#8b5cf6; }
+
+        .menu-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        /* ── INFAQ POPUP ─────────────────────────────── */
+        .infaq-popup {
+            position: fixed;
+            bottom: 88px;
+            left: 16px;
+            z-index: 40;
+            display: none;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .infaq-popup.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .infaq-pill {
+            background: linear-gradient(135deg, #0f1829 0%, #162036 100%);
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 18px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.35),
+                0 0 0 1px rgba(255,255,255,0.04),
+                inset 0 1px 0 rgba(255,255,255,0.07);
+            min-width: 220px;
+        }
+
+        .live-dot {
+            position: relative;
+            width: 10px; height: 10px; flex-shrink: 0;
+        }
+
+        .live-dot-inner {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: #22c55e;
+        }
+
+        .live-dot-ring {
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 2px solid #22c55e;
+            animation: ring-pulse 1.8s ease-out infinite;
+        }
+
+        @keyframes ring-pulse {
+            0%   { transform: scale(0.6); opacity: 1; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        .infaq-pill-text {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        .infaq-pill-sub {
+            font-size: 10px;
+            font-weight: 400;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0;
+        }
+
+        .countdown-badge {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 4px 8px;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .countdown-num {
+            font-size: 13px;
+            font-weight: 800;
+            color: #60a5fa;
+            line-height: 1;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 8px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── MODAL ───────────────────────────────────── */
+        .modal-overlay {
+            background: rgba(8,13,26,0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+
+        .modal-card {
+            background: var(--surface);
+            border-radius: 28px;
+            padding: 32px 28px 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #22d3ee, #3b82f6);
+        }
+
+        /* ── BOTTOM NAV ──────────────────────────────── */
+        .bottom-nav {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(15,24,41,0.07);
+            box-shadow: 0 -4px 24px rgba(15,24,41,0.06);
+        }
+
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 2px 0;
+            transition: color 0.15s;
+        }
+
+        .nav-item.active { color: var(--accent-blue); }
+
+        .nav-item-label {
+            font-size: 10px;
+            font-weight: 600;
+            margin-top: 3px;
+            letter-spacing: 0.01em;
+        }
+
+        /* ── FEEDBACK SHEET ──────────────────────────── */
+        .sheet-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 16px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .sheet-item:hover { background: #eef2ff; }
+        .sheet-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .sheet-label { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+
+        /* ── SHARE MODAL ─────────────────────────────── */
+        .share-btn {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 18px 12px; border-radius: 18px; border: 1px solid var(--border);
+            cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+            background: var(--surface-2);
+        }
+        .share-btn:hover { transform: scale(0.97); box-shadow: 0 4px 16px -2px rgba(15,24,41,0.1); }
+
+        /* ── WELCOME TEXT ────────────────────────────── */
+        .welcome-sub { font-size: 12px; font-weight: 400; opacity: 0.55; letter-spacing: 0.01em; }
+        .welcome-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: #fff; margin-top: 2px; line-height: 1.15; }
     </style>
 </head>
 <body class="pb-24">
 
-    <header class="fintech-gradient text-white p-6 pb-20 rounded-b-[40px]">
-        <div class="max-w-md mx-auto">
-            <p class="text-sm opacity-80">Assalamualaikum Warahmatullahi Wabarakatuh</p>
-            <h1 class="text-2xl font-bold mt-1 text-white">Selamat datang</h1>
-            
-            <div class="mt-6 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex justify-between items-center text-sm">
-                <div class="flex items-center gap-3">
-                    <i class="fa-regular fa-calendar text-blue-400"></i>
-                    <div>
-                        <p id="date-masihi" class="font-bold text-white"></p>
-                        <p id="date-hijrah" class="opacity-80 text-white"></p>
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header class="fintech-header text-white pt-10 pb-20 px-6 rounded-b-[40px]">
+        <div class="header-orb"></div>
+        <div class="max-w-md mx-auto relative">
+            <p class="welcome-sub">Assalamualaikum Warahmatullahi Wabarakatuh</p>
+            <h1 class="welcome-title">Selamat datang 🌙</h1>
+
+            <!-- Date Card: Masihi + Hijriah -->
+            <div class="date-card">
+                <!-- Masihi -->
+                <div class="flex items-center gap-3 flex-1 min-w-0">
+                    <div class="w-8 h-8 rounded-xl bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-regular fa-calendar text-blue-400 text-sm"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-[9px] font-semibold uppercase tracking-widest text-white/40 mb-0.5">Masihi</p>
+                        <p id="date-masihi" class="font-bold text-white text-sm leading-tight truncate"></p>
                     </div>
                 </div>
-                <div id="day-name" class="bg-blue-600 px-3 py-1 rounded-full font-medium text-xs text-white"></div>
+
+                <div class="date-divider"></div>
+
+                <!-- Hijriah -->
+                <div class="flex items-center gap-3 flex-1 min-w-0">
+                    <div class="w-8 h-8 rounded-xl bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-moon text-cyan-400 text-sm"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-[9px] font-semibold uppercase tracking-widest text-white/40 mb-0.5">Hijriah</p>
+                        <p id="date-hijrah" class="font-bold text-white text-sm leading-tight truncate"></p>
+                    </div>
+                </div>
+
+                <!-- Day badge -->
+                <div class="day-badge ml-3 flex-shrink-0" id="day-name"></div>
             </div>
         </div>
     </header>
 
-    <main class="max-w-md mx-auto px-6 -mt-12">
+    <!-- ═══════════════ MAIN MENU ═══════════════ -->
+    <main class="max-w-md mx-auto px-5 -mt-12">
         <div class="grid grid-cols-2 gap-4">
-            <a href="https://quranic-huffaz.github.io/quran-tracker/tilawah.html" class="bg-white p-5 rounded-3xl card-shadow border border-slate-100 flex flex-col items-center text-center hover:scale-95 transition">
-                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-3">
-                    <i class="fa-solid fa-book-open text-xl"></i>
+
+            <a href="https://quranic-huffaz.github.io/quran-tracker/tilawah.html" class="menu-card card-blue">
+                <div class="icon-wrap icon-blue">
+                    <i class="fa-solid fa-book-open"></i>
                 </div>
-                <span class="text-sm font-semibold text-slate-700">Tilawah</span>
+                <span class="menu-label">Tilawah</span>
             </a>
 
-            <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="bg-white p-5 rounded-3xl card-shadow border border-slate-100 flex flex-col items-center text-center hover:scale-95 transition">
-                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-3">
-                    <i class="fa-solid fa-heart-pulse text-xl"></i>
+            <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="menu-card card-emerald">
+                <div class="icon-wrap icon-emerald">
+                    <i class="fa-solid fa-heart-pulse"></i>
                 </div>
-                <span class="text-sm font-semibold text-slate-700">Hafazan</span>
+                <span class="menu-label">Hafazan</span>
             </a>
 
-            <a href="https://nota-wanhasbullah.blogspot.com/search/label/Al-Quran" class="bg-white p-5 rounded-3xl card-shadow border border-slate-100 flex flex-col items-center text-center hover:scale-95 transition">
-                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-3">
-                    <i class="fa-solid fa-pen-to-square text-xl"></i>
+            <a href="https://nota-wanhasbullah.blogspot.com/search/label/Al-Quran" class="menu-card card-amber">
+                <div class="icon-wrap icon-amber">
+                    <i class="fa-solid fa-pen-to-square"></i>
                 </div>
-                <span class="text-sm font-semibold text-slate-700">Nota Quran</span>
+                <span class="menu-label">Nota Quran</span>
             </a>
 
-            <a href="https://nota-wanhasbullah.blogspot.com/p/kad-cerita.html" class="bg-white p-5 rounded-3xl card-shadow border border-slate-100 flex flex-col items-center text-center hover:scale-95 transition">
-                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-3">
-                    <i class="fa-solid fa-clapperboard text-xl"></i>
+            <a href="https://nota-wanhasbullah.blogspot.com/p/kad-cerita.html" class="menu-card card-purple">
+                <div class="icon-wrap icon-purple">
+                    <i class="fa-solid fa-clapperboard"></i>
                 </div>
-                <span class="text-sm font-semibold text-slate-700">Kad Cerita</span>
+                <span class="menu-label">Kad Cerita</span>
             </a>
+
         </div>
     </main>
 
-    <div id="infaq-btn-container" class="fixed bottom-24 left-6 z-40 hidden opacity-0 popup-fade">
-        <button onclick="openInfaqModal()" class="bg-white p-3 rounded-2xl shadow-xl border border-slate-200 flex items-center gap-3 relative">
-            <span class="relative flex h-3 w-3">
-                <span class="dot-active absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+    <!-- ═══════════════ INFAQ POPUP ═══════════════ -->
+    <div id="infaq-btn-container" class="infaq-popup">
+        <button class="infaq-pill" onclick="openInfaqModal()">
+            <!-- Live dot -->
+            <span class="live-dot">
+                <span class="live-dot-inner"></span>
+                <span class="live-dot-ring"></span>
             </span>
-            <span class="text-xs font-bold text-slate-800 tracking-tight">Infaq RM1 ke Tahfiz AQIL</span>
-            <div class="bg-slate-100 px-2 py-1 rounded-lg">
-                <span id="countdown-timer" class="text-[10px] font-bold text-slate-500">10s</span>
+
+            <!-- Text -->
+            <div class="flex-1">
+                <div class="infaq-pill-text">Infaq RM1 ke Tahfiz AQIL</div>
+                <div class="infaq-pill-sub">Amal jariah paling mudah</div>
+            </div>
+
+            <!-- Countdown -->
+            <div class="countdown-badge">
+                <span id="countdown-timer" class="countdown-num">10</span>
+                <span class="countdown-label">saat</span>
             </div>
         </button>
     </div>
 
-    <div id="infaq-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 hidden px-6">
-        <div class="bg-white rounded-[32px] w-full max-w-sm p-8 relative overflow-hidden text-center">
-            <button onclick="closeInfaqModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-xl"></i>
+    <!-- ═══════════════ INFAQ MODAL ═══════════════ -->
+    <div id="infaq-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay hidden px-6">
+        <div class="modal-card w-full max-w-sm text-center">
+            <button onclick="closeInfaqModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition">
+                <i class="fa-solid fa-xmark text-sm"></i>
             </button>
-            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fa-solid fa-circle-info text-2xl"></i>
+
+            <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5"
+                 style="background:linear-gradient(135deg,#eff6ff,#dbeafe)">
+                <i class="fa-solid fa-circle-info text-blue-500 text-2xl"></i>
             </div>
-            <h2 class="text-xl font-bold text-slate-800 mb-4 tracking-tight text-center">Mengenai Aplikasi Ini</h2>
-            <p class="text-sm text-slate-600 leading-relaxed mb-6 text-center">
-                Aplikasi Quran Tracker ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah 100% percuma tanpa sebarang caj tersembunyi.
+
+            <h2 class="text-xl font-bold text-slate-800 mb-3 leading-tight" style="font-family:'DM Serif Display',serif">Mengenai Aplikasi Ini</h2>
+            <p class="text-sm text-slate-500 leading-relaxed mb-6">
+                Aplikasi Quran Tracker ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah <strong class="text-slate-700">100% percuma</strong> tanpa sebarang caj tersembunyi.
                 <br><br>
                 Walau bagaimanapun, bagi anda yang ingin menyumbang, saya amat mengesyorkan agar sumbangan atau infaq disalurkan terus kepada Akademi al-Quran al-Labeeb.
             </p>
-            <a href="https://quranic-huffaz.github.io/quran-tracker/kempen-infaq-rm1-tahfiz-aqil.html" class="block w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition shadow-lg">
-                Jom Sumbang
+
+            <a href="https://quranic-huffaz.github.io/quran-tracker/kempen-infaq-rm1-tahfiz-aqil.html"
+               class="block w-full py-4 rounded-2xl font-bold text-sm text-white transition"
+               style="background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 4px 16px rgba(59,130,246,0.4)">
+                Jom Sumbang 💚
             </a>
         </div>
     </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-6 py-3 z-50">
-        <div class="max-w-md mx-auto flex justify-between items-center text-slate-400 text-center">
-            <a href="#" class="flex flex-col items-center nav-active w-1/4">
+    <!-- ═══════════════ BOTTOM NAV ═══════════════ -->
+    <nav class="fixed bottom-0 left-0 right-0 bottom-nav px-6 py-3 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <a href="#" class="nav-item active">
                 <i class="fa-solid fa-house text-xl"></i>
-                <span class="text-[10px] mt-1 font-medium">Home</span>
+                <span class="nav-item-label">Home</span>
             </a>
-            <a href="https://quranic-huffaz.github.io/quran-tracker/tilawah.html" class="flex flex-col items-center w-1/4">
+            <a href="https://quranic-huffaz.github.io/quran-tracker/tilawah.html" class="nav-item">
                 <i class="fa-solid fa-book-quran text-xl"></i>
-                <span class="text-[10px] mt-1 font-medium">Tilawah</span>
+                <span class="nav-item-label">Tilawah</span>
             </a>
-            <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="flex flex-col items-center w-1/4">
+            <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="nav-item">
                 <i class="fa-solid fa-medal text-xl"></i>
-                <span class="text-[10px] mt-1 font-medium">Hafazan</span>
+                <span class="nav-item-label">Hafazan</span>
             </a>
-            <button onclick="toggleFeedbackMenu()" class="flex flex-col items-center w-1/4">
+            <button onclick="toggleFeedbackMenu()" class="nav-item">
                 <i class="fa-solid fa-comment-dots text-xl"></i>
-                <span class="text-[10px] mt-1 font-medium">Maklum Balas</span>
+                <span class="nav-item-label">Maklum Balas</span>
             </button>
         </div>
     </nav>
 
+    <!-- ═══════════════ FEEDBACK SHEET ═══════════════ -->
     <div id="feedback-menu" class="fixed inset-0 bg-black/40 z-[45] hidden flex items-end justify-center px-4 pb-24">
-        <div class="bg-white w-full max-w-md rounded-[30px] p-6 space-y-3">
-            <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
-                <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
+        <div class="bg-white w-full max-w-md rounded-[28px] p-5 space-y-3">
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 px-2 pb-1">Pilihan</p>
+
+            <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="sheet-item">
+                <div class="sheet-icon" style="background:#eff6ff; color:#3b82f6;">
                     <i class="fa-solid fa-hand-holding-heart"></i>
                 </div>
-                <span class="text-sm font-semibold">Infaq Tahfiz AQIL</span>
+                <span class="sheet-label">Infaq Tahfiz AQIL</span>
             </a>
-            <a href="https://nota-wanhasbullah.blogspot.com/p/maklum-balas-quran-tracker.html" class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
-                <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center">
+            <a href="https://nota-wanhasbullah.blogspot.com/p/maklum-balas-quran-tracker.html" class="sheet-item">
+                <div class="sheet-icon" style="background:#fffbeb; color:#f59e0b;">
                     <i class="fa-solid fa-message-pen"></i>
                 </div>
-                <span class="text-sm font-semibold">Beri Maklum Balas</span>
+                <span class="sheet-label">Beri Maklum Balas</span>
             </a>
-            <button onclick="openShareOptions()" class="w-full flex items-center gap-4 p-4 bg-slate-50 rounded-2xl text-left">
-                <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center">
+            <button onclick="openShareOptions()" class="sheet-item w-full text-left">
+                <div class="sheet-icon" style="background:#ecfdf5; color:#10b981;">
                     <i class="fa-solid fa-share-nodes"></i>
                 </div>
-                <span class="text-sm font-semibold">Jemput Kongsi Quran Tracker</span>
+                <span class="sheet-label">Jemput Kongsi Quran Tracker</span>
             </button>
+
             <button onclick="toggleFeedbackMenu()" class="w-full py-3 text-slate-400 font-bold text-sm text-center">Tutup</button>
         </div>
     </div>
 
-    <div id="share-modal" class="fixed inset-0 z-[60] bg-black/60 hidden flex items-center justify-center px-6">
-        <div class="bg-white rounded-[32px] w-full max-w-sm p-6">
-            <h3 class="text-lg font-bold text-center mb-6 text-slate-800">Kongsi Quran Tracker</h3>
+    <!-- ═══════════════ SHARE MODAL ═══════════════ -->
+    <div id="share-modal" class="fixed inset-0 z-[60] modal-overlay hidden flex items-center justify-center px-6">
+        <div class="bg-white rounded-[28px] w-full max-w-sm p-6">
+            <h3 class="text-base font-bold text-center mb-5 text-slate-800">Kongsi Quran Tracker</h3>
             <div class="grid grid-cols-2 gap-4">
-                <button onclick="shareViaWhatsapp()" class="flex flex-col items-center justify-center p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
-                    <i class="fa-brands fa-whatsapp text-3xl text-emerald-600 mb-2"></i>
-                    <span class="text-xs font-bold text-emerald-800">WhatsApp</span>
+                <button onclick="shareViaWhatsapp()" class="share-btn">
+                    <i class="fa-brands fa-whatsapp text-3xl text-emerald-500 mb-2"></i>
+                    <span class="text-xs font-bold text-slate-700">WhatsApp</span>
                 </button>
-                <button onclick="copyLink()" class="flex flex-col items-center justify-center p-4 bg-blue-50 border border-blue-100 rounded-2xl">
-                    <i class="fa-solid fa-link text-3xl text-blue-600 mb-2"></i>
-                    <span class="text-xs font-bold text-blue-800">Salin Link</span>
+                <button onclick="copyLink()" class="share-btn">
+                    <i class="fa-solid fa-link text-3xl text-blue-500 mb-2"></i>
+                    <span class="text-xs font-bold text-slate-700">Salin Link</span>
                 </button>
             </div>
-            <button onclick="closeShareOptions()" class="w-full mt-6 py-2 text-slate-400 font-bold text-sm text-center">Batal</button>
+            <button onclick="closeShareOptions()" class="w-full mt-5 py-2 text-slate-400 font-bold text-sm text-center">Batal</button>
         </div>
     </div>
 
+    <!-- ═══════════════ SCRIPT ═══════════════ -->
     <script>
-        // 1. Tarikh Masihi & Hijrah
+        // 1. Tarikh Masihi & Hijriah
         function updateDate() {
             const now = new Date();
-            const optionsMasihi = { day: 'numeric', month: 'long', year: 'numeric' };
-            const optionsDay = { weekday: 'long' };
-            
-            document.getElementById('date-masihi').innerText = now.toLocaleDateString('ms-MY', optionsMasihi);
-            document.getElementById('day-name').innerText = now.toLocaleDateString('ms-MY', optionsDay);
-            
-            const hijrahDate = new Intl.DateTimeFormat('ms-TN-u-ca-islamic-uma', {day:'numeric', month:'long', year:'numeric'}).format(now);
-            document.getElementById('date-hijrah').innerText = hijrahDate;
+
+            // Masihi
+            const masihiOpts = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('date-masihi').innerText = now.toLocaleDateString('ms-MY', masihiOpts);
+
+            // Day name
+            const dayOpts = { weekday: 'long' };
+            document.getElementById('day-name').innerText = now.toLocaleDateString('ms-MY', dayOpts);
+
+            // Hijriah (Islamic calendar)
+            try {
+                const hijrahOpts = { day: 'numeric', month: 'long', year: 'numeric' };
+                const hijrahDate = new Intl.DateTimeFormat('ms-MY-u-ca-islamic-umalqura', hijrahOpts).format(now);
+                document.getElementById('date-hijrah').innerText = hijrahDate;
+            } catch (e) {
+                // Fallback jika browser tidak sokong
+                try {
+                    const hijrahDate = new Intl.DateTimeFormat('ms-TN-u-ca-islamic-uma', { day:'numeric', month:'long', year:'numeric' }).format(now);
+                    document.getElementById('date-hijrah').innerText = hijrahDate;
+                } catch (e2) {
+                    document.getElementById('date-hijrah').innerText = '—';
+                }
+            }
         }
 
-        // 2. Infaq Popup (3s Delay & 10s Countdown)
+        // 2. Infaq Popup — muncul selepas 5 saat, countdown 10 saat
         function handleInfaqPopup() {
-            const btnContainer = document.getElementById('infaq-btn-container');
-            const timerLabel = document.getElementById('countdown-timer');
-            
+            const popup = document.getElementById('infaq-btn-container');
+            const timerEl = document.getElementById('countdown-timer');
+
             setTimeout(() => {
-                btnContainer.classList.remove('hidden');
-                setTimeout(() => {
-                    btnContainer.classList.add('opacity-100');
-                    
-                    let timeLeft = 10;
-                    const countdown = setInterval(() => {
-                        timeLeft--;
-                        timerLabel.innerText = `${timeLeft}s`;
-                        
-                        if (timeLeft <= 0) {
-                            clearInterval(countdown);
-                            hideInfaqBtn();
-                        }
-                    }, 1000);
-                }, 100);
-            }, 3000); // Popup selepas 3 saat
+                // Show popup
+                popup.style.display = 'block';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        popup.classList.add('visible');
+                    });
+                });
+
+                // Countdown 10 → 0
+                let timeLeft = 10;
+                timerEl.innerText = timeLeft;
+
+                const tick = setInterval(() => {
+                    timeLeft--;
+                    timerEl.innerText = timeLeft;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(tick);
+                        hideInfaqBtn();
+                    }
+                }, 1000);
+
+            }, 5000); // 5 saat sebelum popup
         }
 
         function hideInfaqBtn() {
-            const btn = document.getElementById('infaq-btn-container');
-            btn.classList.add('opacity-0');
-            setTimeout(() => btn.classList.add('hidden'), 500);
+            const popup = document.getElementById('infaq-btn-container');
+            popup.classList.remove('visible');
+            setTimeout(() => { popup.style.display = 'none'; }, 450);
         }
 
         function openInfaqModal() {
@@ -257,6 +629,7 @@
             closeShareOptions();
         }
 
+        // Init
         updateDate();
         handleInfaqPopup();
     </script>
