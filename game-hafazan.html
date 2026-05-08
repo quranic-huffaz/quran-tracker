@@ -7,11 +7,46 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; color: #f8fafc; padding-bottom: 80px; }
         .arabic { font-family: 'Amiri', serif; direction: rtl; }
         .premium-gradient { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
         .gold-border { border: 1px solid #94a3b833; border-top: 1px solid #fbbf244d; }
         .card-glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        /* Navigation Styles */
+        .nav-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .nav-item { text-align: center; color: #94a3b8; transition: all 0.3s; }
+        .nav-item.active { color: #fbbf24; }
+        .nav-home {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -35px;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+            color: #0f172a !important;
+            border: 4px solid #0f172a;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 md:p-8">
@@ -49,7 +84,7 @@
                     </svg>
                 </div>
                 <h3 class="text-lg font-semibold mb-2">Tahap 2: Pro</h3>
-                <p class="text-sm text-slate-400 mb-4">Isi tempat kosong pada kalimah yang hilang.</p>
+                <p class="text-sm text-slate-400 mb-4">Pilih kalimah yang tepat untuk mengisi tempat kosong.</p>
                 <span class="text-xs font-bold text-emerald-500 tracking-tighter uppercase">Mula Cabaran →</span>
             </div>
 
@@ -60,7 +95,7 @@
                     </svg>
                 </div>
                 <h3 class="text-lg font-semibold mb-2">Tahap 3: Elit</h3>
-                <p class="text-sm text-slate-400 mb-4">Ujian hafazan penuh tanpa bantuan visual.</p>
+                <p class="text-sm text-slate-400 mb-4">Ujian sambungan ayat secara interaktif.</p>
                 <span class="text-xs font-bold text-rose-500 tracking-tighter uppercase">Mula Cabaran →</span>
             </div>
         </div>
@@ -82,7 +117,7 @@
                 </div>
 
                 <div id="questionContainer" class="flex flex-col items-center gap-6">
-                    </div>
+                </div>
 
                 <div class="mt-10 flex justify-center">
                     <button id="actionBtn" class="px-8 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-xl font-bold text-slate-900 hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all">
@@ -92,6 +127,29 @@
             </div>
         </div>
     </main>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <a href="https://quranic-huffaz.github.io/quran-tracker/tilawah.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            <span class="text-[10px] uppercase font-bold mt-1 block">Tilawah</span>
+        </a>
+        
+        <a href="https://quranic-huffaz.github.io/quran-tracker/dashboard.html" class="nav-item nav-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+        </a>
+
+        <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="nav-item active">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.674a1 1 0 00.922-.617l2.108-4.742A4 4 0 1011.16 7.127l-4.713 1.178a1 1 0 00-.747.97v3.424a1 1 0 00.293.707l2.828 2.828a1 1 0 00.707.293z" />
+            </svg>
+            <span class="text-[10px] uppercase font-bold mt-1 block">Hafazan</span>
+        </a>
+    </nav>
 
     <script>
         const surahs = [
@@ -126,39 +184,80 @@
             container.innerHTML = "";
 
             if (currentLevel === 1) {
-                // Level 1: Shuffle verses and let users "sort" (Simulated by clicking)
                 let shuffled = [...surah.verses].sort(() => Math.random() - 0.5);
-                shuffled.forEach((v, i) => {
+                shuffled.forEach((v) => {
                     const btn = document.createElement('div');
                     btn.className = "arabic text-2xl p-4 bg-slate-800/50 w-full text-center rounded-xl border border-slate-700 cursor-pointer hover:bg-slate-700 transition-colors";
                     btn.innerText = v;
                     btn.onclick = () => btn.classList.toggle('border-amber-500');
                     container.appendChild(btn);
                 });
-            } else if (currentLevel === 2) {
-                // Level 2: Missing word
-                surah.verses.forEach(v => {
-                    const words = v.split(" ");
-                    const missingIdx = Math.floor(Math.random() * words.length);
-                    const display = words.map((w, i) => i === missingIdx ? "_____" : w).join(" ");
-                    
-                    const div = document.createElement('div');
-                    div.className = "arabic text-2xl mb-4";
-                    div.innerText = display;
-                    container.appendChild(div);
+            } 
+            else if (currentLevel === 2) {
+                // TAHAP 2: MCQ style (Think Quran style)
+                const randomVerse = surah.verses[Math.floor(Math.random() * surah.verses.length)];
+                const words = randomVerse.split(" ");
+                const missingIdx = Math.floor(Math.random() * words.length);
+                const correctAnswer = words[missingIdx];
+                
+                const questionText = words.map((w, i) => i === missingIdx ? "_____" : w).join(" ");
+                
+                const qDiv = document.createElement('div');
+                qDiv.className = "arabic text-3xl mb-8 text-center leading-loose";
+                qDiv.innerText = questionText;
+                container.appendChild(qDiv);
+
+                // Options
+                const optionsGrid = document.createElement('div');
+                optionsGrid.className = "grid grid-cols-2 gap-4 w-full";
+                
+                const choices = [correctAnswer, "الرحيم", "العالمين", "الرحمن"]; // Dummy choices
+                choices.sort(() => Math.random() - 0.5);
+
+                choices.forEach(choice => {
+                    const opt = document.createElement('button');
+                    opt.className = "arabic text-xl p-4 bg-slate-800 rounded-xl border border-slate-700 hover:border-emerald-500 transition-all";
+                    opt.innerText = choice;
+                    opt.onclick = () => {
+                        document.querySelectorAll('#questionContainer button').forEach(b => b.classList.remove('border-emerald-500', 'bg-emerald-500/20'));
+                        opt.classList.add('border-emerald-500', 'bg-emerald-500/20');
+                    };
+                    optionsGrid.appendChild(opt);
                 });
-            } else {
-                // Level 3: Input full verse
-                const input = document.createElement('textarea');
-                input.placeholder = "Tuliskan surah ini...";
-                input.className = "w-full bg-slate-800 border border-slate-700 rounded-xl p-4 text-center arabic text-2xl h-40 focus:border-rose-500 outline-none";
-                container.appendChild(input);
+                container.appendChild(optionsGrid);
+            } 
+            else if (currentLevel === 3) {
+                // TAHAP 3: Sambungan Ayat (Think Quran style)
+                const firstVerse = surah.verses[0];
+                const qDiv = document.createElement('div');
+                qDiv.className = "text-center mb-6";
+                qDiv.innerHTML = `<p class="text-slate-400 mb-2">Sambungkan ayat selepas:</p><p class="arabic text-2xl">${firstVerse}</p>`;
+                container.appendChild(qDiv);
+
+                const optionsGrid = document.createElement('div');
+                optionsGrid.className = "flex flex-col gap-3 w-full";
+                
+                const nextVerse = surah.verses[1];
+                const wrongVerse = "مَالِكِ يَوْمِ الدِّينِ"; 
+                
+                let choices = [nextVerse, wrongVerse].sort(() => Math.random() - 0.5);
+
+                choices.forEach(choice => {
+                    const opt = document.createElement('button');
+                    opt.className = "arabic text-xl p-5 bg-slate-800/50 rounded-2xl border border-slate-700 hover:border-rose-500 transition-all text-right pr-6";
+                    opt.innerText = choice;
+                    opt.onclick = () => {
+                        document.querySelectorAll('#questionContainer button').forEach(b => b.classList.remove('border-rose-500', 'bg-rose-500/20'));
+                        opt.classList.add('border-rose-500', 'bg-rose-500/20');
+                    };
+                    optionsGrid.appendChild(opt);
+                });
+                container.appendChild(optionsGrid);
             }
         }
 
-        // Action Button Logic
         document.getElementById('actionBtn').onclick = () => {
-            alert("Syabas! Jawapan anda sedang diproses. (Sistem Demo)");
+            alert("Syabas! Jawapan anda tepat. (Sistem Demo)");
             score += 100 * currentLevel;
             document.getElementById('totalScore').innerText = score;
             backToMenu();
