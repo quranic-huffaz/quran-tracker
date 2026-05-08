@@ -515,13 +515,14 @@
 </div>
 
 <!-- INFAQ FLOATING BUTTON -->
-<div id="infaq-float-btn" class="hidden" onclick="infaqModal.open()">
+<!-- PERUBAHAN 1: onclick terus ke link, bukan buka modal -->
+<div id="infaq-float-btn" class="hidden" onclick="window.open('https://quranic-huffaz.github.io/quran-tracker/info-quran-tracker.html','_blank')">
     <span class="infaq-live-dot"></span>
     <span class="infaq-float-label">Infaq RM1 ke Tahfiz AQIL</span>
     <span class="infaq-countdown-pill" id="infaq-countdown">10</span>
 </div>
 
-<!-- INFAQ MODAL -->
+<!-- INFAQ MODAL (kekal, untuk rujukan lain jika diperlukan) -->
 <div id="infaq-modal-overlay" onclick="infaqModal.handleOverlayClick(event)">
     <div id="infaq-modal">
         <button class="modal-close-btn" onclick="infaqModal.close()">✕</button>
@@ -581,8 +582,9 @@
         },
 
         checkIfShownBefore() {
-            const shownBefore = localStorage.getItem('infaq_float_shown');
-            if (!shownBefore) {
+            // PERUBAHAN 2: Guna sessionStorage — reset apabila browser/tab ditutup & dibuka semula
+            const shownThisSession = sessionStorage.getItem('infaq_float_shown');
+            if (!shownThisSession) {
                 this.scheduleShow();
             }
         },
@@ -605,24 +607,26 @@
                 pill.textContent = this.countdownVal;
                 if (this.countdownVal <= 0) {
                     clearInterval(this.countdownTimer);
-                    this.hideFloat();
+                    // PERUBAHAN 3: Countdown habis → auto hide & simpan dalam sessionStorage sahaja
+                    this.hideFloat(true);
                 }
             }, 1000);
         },
 
-        hideFloat() {
+        hideFloat(fromCountdown) {
             const btn = document.getElementById('infaq-float-btn');
             btn.classList.add('hidden');
             clearInterval(this.countdownTimer);
             if (this.floatShown) {
-                localStorage.setItem('infaq_float_shown', 'true');
+                // Simpan dalam sessionStorage — akan hilang bila browser/tab ditutup
+                sessionStorage.setItem('infaq_float_shown', 'true');
                 this.floatShown = false;
             }
         },
 
         open() {
             clearInterval(this.countdownTimer);
-            this.hideFloat();
+            this.hideFloat(false);
             document.getElementById('infaq-modal-overlay').classList.add('visible');
         },
 
