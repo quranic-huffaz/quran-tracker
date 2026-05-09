@@ -32,8 +32,9 @@
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
         .nav-hidden { transform: translate(-50%, 150%); opacity: 0; pointer-events: none; }
+        /* PERUBAHAN 4: Tab Jom Hafal Quran warna putih sama seperti tab Dah Baca Al-Quran */
         .nav-item { text-align: center; color: #94a3b8; transition: all 0.3s; }
-        .nav-item.active { color: #fbbf24; }
+        .nav-item.active { color: #f8fafc; }
         .nav-home { background: linear-gradient(135deg, #fbbf24, #d97706); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: -35px; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); color: #0f172a !important; border: 4px solid #0f172a; }
 
         .streak-dot { width: 12px; height: 6px; border-radius: 3px; background: #334155; transition: all 0.3s; }
@@ -54,6 +55,14 @@
         .congrats-popup { animation: fadeInScale 0.4s ease-out forwards; }
 
         .nav-label { font-size: 9px; margin-top: 3px; font-weight: 600; letter-spacing: 0.02em; }
+
+        /* PERUBAHAN 1: Butang reset skor */
+        .reset-btn { font-size: 9px; color: #475569; cursor: pointer; border: 1px solid #334155; border-radius: 6px; padding: 2px 8px; margin-top: 4px; transition: all 0.2s; background: transparent; }
+        .reset-btn:hover { color: #f87171; border-color: #f87171; }
+
+        /* PERUBAHAN 2: Butang tahap seterusnya dalam popup */
+        .next-level-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981, #059669); color: white; font-weight: 700; border-radius: 16px; box-shadow: 0 4px 15px rgba(16,185,129,0.3); margin-top: 10px; border: none; cursor: pointer; font-size: 1rem; transition: all 0.2s; }
+        .next-level-btn:hover { opacity: 0.9; transform: scale(1.02); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 md:p-8">
@@ -65,9 +74,11 @@
             </h1>
             <p class="text-xs text-slate-500 uppercase tracking-widest">Elite Quranic Memorization</p>
         </div>
+        <!-- PERUBAHAN 1: Tambah butang reset kecil di bawah skor -->
         <div class="text-right">
             <div class="text-sm text-slate-400">Skor</div>
             <div id="totalScore" class="text-xl font-semibold text-amber-400">0</div>
+            <button class="reset-btn" onclick="resetScore()">↺ reset</button>
         </div>
     </header>
 
@@ -120,8 +131,8 @@
         <a href="https://quranic-huffaz.github.io/quran-tracker/dashboard.html" class="nav-item nav-home">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
         </a>
-        <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="nav-item active">
-            <!-- Brain icon -->
+        <!-- PERUBAHAN 4: Buang class "active" supaya warna sama seperti tab lain (putih/slate) -->
+        <a href="https://quranic-huffaz.github.io/quran-tracker/hafazan.html" class="nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 3C7.567 3 6 4.567 6 6.5c0 .34.045.669.13.982A3.5 3.5 0 004 10.5c0 1.077.487 2.04 1.253 2.683A3.5 3.5 0 006.5 20H9v-2H6.5a1.5 1.5 0 01-.364-2.952A3.5 3.5 0 009.5 17h.5v-2h-.5a1.5 1.5 0 010-3H10V3H9.5z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.5 3C16.433 3 18 4.567 18 6.5c0 .34-.045.669-.13.982A3.5 3.5 0 0120 10.5c0 1.077-.487 2.04-1.253 2.683A3.5 3.5 0 0117.5 20H15v-2h2.5a1.5 1.5 0 00.364-2.952A3.5 3.5 0 0014.5 17H14v-2h.5a1.5 1.5 0 000-3H14V3h.5z"/>
@@ -133,10 +144,12 @@
 
     <div id="congratsOverlay" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[2000] hidden flex items-center justify-center p-6 text-center">
         <div class="congrats-popup card-glass p-10 rounded-3xl border-2 border-amber-500/50 max-w-sm w-full">
-            <div class="text-6xl mb-4">🏆</div>
+            <div id="congratsEmoji" class="text-6xl mb-4">🏆</div>
             <h2 id="congratsTitle" class="text-3xl font-bold text-amber-400 mb-2">Tahniah!</h2>
             <p id="congratsMsg" class="text-slate-300 mb-8">Ayat disusun dengan sempurna.</p>
             <button onclick="closeCongrats()" class="w-full py-4 bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-950 font-bold rounded-2xl shadow-xl">Teruskan</button>
+            <!-- PERUBAHAN 2: Butang tahap seterusnya (tersembunyi secara lalai) -->
+            <button id="nextLevelBtn" class="next-level-btn hidden" onclick="goNextLevel()">Naik ke Tahap Seterusnya →</button>
         </div>
     </div>
 
@@ -173,10 +186,20 @@
         let seconds = 0;
         let selectedAnswers = [];
         let currentTargetVerse = "";
+        let levelJustCompleted = false; // PERUBAHAN 2: Track sama ada tahap baru sahaja selesai
+
+        // PERUBAHAN 1: Fungsi reset skor
+        function resetScore() {
+            if (confirm("Reset skor ke 0?")) {
+                score = 0;
+                document.getElementById('totalScore').innerText = score;
+            }
+        }
 
         function startLevel(level) {
             currentLevel = level;
             streak = 0;
+            levelJustCompleted = false;
             document.getElementById('bottomNav').classList.add('nav-hidden');
             document.getElementById('levelSelection').classList.add('hidden');
             document.getElementById('gameArea').classList.remove('hidden');
@@ -219,23 +242,46 @@
             
             if (streak >= 10) {
                 triggerGoldenRain();
-                showCongrats("Luar Biasa!", "Anda mencapai Skor Penuh 10/10! Sedia naik ke tahap seterusnya.");
-                streak = 0; // Reset for next stage
+                levelJustCompleted = true;
+                streak = 0;
+                // PERUBAHAN 2: Tunjuk popup dengan butang tahap seterusnya
+                if (currentLevel < 3) {
+                    showCongrats("🌟 Luar Biasa!", "Anda berjaya selesaikan Tahap " + currentLevel + "! Sedia ke Tahap " + (currentLevel + 1) + "?", true);
+                } else {
+                    showCongrats("🏆 Tahniah!", "Anda telah menguasai semua tahap! Pejuang Hafazan Sejati!", false);
+                }
             }
         }
 
-        function showCongrats(title, msg) {
+        // PERUBAHAN 2: Tambah parameter showNextLevel
+        function showCongrats(title, msg, showNextLevel) {
             document.getElementById('congratsTitle').innerText = title;
             document.getElementById('congratsMsg').innerText = msg;
+            const nextBtn = document.getElementById('nextLevelBtn');
+            if (showNextLevel) {
+                nextBtn.classList.remove('hidden');
+                nextBtn.innerText = 'Naik ke Tahap ' + (currentLevel + 1) + ' →';
+            } else {
+                nextBtn.classList.add('hidden');
+            }
             document.getElementById('congratsOverlay').classList.remove('hidden');
+        }
+
+        // PERUBAHAN 2: Fungsi naik tahap dari butang
+        function goNextLevel() {
+            document.getElementById('congratsOverlay').classList.add('hidden');
+            startLevel(currentLevel + 1);
         }
 
         function closeCongrats() {
             document.getElementById('congratsOverlay').classList.add('hidden');
-            if (streak === 0 && document.querySelectorAll('.streak-dot.active').length === 0) {
-                 // Condition for level up
-                 if(currentLevel < 3) startLevel(currentLevel + 1);
-                 else backToMenu();
+            if (levelJustCompleted) {
+                levelJustCompleted = false;
+                if (currentLevel >= 3) {
+                    backToMenu();
+                } else {
+                    renderQuestion(); // Teruskan tahap sama jika pilih "Teruskan"
+                }
             } else {
                 renderQuestion();
             }
@@ -373,17 +419,48 @@
                 document.getElementById('totalScore').innerText = score;
                 
                 if (streak < 10) {
-                    const phrases = ["MashaAllah!", "Hebat!", "Tahniah!", "Alhamdulillah!", "Tepat sekali!"];
-                    showCongrats(phrases[Math.floor(Math.random()*phrases.length)], "Jawapan anda betul. Teruskan usaha!");
+                    const phrases = ["MashaAllah! 🌙", "Hebat! ⭐", "Tahniah! 🎉", "Alhamdulillah! 🤲", "Tepat sekali! ✨"];
+                    showCongrats(phrases[Math.floor(Math.random()*phrases.length)], "Jawapan anda betul. Teruskan usaha!", false);
                 }
                 updateStreakUI();
             } else {
                 streak = 0;
                 updateStreakUI();
-                alert("Cuba lagi!");
+                // PERUBAHAN 3: Kata motivasi pendek jika salah
+                const motivasi = [
+                    "Jangan putus asa! Ulang dan cuba lagi. 💪",
+                    "Hafazan perlu masa. Teruskan! 🌱",
+                    "Setiap kesilapan itu pengajaran. Maju terus! 🚀",
+                    "Sabar dan tekun — kunci hafazan! 🤲",
+                    "Hampir! Fokus dan cuba sekali lagi. ⭐"
+                ];
+                const msg = motivasi[Math.floor(Math.random() * motivasi.length)];
+                showMotivasi(msg);
                 renderQuestion();
             }
         };
+
+        // PERUBAHAN 3: Fungsi tunjuk motivasi (bukan alert biasa)
+        function showMotivasi(msg) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+                background: linear-gradient(135deg, #1e293b, #0f172a);
+                border: 1px solid #ef4444; color: #fca5a5;
+                padding: 14px 24px; border-radius: 16px; font-weight: 600;
+                font-size: 14px; z-index: 9999; text-align: center;
+                box-shadow: 0 8px 25px rgba(239,68,68,0.25);
+                animation: fadeInScale 0.3s ease-out forwards;
+                max-width: 320px; width: 90%;
+            `;
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.5s';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 2500);
+        }
 
         function resetTimer() {
             clearInterval(timerInterval);
