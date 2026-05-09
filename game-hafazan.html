@@ -275,12 +275,13 @@
 
         function closeCongrats() {
             document.getElementById('congratsOverlay').classList.add('hidden');
+            document.getElementById('congratsTitle').className = "text-3xl font-bold text-amber-400 mb-2";
             if (levelJustCompleted) {
                 levelJustCompleted = false;
                 if (currentLevel >= 3) {
                     backToMenu();
                 } else {
-                    renderQuestion(); // Teruskan tahap sama jika pilih "Teruskan"
+                    renderQuestion();
                 }
             } else {
                 renderQuestion();
@@ -426,40 +427,26 @@
             } else {
                 streak = 0;
                 updateStreakUI();
-                // PERUBAHAN 3: Kata motivasi pendek jika salah
-                const motivasi = [
-                    "Jangan putus asa! Ulang dan cuba lagi. 💪",
-                    "Hafazan perlu masa. Teruskan! 🌱",
-                    "Setiap kesilapan itu pengajaran. Maju terus! 🚀",
-                    "Sabar dan tekun — kunci hafazan! 🤲",
-                    "Hampir! Fokus dan cuba sekali lagi. ⭐"
+                const motivasiTajuk = ["Cuba Lagi! 💪", "Jangan Putus Asa! 🌱", "Hampir Berjaya! 🚀", "Teruskan! 🤲", "Fokus! ⭐"];
+                const motivasiMsg = [
+                    "Hafazan perlu masa dan sabar. Ulang dan cuba lagi!",
+                    "Setiap kesilapan itu sebahagian daripada pembelajaran.",
+                    "Semakin banyak cuba, semakin kuat ingatan kita.",
+                    "Sabar dan tekun — itulah kunci hafazan yang sejati.",
+                    "Hampir! Tarik nafas, fokus, dan cuba sekali lagi."
                 ];
-                const msg = motivasi[Math.floor(Math.random() * motivasi.length)];
-                showMotivasi(msg);
-                renderQuestion();
+                const idx = Math.floor(Math.random() * motivasiTajuk.length);
+                showMotivasi(motivasiTajuk[idx], motivasiMsg[idx]);
             }
         };
 
-        // PERUBAHAN 3: Fungsi tunjuk motivasi (bukan alert biasa)
-        function showMotivasi(msg) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
-                background: linear-gradient(135deg, #1e293b, #0f172a);
-                border: 1px solid #ef4444; color: #fca5a5;
-                padding: 14px 24px; border-radius: 16px; font-weight: 600;
-                font-size: 14px; z-index: 9999; text-align: center;
-                box-shadow: 0 8px 25px rgba(239,68,68,0.25);
-                animation: fadeInScale 0.3s ease-out forwards;
-                max-width: 320px; width: 90%;
-            `;
-            toast.innerText = msg;
-            document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.style.transition = 'opacity 0.5s';
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 500);
-            }, 2500);
+        function showMotivasi(tajuk, msg) {
+            document.getElementById('congratsEmoji').innerText = "🔁";
+            document.getElementById('congratsTitle').innerText = tajuk;
+            document.getElementById('congratsTitle').className = "text-3xl font-bold text-rose-400 mb-2";
+            document.getElementById('congratsMsg').innerText = msg;
+            document.getElementById('nextLevelBtn').classList.add('hidden');
+            document.getElementById('congratsOverlay').classList.remove('hidden');
         }
 
         function resetTimer() {
