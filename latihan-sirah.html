@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Sirah Tahun 2</title>
+    <style>
+        :root {
+            --pastel-blue: #AEC6CF;
+            --pastel-green: #B2E2D2;
+            --pastel-pink: #F4C2C2;
+            --dark-text: #4A4A4A;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FDFDFF;
+            color: var(--dark-text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 1. Akses / Login Section */
+        #login-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-user {
+            padding: 15px 40px;
+            margin: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: 2px solid var(--pastel-blue);
+            background: white;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-user:hover {
+            background: var(--pastel-blue);
+            color: white;
+        }
+
+        /* 2. Navigation Bar (Icons Only) */
+        nav {
+            width: 100%;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: none; /* Hidden until login */
+            justify-content: space-around;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            cursor: pointer;
+            filter: grayscale(100%);
+            transition: 0.3s;
+        }
+
+        .nav-icon.active {
+            filter: grayscale(0%);
+            transform: scale(1.2);
+        }
+
+        /* 3. Sections Visibility */
+        .page { display: none; padding: 20px; width: 90%; max-width: 600px; text-align: center; }
+        .active-page { display: block; }
+
+        /* Game Elements */
+        .quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid #EEE;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen">
+        <h2>Sila Pilih Nama Anda</h2>
+        <button class="btn-user" onclick="startGame('Wan')">Wan</button>
+        <button class="btn-user" onclick="startGame('Nura')">Nura</button>
+    </div>
+
+    <nav id="main-nav">
+        <span class="nav-icon active" onclick="showPage('game-page')" title="Game">🎮</span>
+        <span class="nav-icon" onclick="showPage('menu-page')" title="Menu">🏠</span>
+        <span class="nav-icon" onclick="showPage('rank-page')" title="Ranking">🏆</span>
+    </nav>
+
+    <div id="game-page" class="page">
+        <h3 id="level-title">Tahap 1: Kelahiran Nabi Muhammad SAW</h3>
+        <div class="quiz-container">
+            <p id="question">Di manakah Nabi Muhammad SAW dilahirkan?</p>
+            <div id="options">
+                </div>
+        </div>
+    </div>
+
+    <div id="menu-page" class="page">
+        <h3>Menu Utama</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <div style="font-size: 50px;">📚</div>
+            <div style="font-size: 50px;">⚙️</div>
+            <div style="font-size: 50px;">👤</div>
+            <div style="font-size: 50px;">❓</div>
+        </div>
+    </div>
+
+    <div id="rank-page" class="page">
+        <h3>Ranking Markah</h3>
+        <table style="width:100%; border-collapse: collapse;">
+            <tr style="background: var(--pastel-green);">
+                <th style="padding:10px;">Nama</th>
+                <th>Markah</th>
+            </tr>
+            <tr>
+                <td style="padding:10px;">Wan</td>
+                <td id="score-wan">0</td>
+            </tr>
+            <tr>
+                <td style="padding:10px;">Nura</td>
+                <td id="score-nura">0</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        let currentUser = "";
+        let scores = { "Wan": 0, "Nura": 0 };
+
+        function startGame(name) {
+            currentUser = name;
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-nav').style.display = 'flex';
+            showPage('game-page');
+            alert("Selamat datang, " + name + "!");
+        }
+
+        function showPage(pageId) {
+            // Sembunyikan semua page
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            // Tunjukkan page yang dipilih
+            document.getElementById(pageId).classList.add('active-page');
+            
+            // Update icon style
+            document.querySelectorAll('.nav-icon').forEach(icon => icon.classList.remove('active'));
+            // (Logik tambahan untuk aktifkan icon yang betul berdasarkan index)
+        }
+
+        // Contoh soalan Sirah Tahun 2 (Asas)
+        const questions = [
+            { q: "Siapakah ibu Nabi?", a: ["Aminah", "Halimah", "Siti Hajar"], correct: 0 },
+            { q: "Tahun kelahiran Nabi disebut tahun..?", a: ["Gajah", "Harimau", "Kuda"], correct: 0 }
+        ];
+
+        // Anda boleh tambah logik JavaScript untuk pusingan 3 tahap di sini
+    </script>
+</body>
+</html>
