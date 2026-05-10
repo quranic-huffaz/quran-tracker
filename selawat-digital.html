@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Selawat Digital Premium</title>
+    <title>Selawat Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -66,7 +66,22 @@
             border-color: #ef4444;
         }
 
-        /* Animation for Infaq Popup */
+        /* Fintech Infaq Card Style */
+        .infaq-premium-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        .infaq-premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at top right, rgba(234, 179, 8, 0.1), transparent);
+            pointer-events: none;
+        }
+
         @keyframes slideInLeft {
             from { transform: translateX(-100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
@@ -78,10 +93,8 @@
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
 
-    <!-- MAIN CONTENT AREA -->
     <main class="flex-grow flex flex-col items-center justify-center p-6 pb-24">
         
-        <!-- SECTION: JOM SELAWAT -->
         <div id="section-selawat" class="w-full max-w-md space-y-8 text-center animate-fade-in">
             <div class="space-y-1">
                 <p class="text-blue-400 font-semibold tracking-[0.2em] uppercase text-[10px] opacity-80">Target: <span id="display-target">100</span></p>
@@ -113,30 +126,44 @@
             </div>
         </div>
 
-        <!-- SECTION: HISTORY -->
         <div id="section-history" class="hidden w-full max-w-md h-full overflow-y-auto pt-4 px-2">
-            <!-- Artikel Keajaiban Selawat (Gaya Premium Solid) -->
-<div class="p-5 rounded-3xl bg-slate-800/40 border-t border-l border-white/10 shadow-xl mb-8 relative overflow-hidden group">
-    <!-- Hiasan background lengkung -->
-    <div class="absolute -right-4 -top-4 w-20 h-20 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition"></div>
-    
-    <div class="flex items-center gap-4">
-        <!-- Ikon Buku -->
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-900/40">
-            <i class="fa-solid fa-book-open text-white text-lg"></i>
-        </div>
-        
-        <div class="flex-grow">
-            <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] mb-1">Bacaan Ilmu</h3>
-            <p class="text-sm font-bold text-slate-100 leading-snug">5 Saat Untuk 10 Rahmat: Keajaiban Selawat</p>
-        </div>
-    </div>
-    
-    <a href="https://nota-wanhasbullah.blogspot.com/2026/05/5-saat-untuk-10-rahmat-keajaiban-selawat.html" target="_blank" 
-       class="mt-4 block w-full bg-white/5 hover:bg-white/10 border border-white/5 py-2.5 rounded-xl text-center text-[10px] font-bold tracking-widest text-slate-300 transition uppercase">
-        Klik Untuk Baca Artikel
-    </a>
-</div>
+            
+            <div class="p-5 rounded-3xl bg-slate-800/40 border-t border-l border-white/10 shadow-xl mb-4 relative overflow-hidden group">
+                <div class="absolute -right-4 -top-4 w-20 h-20 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition"></div>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-900/40">
+                        <i class="fa-solid fa-book-open text-white text-lg"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em] mb-1">Bacaan Ilmu</h3>
+                        <p class="text-sm font-bold text-slate-100 leading-snug">5 Saat Untuk 10 Rahmat: Keajaiban Selawat</p>
+                    </div>
+                </div>
+                <a href="https://nota-wanhasbullah.blogspot.com/2026/05/5-saat-untuk-10-rahmat-keajaiban-selawat.html" target="_blank" 
+                   class="mt-4 block w-full bg-white/5 hover:bg-white/10 border border-white/5 py-2.5 rounded-xl text-center text-[10px] font-bold tracking-widest text-slate-300 transition uppercase">
+                    Klik Untuk Baca Artikel
+                </a>
+            </div>
+
+            <a href="https://quranic-huffaz.github.io/quran-tracker/kempen-infaq-rm1-tahfiz-aqil.html" target="_blank" 
+               class="infaq-premium-card p-5 rounded-3xl mb-8 flex items-center justify-between group transition-transform active:scale-95 block">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-[#1e1b12] border border-yellow-600/30 flex items-center justify-center relative shadow-inner">
+                        <span class="text-2xl">🕌</span>
+                        <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-[#0a0a0a]">
+                            <i class="fa-solid fa-heart text-[8px] text-black"></i>
+                        </div>
+                    </div>
+                    <div class="space-y-0.5">
+                        <h4 class="text-[10px] font-black text-yellow-500 uppercase tracking-[0.15em]">Amal Jariah</h4>
+                        <h3 class="text-lg font-bold text-white tracking-tight">Infaq Tahfiz AQIL</h3>
+                        <p class="text-[10px] text-slate-400 font-medium">Sokong program tahfiz — sedekah terbaik untuk akhirat</p>
+                    </div>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center group-hover:bg-yellow-500 group-hover:text-black transition-all">
+                    <i class="fa-solid fa-chevron-right text-yellow-500 group-hover:text-black text-sm"></i>
+                </div>
+            </a>
 
             <div class="border-t border-white/5 pt-6 flex justify-between items-center mb-6 px-2">
                 <h2 class="text-lg font-semibold flex items-center gap-3">
@@ -152,7 +179,6 @@
 
     </main>
 
-    <!-- INFAQ POPUP (Left Bottom) -->
     <div id="infaq-popup" class="fixed bottom-24 left-4 z-[60] hidden">
         <div class="glass-card border-blue-500/30 bg-slate-900/90 p-4 rounded-2xl flex items-center gap-4 shadow-2xl animate-slide-left w-[280px]">
             <button onclick="openInfaqModal()" class="flex-grow text-left">
@@ -165,7 +191,6 @@
         </div>
     </div>
 
-    <!-- INFAQ MODAL (Center) -->
     <div id="infaq-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-6">
         <div class="glass-card w-full max-w-sm p-8 rounded-3xl border-blue-500/40 relative">
             <button onclick="closeInfaqModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white">
@@ -188,7 +213,6 @@
         </div>
     </div>
 
-    <!-- NAVIGATION BAR -->
     <nav class="fixed bottom-0 left-0 right-0 glass-card border-t border-white/5 px-8 py-5 flex justify-between items-center z-50 rounded-t-3xl">
         <button onclick="showTab('selawat')" id="nav-selawat" class="nav-tab active flex flex-col items-center gap-1.5 transition-all">
             <i class="fa-solid fa-circle-dot text-lg"></i>
@@ -207,7 +231,6 @@
         </button>
     </nav>
 
-    <!-- NOTIFICATION POPUP -->
     <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 glass-card px-8 py-3 rounded-2xl hidden z-[100] border-blue-500/30 shadow-2xl">
         <p id="toast-msg" class="text-xs font-bold text-blue-100 tracking-wide"></p>
     </div>
@@ -219,17 +242,16 @@
         let infaqActive = sessionStorage.getItem('infaqShown') ? false : true;
 
         window.onload = () => {
-    count = 0;
-    updateDisplay();
-    renderHistory();
-    
-    // Popup hanya akan muncul selepas 3 saat (3000ms)
-    if (infaqActive) {
-        setTimeout(() => {
-            startInfaqTimer();
-        }, 3000);
-    }
-};
+            count = 0;
+            updateDisplay();
+            renderHistory();
+            
+            if (infaqActive) {
+                setTimeout(() => {
+                    startInfaqTimer();
+                }, 3000);
+            }
+        };
 
         function startInfaqTimer() {
             const popup = document.getElementById('infaq-popup');
