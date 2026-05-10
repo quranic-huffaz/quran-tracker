@@ -29,8 +29,7 @@
         body {
             font-family: 'DM Sans', sans-serif;
             background-color: var(--surface-2);
-            background-image:
-                radial-gradient(ellipse 80% 40% at 50% -10%, rgba(59,130,246,0.06) 0%, transparent 70%);
+            background-image: radial-gradient(ellipse 80% 40% at 50% -10%, rgba(59,130,246,0.06) 0%, transparent 70%);
             min-height: 100vh;
         }
 
@@ -48,8 +47,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background-image:
-                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.018'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             pointer-events: none;
         }
 
@@ -106,7 +104,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 0;
         }
 
         .date-divider {
@@ -148,14 +145,17 @@
             transition: opacity 0.2s;
         }
 
+        .menu-card:active { transform: scale(0.96); box-shadow: 0 8px 30px -4px rgba(15,24,41,0.12); }
         .menu-card:hover { transform: scale(0.96); box-shadow: 0 8px 30px -4px rgba(15,24,41,0.12); }
         .menu-card:hover::before { opacity: 1; }
+        .menu-card:active::before { opacity: 1; }
 
         .card-blue::before    { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
         .card-emerald::before { background: linear-gradient(90deg, #10b981, #34d399); }
         .card-amber::before   { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
         .card-purple::before  { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
         .card-rose::before    { background: linear-gradient(90deg, #f43f5e, #fb7185); }
+        .card-indigo::before  { background: linear-gradient(90deg, #6366f1, #818cf8); }
 
         .icon-wrap {
             width: 50px; height: 50px;
@@ -170,6 +170,7 @@
         .icon-amber   { background: linear-gradient(135deg,#fffbeb,#fef3c7); color:#f59e0b; }
         .icon-purple  { background: linear-gradient(135deg,#f5f3ff,#ede9fe); color:#8b5cf6; }
         .icon-rose    { background: linear-gradient(135deg,#fff1f2,#ffe4e6); color:#f43f5e; }
+        .icon-indigo  { background: linear-gradient(135deg,#eef2ff,#e0e7ff); color:#6366f1; }
 
         .menu-label {
             font-size: 13px;
@@ -179,19 +180,23 @@
         }
 
         /* ── INFAQ POPUP ─────────────────────────────── */
+        /* FIX: Gunakan visibility + opacity sahaja (bukan display:none) supaya CSS transition berfungsi */
         .infaq-popup {
             position: fixed;
             bottom: 88px;
             left: 16px;
             z-index: 40;
-            display: none;
             opacity: 0;
+            visibility: hidden;
             transform: translateY(12px);
-            transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1);
+            transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1),
+                        transform 0.45s cubic-bezier(0.16,1,0.3,1),
+                        visibility 0.45s;
         }
 
         .infaq-popup.visible {
             opacity: 1;
+            visibility: visible;
             transform: translateY(0);
         }
 
@@ -249,7 +254,6 @@
             font-size: 10px;
             font-weight: 400;
             color: rgba(255,255,255,0.5);
-            letter-spacing: 0;
         }
 
         .countdown-badge {
@@ -277,11 +281,61 @@
             letter-spacing: 0.05em;
         }
 
-        /* ── MODAL ───────────────────────────────────── */
+        /* ── MODAL OVERLAY ───────────────────────────── */
+        /* FIX: Gunakan class .modal-hidden/.modal-visible bukan Tailwind hidden+flex untuk elak konflik */
         .modal-overlay {
             background: rgba(8,13,26,0.75);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
+        }
+
+        .overlay-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s;
+        }
+
+        .overlay-wrap.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Sheet (bottom sheet) */
+        .sheet-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: 45;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0 16px 96px;
+            background: rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s;
+        }
+
+        .sheet-wrap.is-open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sheet-content {
+            transform: translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+            width: 100%;
+            max-width: 448px;
+        }
+
+        .sheet-wrap.is-open .sheet-content {
+            transform: translateY(0);
         }
 
         .modal-card {
@@ -290,6 +344,8 @@
             padding: 32px 28px 28px;
             position: relative;
             overflow: hidden;
+            width: 100%;
+            max-width: 384px;
         }
 
         .modal-card::before {
@@ -298,6 +354,32 @@
             top: 0; left: 0; right: 0;
             height: 3px;
             background: linear-gradient(90deg, #3b82f6, #22d3ee, #3b82f6);
+        }
+
+        /* ── TOAST ───────────────────────────────────── */
+        /* FIX: Guna toast sebagai ganti alert() yang blocking */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #0f1829;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 99px;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         /* ── BOTTOM NAV ──────────────────────────────── */
@@ -315,6 +397,9 @@
             text-decoration: none;
             padding: 2px 0;
             transition: color 0.15s;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
 
         .nav-item.active { color: var(--accent-blue); }
@@ -326,7 +411,7 @@
             letter-spacing: 0.01em;
         }
 
-        /* ── FEEDBACK SHEET ──────────────────────────── */
+        /* ── SHEET ITEMS ─────────────────────────────── */
         .sheet-item {
             display: flex; align-items: center; gap: 14px;
             padding: 14px 16px;
@@ -335,12 +420,24 @@
             border-radius: 16px;
             text-decoration: none;
             transition: background 0.15s;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
         }
 
         .sheet-item:hover { background: #eef2ff; }
-        .sheet-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+
+        .sheet-icon {
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
         .sheet-label { font-size: 13px; font-weight: 600; color: var(--text-primary); }
         .sheet-sublabel { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+        .sheet-arrow { margin-left: auto; color: var(--text-muted); font-size: 11px; opacity: 0.5; }
 
         /* ── SHARE MODAL ─────────────────────────────── */
         .share-btn {
@@ -348,20 +445,13 @@
             padding: 18px 12px; border-radius: 18px; border: 1px solid var(--border);
             cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
             background: var(--surface-2);
+            flex: 1;
         }
         .share-btn:hover { transform: scale(0.97); box-shadow: 0 4px 16px -2px rgba(15,24,41,0.1); }
 
-        /* ── WELCOME TEXT ────────────────────────────── */
+        /* ── WELCOME ─────────────────────────────────── */
         .welcome-sub { font-size: 12px; font-weight: 400; opacity: 0.55; letter-spacing: 0.01em; }
         .welcome-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: #fff; margin-top: 2px; line-height: 1.15; }
-
-        /* ── SHEET ITEM ARROW ────────────────────────── */
-        .sheet-arrow {
-            margin-left: auto;
-            color: var(--text-muted);
-            font-size: 11px;
-            opacity: 0.5;
-        }
     </style>
 </head>
 <body class="pb-24">
@@ -371,7 +461,7 @@
         <div class="header-orb"></div>
         <div class="max-w-md mx-auto relative">
             <p class="welcome-sub">Assalamualaikum Warahmatullahi Wabarakatuh</p>
-            <h1 class="welcome-title">Selamat datang 🌙</h1>
+            <h1 class="welcome-title">Selamat datang <span id="welcome-icon">🌙</span></h1>
 
             <div class="date-card">
                 <div class="date-day-row">
@@ -420,20 +510,7 @@
                 <span class="menu-label">Hafazan</span>
             </a>
 
-            <a href="https://nota-wanhasbullah.blogspot.com/search/label/Al-Quran" class="menu-card card-amber">
-                <div class="icon-wrap icon-amber">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                </div>
-                <span class="menu-label">Nota Quran</span>
-            </a>
-
-            <a href="https://nota-wanhasbullah.blogspot.com/p/kad-cerita.html" class="menu-card card-purple">
-                <div class="icon-wrap icon-purple">
-                    <i class="fa-solid fa-clapperboard"></i>
-                </div>
-                <span class="menu-label">Kad Cerita</span>
-            </a>
-
+            <!-- Game Hafazan (Lebar Penuh) -->
             <a href="https://quranic-huffaz.github.io/quran-tracker/game-hafazan.html" class="menu-card card-rose" style="grid-column: span 2;">
                 <div style="display:flex;align-items:center;gap:14px;width:100%;">
                     <div class="icon-wrap icon-rose" style="margin-bottom:0;flex-shrink:0;">
@@ -449,10 +526,41 @@
                 </div>
             </a>
 
+            <a href="https://nota-wanhasbullah.blogspot.com/search/label/Al-Quran" class="menu-card card-amber">
+                <div class="icon-wrap icon-amber">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </div>
+                <span class="menu-label">Nota Quran</span>
+            </a>
+
+            <a href="https://nota-wanhasbullah.blogspot.com/p/kad-cerita.html" class="menu-card card-purple">
+                <div class="icon-wrap icon-purple">
+                    <i class="fa-solid fa-clapperboard"></i>
+                </div>
+                <span class="menu-label">Kad Cerita</span>
+            </a>
+
+            <!-- Selawat Digital (Lebar Penuh) -->
+            <a href="https://quranic-huffaz.github.io/quran-tracker/selawat-digital.html" class="menu-card card-indigo" style="grid-column: span 2;">
+                <div style="display:flex;align-items:center;gap:14px;width:100%;">
+                    <div class="icon-wrap icon-indigo" style="margin-bottom:0;flex-shrink:0;">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div style="text-align:left;">
+                        <span class="menu-label" style="display:block;">Selawat Digital</span>
+                        <span style="font-size:11px;color:var(--text-muted);font-weight:500;">Penghitung zikir & selawat moden</span>
+                    </div>
+                    <div style="margin-left:auto;width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,#eef2ff,#e0e7ff);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fa-solid fa-chevron-right" style="font-size:10px;color:#6366f1;"></i>
+                    </div>
+                </div>
+            </a>
+
         </div>
     </main>
 
     <!-- ═══════════════ INFAQ POPUP ═══════════════ -->
+    <!-- FIX: Buang display:none dari HTML; visibility dikawal melalui CSS class sahaja -->
     <div id="infaq-btn-container" class="infaq-popup">
         <button class="infaq-pill" onclick="openInfaqModal()">
             <span class="live-dot">
@@ -471,24 +579,23 @@
     </div>
 
     <!-- ═══════════════ INFAQ MODAL ═══════════════ -->
-    <div id="infaq-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay hidden px-6">
-        <div class="modal-card w-full max-w-sm text-center">
-            <button onclick="closeInfaqModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition">
-                <i class="fa-solid fa-xmark text-sm"></i>
+    <!-- FIX: Guna class overlay-wrap + is-open bukan hidden/flex Tailwind -->
+    <div id="infaq-modal" class="overlay-wrap modal-overlay">
+        <div class="modal-card text-center">
+            <button onclick="closeInfaqModal()" style="position:absolute;top:20px;right:20px;width:32px;height:32px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;color:#94a3b8;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#f1f5f9'">
+                <i class="fa-solid fa-xmark" style="font-size:13px;"></i>
             </button>
-            <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5"
-                 style="background:linear-gradient(135deg,#eff6ff,#dbeafe)">
-                <i class="fa-solid fa-circle-info text-blue-500 text-2xl"></i>
+            <div style="width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;background:linear-gradient(135deg,#eff6ff,#dbeafe);">
+                <i class="fa-solid fa-circle-info" style="color:#3b82f6;font-size:26px;"></i>
             </div>
-            <h2 class="text-xl font-bold text-slate-800 mb-3 leading-tight" style="font-family:'DM Serif Display',serif">Mengenai Aplikasi Ini</h2>
-            <p class="text-sm text-slate-500 leading-relaxed mb-6">
-                Aplikasi Quran Tracker ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah <strong class="text-slate-700">100% percuma</strong> tanpa sebarang caj tersembunyi.
+            <h2 style="font-size:20px;font-weight:700;color:#1e293b;margin-bottom:12px;font-family:'DM Serif Display',serif;line-height:1.3;">Mengenai Aplikasi Ini</h2>
+            <p style="font-size:13px;color:#64748b;line-height:1.7;margin-bottom:24px;">
+                Aplikasi Quran Tracker ini merupakan inisiatif individu yang dibangunkan sepenuhnya untuk manfaat ummah. Penggunaannya adalah <strong style="color:#334155;">100% percuma</strong> tanpa sebarang caj tersembunyi.
                 <br><br>
                 Walau bagaimanapun, bagi anda yang ingin menyumbang, saya amat mengesyorkan agar sumbangan atau infaq disalurkan terus kepada Akademi al-Quran al-Labeeb.
             </p>
             <a href="https://quranic-huffaz.github.io/quran-tracker/kempen-infaq-rm1-tahfiz-aqil.html"
-               class="block w-full py-4 rounded-2xl font-bold text-sm text-white transition"
-               style="background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 4px 16px rgba(59,130,246,0.4)">
+               style="display:block;width:100%;padding:14px;border-radius:16px;font-weight:700;font-size:14px;color:#ffffff;text-decoration:none;background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 4px 16px rgba(59,130,246,0.4);text-align:center;">
                 Jom Sumbang 💚
             </a>
         </div>
@@ -509,7 +616,8 @@
                 <i class="fa-solid fa-brain text-xl"></i>
                 <span class="nav-item-label">Hafazan</span>
             </a>
-            <button onclick="toggleFeedbackMenu()" class="nav-item">
+            <!-- FIX: Tambah type="button" untuk elak submit form secara tidak sengaja -->
+            <button type="button" onclick="openFeedbackSheet()" class="nav-item">
                 <i class="fa-solid fa-comment-dots text-xl"></i>
                 <span class="nav-item-label">Akses Pantas</span>
             </button>
@@ -517,83 +625,99 @@
     </nav>
 
     <!-- ═══════════════ FEEDBACK SHEET ═══════════════ -->
-    <div id="feedback-menu" class="fixed inset-0 bg-black/40 z-[45] hidden flex items-end justify-center px-4 pb-24">
-        <div class="bg-white w-full max-w-md rounded-[28px] p-5 space-y-3">
-            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 px-2 pb-1">Pilihan</p>
+    <!-- FIX: Guna sheet-wrap + is-open; klik overlay tutup sheet -->
+    <div id="feedback-sheet" class="sheet-wrap" onclick="handleSheetOverlayClick(event)">
+        <div class="sheet-content" id="feedback-sheet-content">
+            <div class="bg-white rounded-[28px] p-5 space-y-3">
+                <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#94a3b8;padding:0 8px 4px;">Pilihan</p>
 
-            <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="sheet-item">
-                <div class="sheet-icon" style="background:linear-gradient(135deg,#eff6ff,#dbeafe); color:#3b82f6;">
-                    <i class="fa-solid fa-hand-holding-heart"></i>
-                </div>
-                <div>
-                    <div class="sheet-label">Infaq Tahfiz AQIL</div>
-                    <div class="sheet-sublabel">Amal jariah berterusan</div>
-                </div>
-                <i class="fa-solid fa-chevron-right sheet-arrow"></i>
-            </a>
+                <a href="https://quranic-huffaz.github.io/quran-tracker/infaq-tahfiz-aqil.html" class="sheet-item">
+                    <div class="sheet-icon" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#3b82f6;">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <div>
+                        <div class="sheet-label">Infaq Tahfiz AQIL</div>
+                        <div class="sheet-sublabel">Amal jariah berterusan</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right sheet-arrow"></i>
+                </a>
 
-            <a href="https://quranic-huffaz.github.io/quran-tracker/akses-pantas.html" class="sheet-item">
-                <div class="sheet-icon" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); color:#16a34a;">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-                </div>
-                <div>
-                    <div class="sheet-label">Pasang Aplikasi Ini</div>
-                    <div class="sheet-sublabel">Akses pantas di skrin utama</div>
-                </div>
-                <i class="fa-solid fa-chevron-right sheet-arrow"></i>
-            </a>
+                <a href="https://quranic-huffaz.github.io/quran-tracker/akses-pantas.html" class="sheet-item">
+                    <div class="sheet-icon" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);color:#16a34a;">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <div>
+                        <div class="sheet-label">Pasang Aplikasi Ini</div>
+                        <div class="sheet-sublabel">Akses pantas di skrin utama</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right sheet-arrow"></i>
+                </a>
 
-            <a href="https://quranic-huffaz.github.io/quran-tracker/maklum-balas.html" class="sheet-item">
-                <div class="sheet-icon" style="background:linear-gradient(135deg,#fffbeb,#fef3c7); color:#d97706;">
-                    <i class="fa-solid fa-star-half-stroke"></i>
-                </div>
-                <div>
-                    <div class="sheet-label">Beri Maklum Balas</div>
-                    <div class="sheet-sublabel">Bantu kami penambahbaikan</div>
-                </div>
-                <i class="fa-solid fa-chevron-right sheet-arrow"></i>
-            </a>
+                <a href="https://quranic-huffaz.github.io/quran-tracker/maklum-balas.html" class="sheet-item">
+                    <div class="sheet-icon" style="background:linear-gradient(135deg,#fffbeb,#fef3c7);color:#d97706;">
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <div>
+                        <div class="sheet-label">Beri Maklum Balas</div>
+                        <div class="sheet-sublabel">Bantu kami penambahbaikan</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right sheet-arrow"></i>
+                </a>
 
-            <button onclick="openShareOptions()" class="sheet-item w-full text-left">
-                <div class="sheet-icon" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5); color:#10b981;">
-                    <i class="fa-solid fa-share-nodes"></i>
-                </div>
-                <div>
-                    <div class="sheet-label">Jemput Kongsi Quran Tracker</div>
-                    <div class="sheet-sublabel">Sebar manfaat kepada sahabat</div>
-                </div>
-                <i class="fa-solid fa-chevron-right sheet-arrow"></i>
-            </button>
+                <button type="button" onclick="openShareModal()" class="sheet-item">
+                    <div class="sheet-icon" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);color:#10b981;">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </div>
+                    <div>
+                        <div class="sheet-label">Jemput Kongsi Quran Tracker</div>
+                        <div class="sheet-sublabel">Sebar manfaat kepada sahabat</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right sheet-arrow"></i>
+                </button>
 
-            <button onclick="toggleFeedbackMenu()" class="w-full py-3 text-slate-400 font-bold text-sm text-center">Tutup</button>
+                <button type="button" onclick="closeFeedbackSheet()" style="width:100%;padding:12px;color:#94a3b8;font-weight:700;font-size:14px;text-align:center;background:none;border:none;cursor:pointer;">Tutup</button>
+            </div>
         </div>
     </div>
 
     <!-- ═══════════════ SHARE MODAL ═══════════════ -->
-    <div id="share-modal" class="fixed inset-0 z-[60] modal-overlay hidden flex items-center justify-center px-6">
-        <div class="bg-white rounded-[28px] w-full max-w-sm p-6">
-            <h3 class="text-base font-bold text-center mb-5 text-slate-800">Kongsi Quran Tracker</h3>
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="shareViaWhatsapp()" class="share-btn">
-                    <i class="fa-brands fa-whatsapp text-3xl text-emerald-500 mb-2"></i>
-                    <span class="text-xs font-bold text-slate-700">WhatsApp</span>
+    <!-- FIX: Guna overlay-wrap + is-open; klik overlay tutup modal -->
+    <div id="share-modal" class="overlay-wrap modal-overlay" style="z-index:60;" onclick="handleShareOverlayClick(event)">
+        <div class="modal-card" id="share-modal-content" style="padding:24px;">
+            <h3 style="font-size:15px;font-weight:700;text-align:center;margin-bottom:20px;color:#1e293b;">Kongsi Quran Tracker</h3>
+            <div style="display:flex;gap:16px;">
+                <button type="button" onclick="shareViaWhatsapp()" class="share-btn">
+                    <i class="fa-brands fa-whatsapp" style="font-size:30px;color:#22c55e;margin-bottom:8px;"></i>
+                    <span style="font-size:12px;font-weight:700;color:#1e293b;">WhatsApp</span>
                 </button>
-                <button onclick="copyLink()" class="share-btn">
-                    <i class="fa-solid fa-link text-3xl text-blue-500 mb-2"></i>
-                    <span class="text-xs font-bold text-slate-700">Salin Link</span>
+                <button type="button" onclick="copyLink()" class="share-btn">
+                    <i class="fa-solid fa-link" style="font-size:30px;color:#3b82f6;margin-bottom:8px;"></i>
+                    <span style="font-size:12px;font-weight:700;color:#1e293b;">Salin Link</span>
                 </button>
             </div>
-            <button onclick="closeShareOptions()" class="w-full mt-5 py-2 text-slate-400 font-bold text-sm text-center">Batal</button>
+            <button type="button" onclick="closeShareModal()" style="width:100%;margin-top:20px;padding:8px;color:#94a3b8;font-weight:700;font-size:13px;text-align:center;background:none;border:none;cursor:pointer;">Batal</button>
         </div>
     </div>
 
+    <!-- ═══════════════ TOAST ═══════════════ -->
+    <!-- FIX: Toast sebagai ganti alert() yang blocking -->
+    <div id="toast" class="toast">✓ Link telah disalin!</div>
+
     <!-- ═══════════════ SCRIPT ═══════════════ -->
     <script>
+        /* ── TARIKH ──────────────────────────────────────── */
         function updateDate() {
             const now = new Date();
             const masihiOpts = { day: 'numeric', month: 'long', year: 'numeric' };
+
             document.getElementById('date-masihi').innerText = now.toLocaleDateString('ms-MY', masihiOpts);
             document.getElementById('day-name').innerText = now.toLocaleDateString('ms-MY', { weekday: 'long' });
+
+            const hour = now.getHours();
+            const iconSpan = document.getElementById('welcome-icon');
+            if (iconSpan) {
+                iconSpan.innerText = (hour >= 7 && hour < 19) ? '☀️' : '🌙';
+            }
 
             const bulanHijriah = [
                 'Muharram','Safar','Rabiulawal','Rabiulakhir',
@@ -602,39 +726,38 @@
             ];
 
             try {
-                const getHijriPart = (part) => {
-                    return parseInt(
-                        new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', { [part]: 'numeric' }).format(now), 10
-                    );
-                };
-                const hDay   = getHijriPart('day');
-                const hMonth = getHijriPart('month');
-                const hYear  = getHijriPart('year');
-                const namaBulan = bulanHijriah[hMonth - 1] || '';
+                const fmt = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+                    day: 'numeric', month: 'numeric', year: 'numeric'
+                });
+                const parts = fmt.formatToParts(now);
+                const get = (type) => parseInt(parts.find(p => p.type === type)?.value || '0', 10);
+                const hDay   = get('day');
+                const hMonth = get('month');
+                const hYear  = get('year');
+                // FIX: Pastikan hMonth dalam julat 1-12 sebelum akses array
+                const namaBulan = (hMonth >= 1 && hMonth <= 12) ? bulanHijriah[hMonth - 1] : '';
                 document.getElementById('date-hijrah').innerText = `${hDay} ${namaBulan} ${hYear} H`;
             } catch (e) {
+                // FIX: Fallback yang lebih kukuh jika Intl tidak sokong islamic-umalqura
                 try {
-                    const hijrahDate = new Intl.DateTimeFormat('ms-MY-u-ca-islamic-umalqura', {
+                    const hijrahDate = new Intl.DateTimeFormat('ms-MY-u-ca-islamic', {
                         day: 'numeric', month: 'long', year: 'numeric'
                     }).format(now);
                     document.getElementById('date-hijrah').innerText = hijrahDate + ' H';
                 } catch (e2) {
-                    document.getElementById('date-hijrah').innerText = '—';
+                    document.getElementById('date-hijrah').innerText = 'Tidak tersedia';
                 }
             }
         }
 
+        /* ── INFAQ POPUP ─────────────────────────────────── */
         function handleInfaqPopup() {
             const popup = document.getElementById('infaq-btn-container');
             const timerEl = document.getElementById('countdown-timer');
 
+            // FIX: Guna setTimeout untuk tunjuk popup; visibility dikawal CSS class sahaja (tiada display:none)
             setTimeout(() => {
-                popup.style.display = 'block';
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        popup.classList.add('visible');
-                    });
-                });
+                popup.classList.add('visible');
 
                 let timeLeft = 10;
                 timerEl.innerText = timeLeft;
@@ -653,41 +776,115 @@
         function hideInfaqBtn() {
             const popup = document.getElementById('infaq-btn-container');
             popup.classList.remove('visible');
-            setTimeout(() => { popup.style.display = 'none'; }, 450);
         }
 
         function openInfaqModal() {
-            document.getElementById('infaq-modal').classList.remove('hidden');
+            document.getElementById('infaq-modal').classList.add('is-open');
+            hideInfaqBtn();
         }
 
         function closeInfaqModal() {
-            document.getElementById('infaq-modal').classList.add('hidden');
+            document.getElementById('infaq-modal').classList.remove('is-open');
         }
 
-        function toggleFeedbackMenu() {
-            document.getElementById('feedback-menu').classList.toggle('hidden');
+        /* ── FEEDBACK SHEET ──────────────────────────────── */
+        function openFeedbackSheet() {
+            document.getElementById('feedback-sheet').classList.add('is-open');
         }
 
-        function openShareOptions() {
-            toggleFeedbackMenu();
-            document.getElementById('share-modal').classList.remove('hidden');
+        function closeFeedbackSheet() {
+            document.getElementById('feedback-sheet').classList.remove('is-open');
         }
 
-        function closeShareOptions() {
-            document.getElementById('share-modal').classList.add('hidden');
+        // FIX: Tutup sheet apabila klik luar kawasan kandungan (overlay)
+        function handleSheetOverlayClick(event) {
+            const content = document.getElementById('feedback-sheet-content');
+            if (!content.contains(event.target)) {
+                closeFeedbackSheet();
+            }
         }
 
+        /* ── SHARE MODAL ─────────────────────────────────── */
+        function openShareModal() {
+            // FIX: Tutup feedback sheet dahulu, kemudian buka share modal
+            closeFeedbackSheet();
+            // Beri sedikit masa untuk sheet tutup sebelum modal dibuka
+            setTimeout(() => {
+                document.getElementById('share-modal').classList.add('is-open');
+            }, 150);
+        }
+
+        function closeShareModal() {
+            document.getElementById('share-modal').classList.remove('is-open');
+        }
+
+        // FIX: Tutup modal apabila klik luar kawasan kandungan (overlay)
+        function handleShareOverlayClick(event) {
+            const content = document.getElementById('share-modal-content');
+            if (!content.contains(event.target)) {
+                closeShareModal();
+            }
+        }
+
+        /* ── SHARE FUNCTIONS ─────────────────────────────── */
         function shareViaWhatsapp() {
-            const text = encodeURIComponent("Jom jejaki bacaan Al-Quran kita: " + window.location.href);
-            window.open(`https://wa.me/?text=${text}`, '_blank');
+            const url = 'https://quranic-huffaz.github.io/quran-tracker/';
+            const text = encodeURIComponent("Jom jejaki bacaan Al-Quran kita: " + url);
+            window.open('https://wa.me/?text=' + text, '_blank');
         }
 
+        // FIX: Guna toast sebagai ganti alert() yang blocking
         function copyLink() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("Link telah disalin!");
-            closeShareOptions();
+            const url = 'https://quranic-huffaz.github.io/quran-tracker/';
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(() => {
+                    closeShareModal();
+                    showToast('✓ Link telah disalin!');
+                }).catch(() => {
+                    fallbackCopy(url);
+                });
+            } else {
+                fallbackCopy(url);
+            }
         }
 
+        // FIX: Fallback untuk browser yang tidak sokong Clipboard API
+        function fallbackCopy(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            el.style.position = 'fixed';
+            el.style.opacity = '0';
+            document.body.appendChild(el);
+            el.focus();
+            el.select();
+            try {
+                document.execCommand('copy');
+                showToast('✓ Link telah disalin!');
+            } catch (e) {
+                showToast('Sila salin link secara manual.');
+            }
+            document.body.removeChild(el);
+            closeShareModal();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 2500);
+        }
+
+        /* ── TUTUP MODAL DENGAN ESCAPE ───────────────────── */
+        // FIX: Tambah sokongan kekunci Escape untuk tutup semua modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInfaqModal();
+                closeFeedbackSheet();
+                closeShareModal();
+            }
+        });
+
+        /* ── INIT ────────────────────────────────────────── */
         updateDate();
         handleInfaqPopup();
     </script>
