@@ -1,1 +1,1 @@
-# quran-tracker
+# the-quran-tracker
