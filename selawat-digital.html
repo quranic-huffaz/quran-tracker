@@ -40,16 +40,6 @@
         .congrats-glow {
             animation: pulse-gold 2s infinite;
         }
-        .premium-menu-btn {
-            background: linear-gradient(145deg, #1e293b, #0f172a);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        .premium-menu-btn:hover {
-            border-color: #38bdf8;
-            transform: translateY(-2px);
-        }
         .custom-checkbox {
             width: 20px;
             height: 20px;
@@ -184,17 +174,17 @@
         </div>
     </header>
 
-    <main class="flex-grow flex flex-col items-center justify-center p-6 pb-24">
+    <main class="flex-grow flex flex-col items-center justify-center p-6 pb-28">
         
-        <div id="section-selawat" class="w-full max-w-md space-y-8 text-center animate-fade-in">
+        <div id="section-selawat" class="w-full max-w-md space-y-6 text-center animate-fade-in">
             <div class="space-y-1">
                 <p class="text-blue-400 font-semibold tracking-[0.2em] uppercase text-[10px] opacity-80">Target: <span id="display-target">100</span></p>
                 <h1 class="text-6xl font-bold text-white tracking-tighter" id="main-counter">0</h1>
             </div>
 
-            <div class="py-6">
+            <div class="py-4">
                 <p class="text-slate-400 text-sm font-medium tracking-wide italic mb-2">Dah Selawat?</p>
-                <h2 class="text-4xl font-serif mb-10 text-slate-100 leading-relaxed drop-shadow-lg">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ</h2>
+                <h2 class="text-4xl font-serif mb-6 text-slate-100 leading-relaxed drop-shadow-lg">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ</h2>
                 
                 <button onclick="increment()" id="btn-hit" class="w-52 h-52 rounded-full border border-white/5 flex items-center justify-center mx-auto counter-btn bg-slate-800/30 relative">
                     <div class="w-44 h-44 rounded-full bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 flex items-center justify-center shadow-[0_10px_40px_rgba(37,99,235,0.4)]">
@@ -219,39 +209,48 @@
 
         <div id="section-history" class="hidden w-full max-w-md h-full overflow-y-auto pt-4 px-2">
             
+            <div class="grid grid-cols-2 gap-2 mb-4">
+                <button onclick="copyAppLink()" class="glass-card py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 text-blue-400 hover:bg-blue-500/10 transition border border-blue-500/20">
+                    <i class="fa-solid fa-link"></i> Salin Pautan
+                </button>
+                <button onclick="shareToWhatsApp()" class="glass-card py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 text-emerald-400 hover:bg-emerald-500/10 transition border border-emerald-500/20">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                </button>
+            </div>
+
             <div class="p-3 rounded-2xl bg-slate-800/40 border-t border-l border-white/10 shadow-lg mb-3 relative overflow-hidden group">
-    <div class="absolute -right-4 -top-4 w-12 h-12 bg-blue-500/10 rounded-full blur-xl"></div>
-    <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-book-open text-white text-sm"></i>
-        </div>
-        <div class="flex-grow min-w-0">
-            <h3 class="text-[9px] font-black text-blue-400 uppercase tracking-tighter mb-0.5">Bacaan Ilmu</h3>
-            <p class="text-[11px] font-bold text-slate-100 leading-tight truncate">5 Saat Untuk 10 Rahmat: Keajaiban Selawat</p>
-        </div>
-        <a href="https://nota-wanhasbullah.blogspot.com/2026/05/5-saat-untuk-10-rahmat-keajaiban-selawat.html" target="_blank" 
-           class="bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg text-[9px] font-bold text-slate-300 transition uppercase">
-            BACA Artikel
-        </a>
-    </div>
-</div>
+                <div class="absolute -right-4 -top-4 w-12 h-12 bg-blue-500/10 rounded-full blur-xl"></div>
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-book-open text-white text-sm"></i>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                        <h3 class="text-[9px] font-black text-blue-400 uppercase tracking-tighter mb-0.5">Bacaan Ilmu</h3>
+                        <p class="text-[11px] font-bold text-slate-100 leading-tight truncate">5 Saat Untuk 10 Rahmat: Keajaiban Selawat</p>
+                    </div>
+                    <a href="https://nota-wanhasbullah.blogspot.com/2026/05/5-saat-untuk-10-rahmat-keajaiban-selawat.html" target="_blank" 
+                       class="bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg text-[9px] font-bold text-slate-300 transition uppercase">
+                        BACA Artikel
+                    </a>
+                </div>
+            </div>
 
             <a href="https://the-quran-tracker.pages.dev/infaq-tahfiz-aqil" target="_blank" 
-   class="infaq-premium-card p-3 rounded-2xl mb-6 flex items-center justify-between group transition-transform active:scale-95 block">
-    <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-[#1e1b12] border border-yellow-600/30 flex items-center justify-center shrink-0">
-            <span class="text-lg">🕌</span>
-        </div>
-        <div class="min-w-0">
-            <h4 class="text-[8px] font-black text-yellow-500 uppercase tracking-tighter">Amal Jariah</h4>
-            <h3 class="text-sm font-bold text-white tracking-tight">Infaq Tahfiz AQIL</h3>
-            <p class="text-[9px] text-slate-400 truncate">Sokong program tahfiz untuk akhirat</p>
-        </div>
-    </div>
-    <div class="bg-yellow-500/10 px-3 py-1.5 rounded-lg border border-yellow-500/20 text-[9px] font-black text-yellow-500 group-hover:bg-yellow-500 group-hover:text-black transition-all">
-        INFAQ
-    </div>
-</a>
+               class="infaq-premium-card p-3 rounded-2xl mb-6 flex items-center justify-between group transition-transform active:scale-95 block">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-[#1e1b12] border border-yellow-600/30 flex items-center justify-center shrink-0">
+                        <span class="text-lg">🕌</span>
+                    </div>
+                    <div class="min-w-0">
+                        <h4 class="text-[8px] font-black text-yellow-500 uppercase tracking-tighter">Amal Jariah</h4>
+                        <h3 class="text-sm font-bold text-white tracking-tight">Infaq Tahfiz AQIL</h3>
+                        <p class="text-[9px] text-slate-400 truncate">Sokong program tahfiz untuk akhirat</p>
+                    </div>
+                </div>
+                <div class="bg-yellow-500/10 px-3 py-1.5 rounded-lg border border-yellow-500/20 text-[9px] font-black text-yellow-500 group-hover:bg-yellow-500 group-hover:text-black transition-all">
+                    INFAQ
+                </div>
+            </a>
 
             <div class="border-t border-white/5 pt-6 flex justify-between items-center mb-6 px-2">
                 <h2 class="text-lg font-semibold flex items-center gap-3">
@@ -289,17 +288,11 @@
         </div>
     </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 glass-card border-t border-white/5 px-8 py-5 flex justify-between items-center z-50 rounded-t-3xl">
+    <nav class="fixed bottom-0 left-0 right-0 glass-card border-t border-white/5 px-12 py-5 flex justify-around items-center z-50 rounded-t-3xl">
         <button onclick="showTab('selawat')" id="nav-selawat" class="nav-tab active flex flex-col items-center gap-1.5 transition-all">
             <i class="fa-solid fa-circle-dot text-lg"></i>
             <span class="text-[9px] font-bold uppercase tracking-wider">Jom Selawat</span>
         </button>
-
-        <a href="https://quranic-huffaz.github.io/quran-tracker/dashboard.html" class="premium-menu-btn w-14 h-14 rounded-2xl flex items-center justify-center -mt-12 group">
-            <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-400/20 group-active:scale-90 transition-transform">
-                <i class="fa-solid fa-layer-group text-blue-400 text-xl"></i>
-            </div>
-        </a>
 
         <button onclick="showTab('history')" id="nav-history" class="nav-tab flex flex-col items-center gap-1.5 text-slate-500 transition-all">
             <i class="fa-solid fa-clock-rotate-left text-lg"></i>
@@ -323,11 +316,8 @@
             initStudyBubbleLoop();
         };
 
-        // Kitaran masa Bubble: Kali pertama 5s, Seterusnya muncul setiap 10s selepas tutup
         function initStudyBubbleLoop() {
             const bubble = document.getElementById('studyBubble');
-            
-            // Paparan pertama: Muncul selepas 5 saat, dipaparkan selama 4 saat
             setTimeout(() => {
                 showBubble(bubble);
             }, 5000);
@@ -335,12 +325,8 @@
 
         function showBubble(element) {
             element.classList.add('show');
-            
-            // Sembunyikan semula bubble secara automatik selepas 4 saat dipaparkan
             setTimeout(() => {
                 element.classList.remove('show');
-                
-                // Pencetus kitaran seterusnya: Muncul kembali selepas 10 saat ditutup
                 setTimeout(() => {
                     showBubble(element);
                 }, 10000);
@@ -355,7 +341,6 @@
             document.getElementById('infaq-modal').classList.add('hidden');
         }
 
-        // Selebihnya adalah fungsi asal sistem kaunter
         function increment() {
             count++;
             const targetText = document.getElementById('display-target').innerText;
@@ -492,6 +477,22 @@
             document.getElementById('toast-msg').innerText = msg;
             toast.classList.remove('hidden');
             setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
+        // FUNGSI SHARE BAHARU
+        function copyAppLink() {
+            const currentUrl = window.location.href;
+            navigator.clipboard.writeText(currentUrl).then(() => {
+                showToast("PAUTAN BERJAYA DISALIN 🔗");
+            }).catch(() => {
+                showToast("GAGAL MENYALIN PAUTAN");
+            });
+        }
+
+        function shareToWhatsApp() {
+            const currentUrl = window.location.href;
+            const text = encodeURIComponent("Mari tingkatkan amalan harian kita dengan Aplikasi Selawat Digital Premium ini: " + currentUrl);
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
         }
     </script>
 </body>
