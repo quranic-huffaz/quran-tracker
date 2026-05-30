@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Selawat Digital Premium</title>
+    <title>Selawat Digital</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -89,9 +89,100 @@
         .animate-slide-left {
             animation: slideInLeft 0.6s ease-out forwards;
         }
+
+        /* HEADER & GRADUATION SUPPORT BUTTON STYLES */
+        .support-btn-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .study-bubble {
+            position: absolute;
+            bottom: -38px;
+            right: 0;
+            background: #38bdf8;
+            color: #0f172a;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .study-bubble.show {
+            opacity: 1;
+            visibility: visible;
+            animation: floatBubble 3s ease-in-out infinite;
+        }
+        .study-bubble::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 15px;
+            border-width: 0 6px 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent #38bdf8 transparent;
+        }
+        .study-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 8px 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .study-btn:hover {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: #38bdf8;
+            transform: scale(1.05);
+        }
+        .study-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(4px); }
+        }
+        .steam {
+            animation: steamAnim 2s infinite ease-in-out;
+            stroke: #38bdf8;
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            opacity: 0;
+        }
+        .steam-1 { animation-delay: 0s; }
+        .steam-2 { animation-delay: 0.8s; }
+        @keyframes steamAnim {
+            0% { transform: translateY(2px); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-4px); opacity: 0; }
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden">
+
+    <header class="w-full max-w-md mx-auto px-6 pt-4 flex justify-between items-center z-50 shrink-0">
+        <div class="flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-blue-500 rounded-full"></span>
+            <span class="text-sm font-bold tracking-wider text-slate-200 uppercase">Selawat Digital</span>
+        </div>
+        <div class="support-btn-wrapper">
+            <div id="studyBubble" class="study-bubble">Sokong Tabung Belajar Saya 🎓</div>
+            <a href="https://the-quran-tracker.pages.dev/tabung-belajar" target="_blank" class="study-btn" title="Sokong Tabung Belajar">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="steam steam-1" d="M9 4C9 4 7.5 5.5 9 7C10.5 8.5 9 10 9 10" fill="none" />
+                    <path class="steam steam-2" d="M13 3C13 3 11.5 4.5 13 6C14.5 7.5 13 9 13 9" fill="none" />
+                    <path d="M18 10H4C2.89543 10 2 10.8954 2 12V15C2 18.3137 4.68629 21 8 21H14C17.3137 21 20 18.3137 20 15V12C20 10.8954 19.1046 10 18 10Z" fill="#FFFFFF" />
+                    <path d="M20 12C20 12 22 12 22 14.5C22 17 20 17 20 17" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </a>
+        </div>
+    </header>
 
     <main class="flex-grow flex flex-col items-center justify-center p-6 pb-24">
         
@@ -115,7 +206,7 @@
             <div class="flex justify-center gap-2">
                 <div class="flex bg-slate-800/50 border border-white/10 rounded-xl overflow-hidden">
                     <input type="number" id="input-target" placeholder="Set" class="w-16 bg-transparent px-2 py-2 text-sm text-center focus:outline-none" value="100">
-                    <button onclick="updateTarget()" class="bg-blue-600 px-3 text-[10px] font-bold uppercase hover:bg-blue-500 transition">JOM</button>
+                    <button onclick="updateTarget()" class="bg-blue-600 px-3 text-[10px] font-bold uppercase hover:bg-blue-500 transition">UBAH</button>
                 </div>
                 <button onclick="saveToHistory()" class="glass-card px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 hover:bg-white/5 transition">
                     <i class="fa-solid fa-bookmark text-blue-400 text-xs"></i> Simpan
@@ -145,7 +236,7 @@
     </div>
 </div>
 
-            <a href="https://quranic-huffaz.github.io/quran-tracker/kempen-infaq-rm1-tahfiz-aqil.html" target="_blank" 
+            <a href="https://the-quran-tracker.pages.dev/infaq-tahfiz-aqil" target="_blank" 
    class="infaq-premium-card p-3 rounded-2xl mb-6 flex items-center justify-between group transition-transform active:scale-95 block">
     <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-[#1e1b12] border border-yellow-600/30 flex items-center justify-center shrink-0">
@@ -175,18 +266,6 @@
         </div>
 
     </main>
-
-    <div id="infaq-popup" class="fixed bottom-24 left-4 z-[60] hidden">
-        <div class="glass-card border-blue-500/30 bg-slate-900/90 p-4 rounded-2xl flex items-center gap-4 shadow-2xl animate-slide-left w-[280px]">
-            <button onclick="openInfaqModal()" class="flex-grow text-left">
-                <p class="text-[10px] font-bold text-blue-400 uppercase tracking-tighter">Sumbangan Ikhas</p>
-                <p class="text-[11px] font-semibold text-white leading-tight">Kempen Infaq RM1 Ke Akademi al-Quran...</p>
-            </button>
-            <div id="infaq-timer" class="w-8 h-8 rounded-full border-2 border-blue-500/30 flex items-center justify-center text-[10px] font-bold text-blue-400 shrink-0">
-                10
-            </div>
-        </div>
-    </div>
 
     <div id="infaq-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-6">
         <div class="glass-card w-full max-w-sm p-8 rounded-3xl border-blue-500/40 relative">
@@ -236,36 +315,36 @@
         let count = 0;
         let historyData = JSON.parse(localStorage.getItem('selawatHistory')) || [];
         let selectedItems = new Set();
-        let infaqActive = sessionStorage.getItem('infaqShown') ? false : true;
 
         window.onload = () => {
             count = 0;
             updateDisplay();
             renderHistory();
-            
-            if (infaqActive) {
-                setTimeout(() => {
-                    startInfaqTimer();
-                }, 3000);
-            }
+            initStudyBubbleLoop();
         };
 
-        function startInfaqTimer() {
-            const popup = document.getElementById('infaq-popup');
-            const timerEl = document.getElementById('infaq-timer');
-            let timeLeft = 10;
-
-            popup.classList.remove('hidden');
+        // Kitaran masa Bubble: Kali pertama 5s, Seterusnya muncul setiap 10s selepas tutup
+        function initStudyBubbleLoop() {
+            const bubble = document.getElementById('studyBubble');
             
-            const countdown = setInterval(() => {
-                timeLeft--;
-                timerEl.innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    popup.classList.add('hidden');
-                    sessionStorage.setItem('infaqShown', 'true');
-                }
-            }, 1000);
+            // Paparan pertama: Muncul selepas 5 saat, dipaparkan selama 4 saat
+            setTimeout(() => {
+                showBubble(bubble);
+            }, 5000);
+        }
+
+        function showBubble(element) {
+            element.classList.add('show');
+            
+            // Sembunyikan semula bubble secara automatik selepas 4 saat dipaparkan
+            setTimeout(() => {
+                element.classList.remove('show');
+                
+                // Pencetus kitaran seterusnya: Muncul kembali selepas 10 saat ditutup
+                setTimeout(() => {
+                    showBubble(element);
+                }, 10000);
+            }, 4000);
         }
 
         function openInfaqModal() {
@@ -274,10 +353,9 @@
 
         function closeInfaqModal() {
             document.getElementById('infaq-modal').classList.add('hidden');
-            document.getElementById('infaq-popup').classList.add('hidden');
-            sessionStorage.setItem('infaqShown', 'true');
         }
 
+        // Selebihnya adalah fungsi asal sistem kaunter
         function increment() {
             count++;
             const targetText = document.getElementById('display-target').innerText;
